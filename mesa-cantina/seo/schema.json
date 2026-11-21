@@ -1,0 +1,51 @@
+{
+  "@context": "https://schema.org",
+  "@type": "Restaurant",
+  "@id": "https://www.mesacantinasanpedro.com/#restaurant",
+  "name": "Mesa Cantina San Pedro",
+  "alternateName": [
+    "Mesa Cafe",
+    "Mesa Bistro"
+  ],
+  "description": "Beachfront restaurant and cantina on Ambergris Caye, Belize, about half a mile north of the San Pedro bridge. Breakfast all morning, lunch, dinner and cocktails.",
+  "url": "https://www.mesacantinasanpedro.com/",
+  "image": "https://www.mesacantinasanpedro.com/assets/og-image.svg",
+  "logo": "https://www.mesacantinasanpedro.com/assets/logo-mark.svg",
+  "servesCuisine": [
+    "Breakfast",
+    "Caribbean",
+    "Mediterranean",
+    "European",
+    "Vegetarian"
+  ],
+  "priceRange": "$$",
+  "currenciesAccepted": "BZD, USD",
+  "telephone": "+501-621-6226",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "Beachfront, 0.5 mi north of the bridge",
+    "addressLocality": "San Pedro",
+    "addressRegion": "Ambergris Caye",
+    "addressCountry": "BZ"
+  },
+  "openingHoursSpecification": [
+    {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": [
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday",
+        "Sunday"
+      ],
+      "opens": "08:00",
+      "closes": "21:00"
+    }
+  ],
+  "acceptsReservations": true,
+  "hasMenu": "https://www.mesacantinasanpedro.com/menu.html",
+    "sameAs": [
+    "https://www.facebook.com/mesasanpedro/"
+  ]
+}

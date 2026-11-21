@@ -1,0 +1,392 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Menu · Mesa Cantina San Pedro</title>
+<meta name="description" content="Breakfast, lunch and dinner on the beach in San Pedro: coconut French toast, fry jacks, fresh snapper, ceviche and plenty of vegetarian plates. Prices in BZ$.">
+<meta name="theme-color" content="#0B5D63">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="css/mesa.css">
+<style>
+html{scroll-padding-top:8.5rem}
+.menu-intro{padding-block:var(--s-8) var(--s-6)}
+.menu-intro h1{font-size:var(--t-hero);color:var(--reef);margin-bottom:var(--s-4)}
+.menu-note{margin-top:var(--s-5);font-size:var(--t-small)}
+.legend{display:flex;flex-wrap:wrap;gap:var(--s-3) var(--s-5);margin:var(--s-5) 0 0;font-size:var(--t-small);color:var(--ink-2)}
+.legend div{display:flex;align-items:center;gap:.5rem}
+.legend dt,.legend dd{margin:0}
+
+/* diet badge: small painted letters */
+.diet{display:inline-grid;place-items:center;min-width:1.9em;height:1.45em;padding:0 .3em;border:1px solid currentColor;border-radius:3px;
+  font:700 .7rem/1 var(--font-body);letter-spacing:.06em;color:var(--reef);vertical-align:.1em}
+.menu-sec--night .diet{color:var(--lagoon)}
+
+/* sticky in-page tabs */
+.menu-tabs{position:sticky;top:calc(4.25rem + 1px);z-index:40;background:var(--reef);color:var(--reef-ink);box-shadow:var(--shadow-1)}
+.menu-tabs .wrap{padding-inline:0}
+.menu-tabs ul{display:flex;gap:var(--s-1);list-style:none;margin:0;padding:0 var(--gutter);overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.menu-tabs ul::-webkit-scrollbar{display:none}
+.menu-tabs li{flex:none}
+.menu-tabs a{display:flex;align-items:center;min-height:52px;padding:0 var(--s-4);color:var(--reef-ink);text-decoration:none;white-space:nowrap;
+  font:800 1.2rem/1 var(--font-display);text-transform:uppercase;letter-spacing:.03em;border-bottom:3px solid transparent;transition:color .2s var(--ease-out),border-color .2s var(--ease-out)}
+.menu-tabs a:hover{color:var(--salt)}
+.menu-tabs a[aria-current]{color:var(--salt);border-bottom-color:var(--salt)}
+.menu-tabs a:focus-visible{outline-offset:-3px}
+
+/* sections */
+.menu-sec{padding-block:var(--s-8)}
+.menu-sec--alt{background:var(--plank-2)}
+.menu-sec--night{background:var(--reef-deep);color:var(--reef-ink)}
+.sec-head{display:flex;flex-wrap:wrap;align-items:flex-end;gap:var(--s-3) var(--s-5);margin-bottom:var(--s-6);padding-bottom:var(--s-4);border-bottom:2px solid var(--rope)}
+.menu-sec--night .sec-head{border-bottom-color:rgb(212 236 234 / .25)}
+.sign{display:inline-block;background:var(--reef);color:var(--salt);padding:.12em .35em .08em;border-radius:3px;font-size:var(--t-h2);letter-spacing:.02em;transform:rotate(-1deg)}
+.menu-sec--night .sign{background:var(--salt);color:var(--reef-deep)}
+.served{margin:0;color:var(--ink-2);font-weight:500}
+.menu-sec--night .served{color:var(--reef-ink)}
+.served .stencil{font-size:1.6rem;margin-inline:.15em}
+
+/* rows */
+.dishes{list-style:none;margin:0;padding:0;display:grid;gap:var(--s-5) var(--s-8);grid-template-columns:1fr}
+@media (min-width:900px){.dishes{grid-template-columns:1fr 1fr}}
+.dish p{margin:var(--s-1) 0 0;color:var(--ink-2);font-size:.97rem;line-height:1.5}
+.menu-sec--night .dish p{color:var(--reef-ink)}
+.dish-line{display:flex;align-items:baseline;gap:var(--s-2)}
+.dish-name{font-size:1.4rem;line-height:1.05;letter-spacing:.01em;color:var(--reef);flex:0 1 auto;min-width:0}
+.menu-sec--night .dish-name{color:var(--salt)}
+.diets{display:inline-flex;gap:.25rem;flex:none}
+.leader{flex:1 1 1.5rem;min-width:1.5rem;border-bottom:2px dotted var(--rope);transform:translateY(-.2em)}
+.menu-sec--night .leader{border-bottom-color:rgb(212 236 234 / .4)}
+.price{flex:none;font:700 1.15rem/1 var(--font-body);font-variant-numeric:tabular-nums;text-align:right;min-width:3.6em;color:var(--ink)}
+.menu-sec--night .price{color:var(--salt)}
+.cur{font-size:.68em;font-weight:600;letter-spacing:.04em;margin-right:.15em;color:var(--ink-2)}
+.menu-sec--night .cur{color:var(--reef-ink)}
+
+/* hero dish */
+.hero-dish{display:grid;gap:var(--s-5) var(--s-7);align-items:center;margin-bottom:var(--s-7);padding-bottom:var(--s-7);border-bottom:1px solid var(--rope)}
+@media (min-width:760px){.hero-dish{grid-template-columns:1.1fr 1fr}}
+.hero-copy h3{font-size:var(--t-h2);color:var(--reef);margin-bottom:var(--s-4)}
+.hero-copy p{font-size:var(--t-lead);line-height:1.5}
+.hero-price{display:flex;align-items:center;gap:var(--s-4);margin:0}
+.hero-price .stencil{font-size:3rem;line-height:1}
+.hero-price .cur{color:var(--buoy);font-size:.5em;vertical-align:.5em}
+.photo-slot{margin:0;background:var(--reef);border-radius:var(--radius);overflow:hidden;display:flex;flex-direction:column}
+.photo-slot svg{flex:1 1 auto;min-height:0;width:100%;height:auto}
+.photo-slot figcaption{flex:none;padding:var(--s-3) var(--s-4);background:var(--reef-deep);color:var(--reef-ink);font-size:.8rem;line-height:1.45}
+
+/* notes + CTA */
+.good-to-know{margin-top:var(--s-7);padding-top:var(--s-5);border-top:2px solid var(--rope);display:grid;gap:var(--s-2) var(--s-7)}
+@media (min-width:900px){.good-to-know{grid-template-columns:1.6fr 1fr}}
+.good-to-know p{font-size:.95rem;color:var(--ink-2);margin:0}
+.good-to-know strong{color:var(--ink)}
+.menu-cta{padding-block:var(--s-8)}
+.menu-cta h2{color:var(--salt);margin-bottom:var(--s-4)}
+.cta-row{display:flex;flex-wrap:wrap;gap:var(--s-3);margin-top:var(--s-5)}
+.cta-alt{margin-top:var(--s-4);font-size:.95rem}
+@media (max-width:420px){.cta-row .btn{width:100%;justify-content:center}.dish-name{font-size:1.25rem}}
+</style>
+<script src="js/mesa.js" defer></script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<div class="tide" data-tide role="status"><div class="wrap"><span><span class="dot" aria-hidden="true"></span><span data-tide-text>Tue–Sun · 8am–9pm · on the beach north of the bridge</span></span><a href="tel:+5016216226">Call +501 621-6226</a></div></div>
+<header class="site-head">
+  <div class="wrap">
+    <a class="brand" href="index.html" aria-label="Mesa Cantina San Pedro, home">
+      <img src="assets/logo-mark.svg" alt="" width="44" height="44">
+      <span><b>Mesa Cantina</b><small>San Pedro · Ambergris Caye</small></span>
+    </a>
+    <button class="nav-toggle" aria-expanded="false" aria-controls="site-nav" aria-label="Menu">
+      <svg width="28" height="28" viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M4 8h20M4 14h20M4 20h13"/></svg>
+    </button>
+    <nav class="nav" id="site-nav" aria-label="Main">
+      <ul>
+        <li><a href="menu.html">Menu</a></li>
+        <li><a href="drinks.html">Cantina</a></li>
+        <li><a href="story.html">Our Story</a></li>
+        <li><a href="events.html">Events</a></li>
+        <li><a href="gallery.html">Gallery</a></li>
+        <li><a href="visit.html">Visit</a></li>
+        <li><a class="btn" href="reserve.html">Book a table</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+
+  <section class="menu-intro">
+    <div class="wrap">
+      <h1>The Menu</h1>
+      <p class="lead">Breakfast all morning, a long lunch on the sand, fresh catch at sundown. Cooked from what the boats, the farms and the market bring in.</p>
+      <p class="menu-note"><span class="tbd">Illustrative menu and prices. To be replaced with the current menu once the owner supplies it.</span></p>
+      <dl class="legend" aria-label="Diet markers">
+        <div><dt><span class="diet" aria-hidden="true">V</span><span class="sr-only">V</span></dt><dd>Vegetarian</dd></div>
+        <div><dt><span class="diet" aria-hidden="true">VG</span><span class="sr-only">VG</span></dt><dd>Vegan</dd></div>
+        <div><dt><span class="diet" aria-hidden="true">GF</span><span class="sr-only">GF</span></dt><dd>Gluten-free</dd></div>
+      </dl>
+    </div>
+  </section>
+
+  <nav class="menu-tabs" aria-label="Menu sections">
+    <div class="wrap">
+      <ul role="list">
+        <li><a href="#breakfast" aria-current="true">Breakfast</a></li>
+        <li><a href="#lunch">Lunch</a></li>
+        <li><a href="#dinner">Dinner</a></li>
+        <li><a href="#sides">Sides &amp; Sweets</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <section class="menu-sec" id="breakfast" aria-labelledby="h-breakfast">
+    <div class="wrap">
+      <header class="sec-head">
+        <h2 class="sign" id="h-breakfast">Breakfast</h2>
+        <p class="served">Served <span class="stencil num">8&ndash;11AM</span> Tue&ndash;Sun</p>
+      </header>
+      <article class="hero-dish" data-reveal aria-labelledby="h-toast">
+        <figure class="photo-slot" style="aspect-ratio:4/3.6">
+          <svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Illustration: coconut French toast on a plate at a dockside table, sea and sun behind">
+            <rect width="400" height="300" fill="var(--reef)"/>
+            <circle cx="310" cy="92" r="34" fill="var(--plank)" opacity=".9"/>
+            <rect y="120" width="400" height="60" fill="var(--reef-deep)" opacity=".55"/>
+            <path d="M0 120h400" stroke="var(--reef-ink)" stroke-width="1.5" opacity=".6"/>
+            <path d="M62 120c4-34 14-58 30-76M92 44c-16-6-34-2-44 10M92 44c-6-14-22-22-38-20M92 44c14-10 32-10 44 0M92 44c16-2 30 8 34 22M92 44c4 14 0 28-8 38" stroke="var(--reef-deep)" stroke-width="5" stroke-linecap="round" fill="none"/>
+            <g fill="var(--plank-2)"><rect y="180" width="400" height="22"/><rect y="205" width="400" height="26"/><rect y="234" width="400" height="30"/><rect y="267" width="400" height="33"/></g>
+            <g stroke="var(--rope)" stroke-width="2"><path d="M0 203.5h400M0 232.5h400M0 265.5h400"/></g>
+            <ellipse cx="200" cy="232" rx="112" ry="34" fill="var(--salt)"/>
+            <ellipse cx="200" cy="232" rx="88" ry="25" fill="none" stroke="var(--rope)" stroke-width="1.5"/>
+            <g transform="rotate(-6 200 222)"><rect x="140" y="206" width="78" height="30" rx="6" fill="var(--rope)"/><rect x="140" y="206" width="78" height="9" rx="4" fill="var(--plank-2)"/></g>
+            <g transform="rotate(8 220 214)"><rect x="180" y="196" width="78" height="30" rx="6" fill="var(--rope)"/><rect x="180" y="196" width="78" height="9" rx="4" fill="var(--plank)"/></g>
+            <circle cx="268" cy="236" r="9" fill="var(--lagoon)"/><path d="M262 236h12" stroke="var(--reef-deep)" stroke-width="1.5"/>
+          </svg>
+          <figcaption>Shot list: overhead-angle close-up of the coconut French toast on a white plate, on the dock table at 8:30am, sea out of focus behind. Natural light, no flash, steam from the coffee in frame.</figcaption>
+        </figure>
+        <div class="hero-copy">
+          <h3 id="h-toast">Coconut French Toast</h3>
+          <p>Thick-cut coconut bread soaked in vanilla custard, griddled until the edges crackle, then piled with toasted coconut, lime butter and island fruit. Local honey on the side.</p>
+          <p class="hero-price"><span class="diet" title="Vegetarian"><span aria-hidden="true">V</span><span class="sr-only">Vegetarian</span></span><span class="stencil num"><span class="cur">BZ$</span>22</span></p>
+        </div>
+      </article>
+      <ul class="dishes" role="list">
+        <li class="dish">
+          <div class="dish-line"><h3 class="dish-name">Fry Jacks &amp; Eggs</h3><span class="diets"><span class="diet" title="Vegetarian"><span aria-hidden="true">V</span><span class="sr-only">Vegetarian</span></span></span><span class="leader" aria-hidden="true"></span><span class="price"><span class="cur">BZ$</span>18</span></div>
+          <p>Puffed fry jacks, two eggs any style, refried beans and grated Belizean cheese.</p>
+        </li>
+        <li class="dish">
+          <div class="dish-line"><h3 class="dish-name">Fry Jack Benedict</h3><span class="leader" aria-hidden="true"></span><span class="price"><span class="cur">BZ$</span>24</span></div>
+          <p>Split fry jacks, smoked ham, poached eggs, lime hollandaise.</p>
+        </li>
+        <li class="dish">
+          <div class="dish-line"><h3 class="dish-name">Shakshuka</h3><span class="diets"><span class="diet" title="Vegetarian"><span aria-hidden="true">V</span><span class="sr-only">Vegetarian</span></span></span><span class="leader" aria-hidden="true"></span><span class="price"><span class="cur">BZ$</span>21</span></div>
+          <p>Eggs baked in spiced tomato and sweet pepper, feta, grilled sourdough.</p>
+        </li>
+        <li class="dish">
+          <div class="dish-line"><h3 class="dish-name">Mediterranean Omelette</h3><span class="diets"><span class="diet" title="Vegetarian"><span aria-hidden="true">V</span><span class="sr-only">Vegetarian</span></span></span><span class="leader" aria-hidden="true"></span><span class="price"><span class="cur">BZ$</span>20</span></div>
+          <p>Spinach, olives, roasted tomato and feta. Toast or island fruit on the side.</p>
+        </li>
+        <li class="dish">
+          <div class="dish-line"><h3 class="dish-name">Huevos Rancheros</h3><span class="diets"><span class="diet" title="Vegetarian"><span aria-hidden="true">V</span><span class="sr-only">Vegetarian</span></span><span class="diet" title="Gluten-free"><span aria-hidden="true">GF</span><span class="sr-only">Gluten-free</span></span></span><span class="leader" aria-hidden="true"></span><span class="price"><span class="cur">BZ$</span>19</span></div>
+          <p>Corn tortillas, fried eggs, black beans, ranchero salsa, queso fresco.</p>
+        </li>
+        <li class="dish">
+          <div class="dish-line"><h3 class="dish-name">Avocado Toast</h3><span class="diets"><span class="diet" title="Vegetarian"><span aria-hidden="true">V</span><span class="sr-only">Vegetarian</span></span></span><span class="leader" aria-hidden="true"></span><span class="price"><span class="cur">BZ$</span>19</span></div>
+          <p>Sourdough, smashed avocado, lime, radish, a poached egg and a dash of habanero sauce.</p>
+        </li>
+        <li class="dish">
+          <div class="dish-line"><h3 class="dish-name">Yogurt &amp; Island Fruit</h3><span class="diets"><span class="diet" title="Vegetarian"><span aria-hidden="true">V</span><span class="sr-only">Vegetarian</span></span></span><span class="leader" aria-hidden="true"></span><span class="price"><span class="cur">BZ$</span>15</span></div>
+          <p>Greek yogurt, papaya, mango and pineapple, house granola, local honey.</p>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="menu-sec menu-sec--alt" id="lunch" aria-labelledby="h-lunch">
+    <div class="wrap">
+      <header class="sec-head">
+        <h2 class="sign" id="h-lunch">Lunch</h2>
+        <p class="served">Bowls, ceviche and plates for a long afternoon in the shade.</p>
+      </header>
+      <ul class="dishes" role="list">
+        <li class="dish">
+          <div class="dish-line"><h3 class="dish-name">Mesa Mediterranean Bowl</h3><span class="diets"><span class="diet" title="Vegan"><span aria-hidden="true">VG</span><span class="sr-only">Vegan</span></span></span><span class="leader" aria-hidden="true"></span><span class="price"><span class="cur">BZ$</span>26</span></div>
+          <p>Herbed rice, falafel, hummus, cucumber-tomato salad, pickled onion, tahini.</p>
+        </li>
+        <li class="dish">
+          <div class="dish-line"><h3 class="dish-name">Snapper Ceviche</h3><span class="diets"><span class="diet" title="Gluten-free"><span aria-hidden="true">GF</span><span class="sr-only">Gluten-free</span></span></span><span class="leader" aria-hidden="true"></span><span class="price"><span class="cur">BZ$</span>28</span></div>
+          <p>Fresh snapper cured in lime with red onion, cucumber, cilantro and habanero. Plantain chips to scoop.</p>
+        </li>
+        <li class="dish">
+          <div class="dish-line"><h3 class="dish-name">Catch Tacos</h3><span class="diets"><span class="diet" title="Gluten-free"><span aria-hidden="true">GF</span><span class="sr-only">Gluten-free</span></span></span><span class="leader" aria-hidden="true"></span><span class="price"><span class="cur">BZ$</span>26</span></div>
+          <p>Grilled fish of the day, cabbage-lime slaw, chipotle crema, corn tortillas.</p>
+        </li>
+        <li class="dish">
+          <div class="dish-line"><h3 class="dish-name">Halloumi Wrap</h3><span class="diets"><span class="diet" title="Vegetarian"><span aria-hidden="true">V</span><span class="sr-only">Vegetarian</span></span></span><span class="leader" aria-hidden="true"></span><span class="price"><span class="cur">BZ$</span>22</span></div>
+          <p>Grilled halloumi, roasted peppers, greens and mint yogurt in a warm flour tortilla.</p>
+        </li>
+        <li class="dish">
+          <div class="dish-line"><h3 class="dish-name">Chicken Souvlaki Pita</h3><span class="leader" aria-hidden="true"></span><span class="price"><span class="cur">BZ$</span>25</span></div>
+          <p>Lemon-oregano chicken, tzatziki, tomato, red onion, warm pita, fries.</p>
+        </li>
+        <li class="dish">
+          <div class="dish-line"><h3 class="dish-name">Greek Salad</h3><span class="diets"><span class="diet" title="Vegetarian"><span aria-hidden="true">V</span><span class="sr-only">Vegetarian</span></span><span class="diet" title="Gluten-free"><span aria-hidden="true">GF</span><span class="sr-only">Gluten-free</span></span></span><span class="leader" aria-hidden="true"></span><span class="price"><span class="cur">BZ$</span>20</span></div>
+          <p>Tomato, cucumber, olives, feta, oregano, red wine vinaigrette. Add grilled shrimp BZ$12.</p>
+        </li>
+        <li class="dish">
+          <div class="dish-line"><h3 class="dish-name">Plantain &amp; Black Bean Quesadilla</h3><span class="diets"><span class="diet" title="Vegetarian"><span aria-hidden="true">V</span><span class="sr-only">Vegetarian</span></span></span><span class="leader" aria-hidden="true"></span><span class="price"><span class="cur">BZ$</span>20</span></div>
+          <p>Sweet plantain, black beans, melted cheese, pico de gallo, lime crema.</p>
+        </li>
+        <li class="dish">
+          <div class="dish-line"><h3 class="dish-name">Mesa Burger</h3><span class="leader" aria-hidden="true"></span><span class="price"><span class="cur">BZ$</span>28</span></div>
+          <p>Local beef, aged cheddar, caramelised onion, brioche bun, hand-cut fries.</p>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="menu-sec menu-sec--night" id="dinner" aria-labelledby="h-dinner">
+    <div class="wrap">
+      <header class="sec-head">
+        <h2 class="sign" id="h-dinner">Dinner</h2>
+        <p class="served">Sundown plates. Whatever came off the boat today goes on the grill.</p>
+      </header>
+      <ul class="dishes" role="list">
+        <li class="dish">
+          <div class="dish-line"><h3 class="dish-name">Fresh Catch</h3><span class="diets"><span class="diet" title="Gluten-free"><span aria-hidden="true">GF</span><span class="sr-only">Gluten-free</span></span></span><span class="leader" aria-hidden="true"></span><span class="price"><span class="cur">BZ$</span>45</span></div>
+          <p>Today’s snapper, grilled whole or as a fillet with garlic, lime and herbs. Coconut rice, island greens.</p>
+        </li>
+        <li class="dish">
+          <div class="dish-line"><h3 class="dish-name">Belizean-Style Garlic Shrimp</h3><span class="diets"><span class="diet" title="Gluten-free"><span aria-hidden="true">GF</span><span class="sr-only">Gluten-free</span></span></span><span class="leader" aria-hidden="true"></span><span class="price"><span class="cur">BZ$</span>42</span></div>
+          <p>Shrimp sizzled in garlic butter, lime and a kick of habanero. Coconut rice, fried plantain.</p>
+        </li>
+        <li class="dish">
+          <div class="dish-line"><h3 class="dish-name">Lobster Tail, in season</h3><span class="diets"><span class="diet" title="Gluten-free"><span aria-hidden="true">GF</span><span class="sr-only">Gluten-free</span></span></span><span class="leader" aria-hidden="true"></span><span class="price"><span class="cur">BZ$</span>68</span></div>
+          <p>Grilled Caribbean spiny lobster, lime-herb butter, coconut rice, greens. Mid-June to mid-February.</p>
+        </li>
+        <li class="dish">
+          <div class="dish-line"><h3 class="dish-name">Seafood Linguine</h3><span class="leader" aria-hidden="true"></span><span class="price"><span class="cur">BZ$</span>44</span></div>
+          <p>Shrimp and snapper, white wine, cherry tomato, garlic, chilli, parsley.</p>
+        </li>
+        <li class="dish">
+          <div class="dish-line"><h3 class="dish-name">Recado Chicken</h3><span class="diets"><span class="diet" title="Gluten-free"><span aria-hidden="true">GF</span><span class="sr-only">Gluten-free</span></span></span><span class="leader" aria-hidden="true"></span><span class="price"><span class="cur">BZ$</span>32</span></div>
+          <p>Chicken marinated in red recado, chargrilled. Rice and beans, cabbage slaw.</p>
+        </li>
+        <li class="dish">
+          <div class="dish-line"><h3 class="dish-name">Pumpkin &amp; Coconut Curry</h3><span class="diets"><span class="diet" title="Vegan"><span aria-hidden="true">VG</span><span class="sr-only">Vegan</span></span><span class="diet" title="Gluten-free"><span aria-hidden="true">GF</span><span class="sr-only">Gluten-free</span></span></span><span class="leader" aria-hidden="true"></span><span class="price"><span class="cur">BZ$</span>30</span></div>
+          <p>Calabaza, chickpeas and spinach in coconut milk and island spice, jasmine rice.</p>
+        </li>
+        <li class="dish">
+          <div class="dish-line"><h3 class="dish-name">Wild Mushroom Risotto</h3><span class="diets"><span class="diet" title="Vegetarian"><span aria-hidden="true">V</span><span class="sr-only">Vegetarian</span></span><span class="diet" title="Gluten-free"><span aria-hidden="true">GF</span><span class="sr-only">Gluten-free</span></span></span><span class="leader" aria-hidden="true"></span><span class="price"><span class="cur">BZ$</span>32</span></div>
+          <p>Arborio, mushrooms, white wine, parmesan, lemon, thyme.</p>
+        </li>
+        <li class="dish">
+          <div class="dish-line"><h3 class="dish-name">Eggplant Parmigiana</h3><span class="diets"><span class="diet" title="Vegetarian"><span aria-hidden="true">V</span><span class="sr-only">Vegetarian</span></span></span><span class="leader" aria-hidden="true"></span><span class="price"><span class="cur">BZ$</span>30</span></div>
+          <p>Layered eggplant, tomato sugo, mozzarella, basil, garlic bread.</p>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="menu-sec" id="sides" aria-labelledby="h-sides">
+    <div class="wrap">
+      <header class="sec-head">
+        <h2 class="sign" id="h-sides">Sides &amp; Sweets</h2>
+        <p class="served">Add one to anything. Save room for the flan.</p>
+      </header>
+      <ul class="dishes" role="list">
+        <li class="dish">
+          <div class="dish-line"><h3 class="dish-name">Fried Plantain</h3><span class="diets"><span class="diet" title="Vegan"><span aria-hidden="true">VG</span><span class="sr-only">Vegan</span></span><span class="diet" title="Gluten-free"><span aria-hidden="true">GF</span><span class="sr-only">Gluten-free</span></span></span><span class="leader" aria-hidden="true"></span><span class="price"><span class="cur">BZ$</span>8</span></div>
+          <p>Ripe plantain, caramelised at the edges.</p>
+        </li>
+        <li class="dish">
+          <div class="dish-line"><h3 class="dish-name">Coconut Rice</h3><span class="diets"><span class="diet" title="Vegan"><span aria-hidden="true">VG</span><span class="sr-only">Vegan</span></span><span class="diet" title="Gluten-free"><span aria-hidden="true">GF</span><span class="sr-only">Gluten-free</span></span></span><span class="leader" aria-hidden="true"></span><span class="price"><span class="cur">BZ$</span>7</span></div>
+          <p>Jasmine rice cooked in coconut milk.</p>
+        </li>
+        <li class="dish">
+          <div class="dish-line"><h3 class="dish-name">Rice &amp; Beans</h3><span class="diets"><span class="diet" title="Vegan"><span aria-hidden="true">VG</span><span class="sr-only">Vegan</span></span><span class="diet" title="Gluten-free"><span aria-hidden="true">GF</span><span class="sr-only">Gluten-free</span></span></span><span class="leader" aria-hidden="true"></span><span class="price"><span class="cur">BZ$</span>7</span></div>
+          <p>The Belizean way, with coconut and thyme.</p>
+        </li>
+        <li class="dish">
+          <div class="dish-line"><h3 class="dish-name">Hand-Cut Fries</h3><span class="diets"><span class="diet" title="Vegan"><span aria-hidden="true">VG</span><span class="sr-only">Vegan</span></span></span><span class="leader" aria-hidden="true"></span><span class="price"><span class="cur">BZ$</span>8</span></div>
+          <p>Sea salt. Ask for habanero mayo.</p>
+        </li>
+        <li class="dish">
+          <div class="dish-line"><h3 class="dish-name">Side Greek Salad</h3><span class="diets"><span class="diet" title="Vegetarian"><span aria-hidden="true">V</span><span class="sr-only">Vegetarian</span></span><span class="diet" title="Gluten-free"><span aria-hidden="true">GF</span><span class="sr-only">Gluten-free</span></span></span><span class="leader" aria-hidden="true"></span><span class="price"><span class="cur">BZ$</span>10</span></div>
+          <p>A smaller plate of the lunch favourite.</p>
+        </li>
+        <li class="dish">
+          <div class="dish-line"><h3 class="dish-name">Key Lime Pie</h3><span class="diets"><span class="diet" title="Vegetarian"><span aria-hidden="true">V</span><span class="sr-only">Vegetarian</span></span></span><span class="leader" aria-hidden="true"></span><span class="price"><span class="cur">BZ$</span>14</span></div>
+          <p>Sharp lime curd, graham crust, whipped cream.</p>
+        </li>
+        <li class="dish">
+          <div class="dish-line"><h3 class="dish-name">Coconut Flan</h3><span class="diets"><span class="diet" title="Vegetarian"><span aria-hidden="true">V</span><span class="sr-only">Vegetarian</span></span><span class="diet" title="Gluten-free"><span aria-hidden="true">GF</span><span class="sr-only">Gluten-free</span></span></span><span class="leader" aria-hidden="true"></span><span class="price"><span class="cur">BZ$</span>13</span></div>
+          <p>Silky coconut custard, burnt caramel.</p>
+        </li>
+        <li class="dish">
+          <div class="dish-line"><h3 class="dish-name">Chocolate Rum Cake</h3><span class="diets"><span class="diet" title="Vegetarian"><span aria-hidden="true">V</span><span class="sr-only">Vegetarian</span></span></span><span class="leader" aria-hidden="true"></span><span class="price"><span class="cur">BZ$</span>14</span></div>
+          <p>Dark chocolate, a splash of Belizean rum, vanilla cream.</p>
+        </li>
+      </ul>
+      <aside class="good-to-know" aria-label="Good to know">
+        <p><strong>Allergies?</strong> Tell your server before you order. We cook with nuts, shellfish, dairy, eggs and gluten in one small kitchen, so we can&rsquo;t promise any dish is free of traces. GF means made without gluten ingredients.</p>
+        <p><strong>Paying:</strong> prices in Belize dollars. <span class="num">US$</span> accepted at <span class="num">2:1</span>.</p>
+      </aside>
+    </div>
+  </section>
+
+  <section class="section section--reef menu-cta" aria-labelledby="h-cta">
+    <div class="wrap">
+      <h2 id="h-cta">Hungry yet?</h2>
+      <p class="lead">Walk-ins welcome. For sundown, groups or a table right on the sand, book ahead.</p>
+      <div class="cta-row">
+        <a class="btn" href="reserve.html">Book a table
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        <a class="btn btn--ghost" href="tel:+5016216226">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/></svg>
+          Call <span class="num">+501 621-6226</span></a>
+      </div>
+      <p class="cta-alt">Or message us on <a href="https://wa.me/5016216226">WhatsApp</a>.</p>
+    </div>
+  </section>
+
+</main>
+<script>
+/* Menu tabs: highlight the section in view */
+(() => {
+  const tabs = document.querySelector('.menu-tabs');
+  if (!tabs || !('IntersectionObserver' in window)) return;
+  const links = [...tabs.querySelectorAll('a[href^="#"]')];
+  const byId = new Map(links.map(a => [a.getAttribute('href').slice(1), a]));
+  const set = id => {
+    links.forEach(a => a.removeAttribute('aria-current'));
+    const a = byId.get(id); if (!a) return;
+    a.setAttribute('aria-current', 'true');
+    const s = tabs.querySelector('ul');
+    const l = a.offsetLeft - (s.clientWidth - a.offsetWidth) / 2;
+    s.scrollTo({ left: Math.max(0, l), behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
+  };
+  const io = new IntersectionObserver(es => {
+    es.forEach(e => { if (e.isIntersecting) set(e.target.id); });
+  }, { rootMargin: '-35% 0px -60% 0px' });
+  byId.forEach((_, id) => { const el = document.getElementById(id); if (el) io.observe(el); });
+})();
+</script>
+
+<footer class="site-foot">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <img src="assets/logo-mark.svg" alt="" width="56" height="56" style="margin-bottom:1rem">
+        <p style="color:var(--salt);font:800 1.6rem/1 var(--font-display);text-transform:uppercase">Breakfast to last call,<br>feet in the sand.</p>
+      </div>
+      <div><h3>Hours</h3><ul class="num"><li>Tue–Sun · 8am–9pm</li><li>Monday · closed</li></ul></div>
+      <div><h3>Find us</h3><ul><li>On the beach, ½ mile north of the bridge</li><li>San Pedro, Ambergris Caye, Belize</li><li><a href="visit.html">Directions</a></li></ul></div>
+      <div><h3>Say hola</h3><ul><li><a href="tel:+5016216226">+501 621-6226</a></li><li><a href="https://wa.me/5016216226">WhatsApp</a></li><li><a href="https://www.facebook.com/mesasanpedro/" rel="noopener">Facebook</a></li></ul></div>
+    </div>
+    <div class="foot-base"><span>© <span data-year>2026</span> Mesa Cantina San Pedro</span><span>Formerly Mesa Cafe &amp; Mesa Bistro</span></div>
+  </div>
+</footer>
+</body>
+</html>

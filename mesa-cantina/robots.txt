@@ -1,0 +1,8 @@
+# Mesa Cantina San Pedro
+# [TBD] Base URL is a placeholder: replace https://www.mesacantinasanpedro.com/ with the real domain.
+User-agent: *
+Allow: /
+Disallow: /_shell.html
+Disallow: /seo/
+
+Sitemap: https://www.mesacantinasanpedro.com/sitemap.xml

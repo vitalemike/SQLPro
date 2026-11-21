@@ -1,0 +1,313 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Our Story · Mesa Cantina San Pedro</title>
+<meta name="description" content="From Mesa Cafe on Tarpon Street to Mesa Bistro to a table on the sand north of the bridge: how Mesa Cantina San Pedro came to be, and the people who keep the coffee strong.">
+<meta name="theme-color" content="#0B5D63">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="css/mesa.css">
+<style>
+  /* ---- Our Story: page styles (tokens only) ---- */
+  .story-hero{padding-block:var(--s-8) var(--s-7)}
+  .story-hero h1{max-width:14ch;margin-bottom:var(--s-5)}
+  .story-hero .lead{max-width:56ch;margin-bottom:var(--s-7)}
+
+  /* photo slots: authored SVG scenes until real photography exists */
+  .photo-slot{margin:0;background:var(--reef);border-radius:var(--radius);overflow:hidden;display:flex;flex-direction:column}
+  .photo-slot svg{flex:1;width:100%;height:100%;min-height:0;object-fit:cover}
+  .photo-slot figcaption{padding:var(--s-3) var(--s-4);font-size:var(--t-small);line-height:1.45;color:var(--reef-ink);background:var(--reef-deep)}
+  .photo-slot figcaption b{color:var(--salt);font-weight:600}
+  .photo-slot--plank{background:var(--plank-2)}
+  .photo-slot--plank figcaption{background:var(--salt);color:var(--ink-2);border-top:1px solid var(--rope)}
+  .photo-slot--plank figcaption b{color:var(--ink)}
+  .hero-slot{aspect-ratio:16/7}
+  @media (max-width:640px){.hero-slot{aspect-ratio:4/5}}
+
+  /* scene fills */
+  .sc-sky{fill:var(--reef)} .sc-sea{fill:var(--reef-deep)} .sc-sun{fill:var(--plank)}
+  .sc-shallow{fill:var(--lagoon)} .sc-plank{fill:var(--plank-2)} .sc-seam{stroke:var(--rope);stroke-width:2}
+  .sc-post{fill:var(--rope)} .sc-dark{fill:var(--reef-deep)} .sc-palm{fill:none;stroke:var(--reef-deep);stroke-linecap:round}
+  .sc-sand{fill:var(--plank)} .sc-salt{fill:var(--salt)} .sc-ink{fill:var(--ink)} .sc-rope{fill:var(--rope)}
+  .sc-line{fill:none;stroke:var(--rope);stroke-width:2;stroke-linecap:round}
+
+  /* prose rhythm */
+  .prose{max-width:var(--measure)}
+  .prose p{font-size:1.125rem;line-height:1.72;margin-bottom:1.35em;max-width:none}
+  .prose p:last-child{margin-bottom:0}
+
+  /* ---- the dock timeline ---- */
+  .dock-grid{display:grid;gap:var(--s-7)}
+  .dock-intro h2{margin-bottom:var(--s-5)}
+  @media (min-width:960px){
+    .dock-grid{grid-template-columns:minmax(0,22rem) minmax(0,1fr);gap:var(--s-8);align-items:start}
+    .dock-intro{position:sticky;top:7rem}
+  }
+  .dock{--walk:3.25rem;list-style:none;margin:0;padding:0;position:relative}
+  /* the walkway: horizontal boards stacked down a vertical dock */
+  .dock::before{content:"";position:absolute;left:0;top:0;bottom:0;width:var(--walk);
+    background:repeating-linear-gradient(180deg,var(--plank) 0 26px,var(--rope) 26px 28px);
+    border-inline:1px solid var(--rope);border-radius:2px}
+  .slip{position:relative;padding-left:calc(var(--walk) + var(--s-6));padding-block:var(--s-6) var(--s-7)}
+  .slip:last-child{padding-bottom:var(--s-6)}
+  /* mooring post on the walkway */
+  .slip::before{content:"";position:absolute;left:calc(var(--walk) / 2 - .8rem);top:calc(var(--s-6) + .55rem);
+    width:1.6rem;height:1.6rem;border-radius:50%;background:var(--reef-deep);
+    box-shadow:0 0 0 4px var(--plank-2),0 0 0 5px var(--rope)}
+  /* the finger pier out to the slip */
+  .slip::after{content:"";position:absolute;left:calc(var(--walk) + 1px);top:calc(var(--s-6) + 1.3rem);
+    width:calc(var(--s-6) - var(--s-2));height:2px;background:var(--rope)}
+  .slip h3{font-size:var(--t-h2);color:var(--reef);margin-bottom:var(--s-3)}
+  .slip-meta{font-size:var(--t-small);font-weight:600;letter-spacing:.02em;color:var(--ink-2);margin-bottom:var(--s-5)}
+  .slip p{font-size:1.125rem;line-height:1.72;max-width:62ch}
+  .slip .photo-slot{margin-top:var(--s-5);max-width:34rem;aspect-ratio:3/2}
+  .slip-fact{display:flex;align-items:baseline;gap:var(--s-3);flex-wrap:wrap;margin:var(--s-5) 0 0;color:var(--ink-2);font-size:var(--t-small)}
+  .slip-fact .stencil{font-size:clamp(2.4rem,1.8rem + 2vw,3.25rem);line-height:1}
+  @media (max-width:480px){
+    .dock{--walk:2.25rem}
+    .slip{padding-left:calc(var(--walk) + var(--s-5))}
+    .slip::after{width:calc(var(--s-5) - var(--s-2))}
+  }
+
+  /* ---- pull quote ---- */
+  .pull{margin:0;max-width:52rem}
+  .pull p{font:800 clamp(1.9rem,1.2rem + 3vw,3.25rem)/1.02 var(--font-display);text-transform:uppercase;color:var(--salt);max-width:none;margin-bottom:var(--s-5)}
+  .pull p .tbd{color:var(--salt)}
+  .pull footer{font-size:1rem;color:var(--reef-ink)}
+  .quote-note{margin-top:var(--s-5);font-size:var(--t-small);color:var(--reef-ink)}
+
+  /* ---- people ---- */
+  .people{display:grid;gap:var(--s-7);align-items:center}
+  .people .photo-slot{aspect-ratio:4/5;max-width:28rem}
+  .people h2{margin-bottom:var(--s-5)}
+  .people .role{font-weight:600;color:var(--ink-2);margin-bottom:var(--s-5)}
+  @media (min-width:860px){.people{grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:var(--s-8)}}
+
+  /* ---- beliefs: prose, not cards ---- */
+  .beliefs h2{margin-bottom:var(--s-6);max-width:18ch}
+  .beliefs .prose p:first-of-type{font-size:var(--t-lead);line-height:1.55;color:var(--ink)}
+  .beliefs strong{font-weight:600;color:var(--reef)}
+
+  /* ---- closing cta ---- */
+  .close h2{color:var(--salt);max-width:16ch;margin-bottom:var(--s-5)}
+  .close .lead{margin-bottom:var(--s-6)}
+  .cta-row{display:flex;flex-wrap:wrap;gap:var(--s-4)}
+  .close .stencil{font-size:1.35em;vertical-align:-.08em}
+  @media (max-width:420px){.cta-row .btn{width:100%;justify-content:center}}
+</style>
+<script src="js/mesa.js" defer></script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<div class="tide" data-tide role="status"><div class="wrap"><span><span class="dot" aria-hidden="true"></span><span data-tide-text>Tue–Sun · 8am–9pm · on the beach north of the bridge</span></span><a href="tel:+5016216226">Call +501 621-6226</a></div></div>
+<header class="site-head">
+  <div class="wrap">
+    <a class="brand" href="index.html" aria-label="Mesa Cantina San Pedro, home">
+      <img src="assets/logo-mark.svg" alt="" width="44" height="44">
+      <span><b>Mesa Cantina</b><small>San Pedro · Ambergris Caye</small></span>
+    </a>
+    <button class="nav-toggle" aria-expanded="false" aria-controls="site-nav" aria-label="Menu">
+      <svg width="28" height="28" viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M4 8h20M4 14h20M4 20h13"/></svg>
+    </button>
+    <nav class="nav" id="site-nav" aria-label="Main">
+      <ul>
+        <li><a href="menu.html">Menu</a></li>
+        <li><a href="drinks.html">Cantina</a></li>
+        <li><a href="story.html">Our Story</a></li>
+        <li><a href="events.html">Events</a></li>
+        <li><a href="gallery.html">Gallery</a></li>
+        <li><a href="visit.html">Visit</a></li>
+        <li><a class="btn" href="reserve.html">Book a table</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+
+  <!-- Opening -->
+  <section class="story-hero" aria-labelledby="story-title">
+    <div class="wrap">
+      <h1 id="story-title">From Tarpon Street to the sand</h1>
+      <p class="lead">Mesa started as a small breakfast-and-lunch cafe in town, with good coffee and a line for the pancakes. It grew into a bistro, then walked half a mile north of the bridge and set its tables on the beach. Same kitchen habits, more sky.</p>
+      <figure class="photo-slot hero-slot">
+        <svg viewBox="0 0 1200 600" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Placeholder scene: a wooden dock running out to a calm sea under a low sun">
+          <rect class="sc-sky" width="1200" height="600"/>
+          <circle class="sc-sun" cx="600" cy="300" r="62" opacity=".9"/>
+          <rect class="sc-sea" y="330" width="1200" height="270"/>
+          <rect class="sc-shallow" y="330" width="1200" height="3" opacity=".7"/>
+          <path class="sc-shallow" d="M0 372h1200v2H0zM0 420h1200v2H0zM0 486h1200v2H0z" opacity=".25"/>
+          <polygon class="sc-plank" points="420,600 780,600 615,330 585,330"/>
+          <g class="sc-seam">
+            <line x1="579" y1="340" x2="621" y2="340"/><line x1="572" y1="352" x2="628" y2="352"/>
+            <line x1="563" y1="366" x2="637" y2="366"/><line x1="553" y1="383" x2="647" y2="383"/>
+            <line x1="540" y1="404" x2="660" y2="404"/><line x1="524" y1="430" x2="676" y2="430"/>
+            <line x1="504" y1="462" x2="696" y2="462"/><line x1="480" y1="502" x2="720" y2="502"/>
+            <line x1="451" y1="550" x2="749" y2="550"/>
+          </g>
+          <g class="sc-post">
+            <rect x="404" y="520" width="14" height="80"/><rect x="782" y="520" width="14" height="80"/>
+            <rect x="494" y="448" width="9" height="42"/><rect x="697" y="448" width="9" height="42"/>
+            <rect x="551" y="384" width="5" height="20"/><rect x="644" y="384" width="5" height="20"/>
+          </g>
+          <path class="sc-palm" stroke-width="16" d="M1060 600C1050 500 1020 400 975 300"/>
+          <path class="sc-palm" stroke-width="10" d="M975 300c-50-20-110-10-160 30M975 300c-30-45-90-70-150-70M975 300c20-55 75-90 140-95M975 300c55-10 110 20 150 70M975 300c40 25 70 75 75 130"/>
+        </svg>
+        <figcaption><b>Shot list:</b> golden hour, standing at the land end of the Mesa dock looking out. Dock boards leading to the horizon, sun low and soft, tables just out of frame. Landscape, no people, no logos.</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- Timeline along the dock -->
+  <section class="section section--alt" aria-labelledby="dock-title">
+    <div class="wrap dock-grid">
+      <div class="dock-intro">
+        <h2 id="dock-title">Three slips down the dock</h2>
+        <p>Walk it the way we did. Each post is a place Mesa tied up for a while. We have not pinned the years down yet, so they are marked until the owners confirm them.</p>
+      </div>
+
+      <ol class="dock">
+        <li class="slip" data-reveal>
+          <h3>Tarpon Street</h3>
+          <p class="slip-meta">Mesa Cafe · Vilma Linda Plaza · <span class="tbd">[year opened TBD]</span></p>
+          <p>It began in town as Mesa Cafe, in Vilma Linda Plaza on Tarpon Street. Breakfast and lunch only. The coffee was the real thing, brewed strong, and people came back for it before work and after the dive boats.</p>
+          <p>The pancakes built the following. The coconut French toast made it loyal. That plate came with us down the dock, and it is still the one people ask about.</p>
+          <figure class="photo-slot photo-slot--plank">
+            <svg viewBox="0 0 600 400" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Placeholder scene: a small cafe counter with a coffee cup">
+              <rect class="sc-plank" width="600" height="400"/>
+              <rect class="sc-sky" x="60" y="50" width="200" height="190" rx="4"/>
+              <rect class="sc-sun" x="70" y="60" width="85" height="170" opacity=".35"/>
+              <rect class="sc-sun" x="165" y="60" width="85" height="170" opacity=".35"/>
+              <rect class="sc-rope" y="270" width="600" height="14"/>
+              <rect class="sc-dark" y="284" width="600" height="116"/>
+              <path class="sc-salt" d="M380 214h72l-8 56h-56z"/>
+              <path class="sc-line" d="M452 228c22 0 22 28-2 28"/>
+              <path class="sc-line" d="M404 196c-6-10 6-16 0-26M428 196c-6-10 6-16 0-26"/>
+              <ellipse class="sc-salt" cx="416" cy="272" rx="58" ry="7"/>
+            </svg>
+            <figcaption><b>Archive request:</b> any photo of the original Mesa Cafe on Tarpon Street, inside or out. Phone snapshots are fine. <span class="tbd">[ask owners]</span></figcaption>
+          </figure>
+        </li>
+
+        <li class="slip" data-reveal>
+          <h3>The Bistro</h3>
+          <p class="slip-meta">Mesa Bistro · <span class="tbd">[location and years TBD]</span></p>
+          <p>Next came Mesa Bistro. The kitchen leaned into what it already did well: European and Mediterranean cooking, built on what was good on the island that week.</p>
+          <p><span class="tbd">[Confirm with owners: where the Bistro was, what changed on the menu, and one detail regulars remember.]</span></p>
+        </li>
+
+        <li class="slip" data-reveal>
+          <h3>The Beach</h3>
+          <p class="slip-meta">Mesa Cantina San Pedro · north of the bridge · <span class="tbd">[year moved TBD]</span></p>
+          <p>Then the move to the sand. Mesa Cantina sits on the beach about half a mile north of the San Pedro bridge, close enough for a golf cart, easy by water taxi. The tables face the reef.</p>
+          <p>It is the whole day now: breakfast from the first pot of coffee, lunch with your feet in the sand, dinner as the light goes, and a cantina side for one more round before last call.</p>
+          <p class="slip-fact"><span class="stencil num" aria-hidden="true">½ MI</span><span>north of the bridge, on the beach</span><span class="sr-only">Half a mile north of the bridge, on the beach.</span></p>
+          <figure class="photo-slot">
+            <svg viewBox="0 0 600 400" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Placeholder scene: a table on the sand facing the sea, with a palm overhead">
+              <rect class="sc-sky" width="600" height="400"/>
+              <circle class="sc-sun" cx="160" cy="170" r="40" opacity=".85"/>
+              <rect class="sc-sea" y="190" width="600" height="90"/>
+              <rect class="sc-shallow" y="190" width="600" height="2" opacity=".7"/>
+              <path class="sc-sand" d="M0 270c120-14 260-14 600 4v126H0z"/>
+              <rect class="sc-dark" x="300" y="250" width="170" height="10" rx="2"/>
+              <rect class="sc-dark" x="312" y="260" width="8" height="70"/><rect class="sc-dark" x="450" y="260" width="8" height="70"/>
+              <rect class="sc-dark" x="262" y="285" width="36" height="7" rx="2"/><rect class="sc-dark" x="270" y="292" width="6" height="44"/>
+              <rect class="sc-dark" x="472" y="285" width="36" height="7" rx="2"/><rect class="sc-dark" x="494" y="292" width="6" height="44"/>
+              <path class="sc-palm" stroke-width="10" d="M600 40c-40 10-90 40-120 90M600 40c-60-10-120 0-170 30M600 40c-20 30-30 80-20 130"/>
+            </svg>
+            <figcaption><b>Shot list:</b> mid-morning, one set table on the sand with coffee and the coconut French toast, sea and reef line behind. Shoot low, at seated eye level.</figcaption>
+          </figure>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- Pull quote (placeholder) -->
+  <section class="section section--reef" aria-label="What guests say">
+    <div class="wrap">
+      <blockquote class="pull">
+        <p><span class="tbd">[Placeholder: pull a real TripAdvisor review]</span></p>
+        <footer><span class="tbd">[Reviewer first name, month and year, TripAdvisor]</span></footer>
+      </blockquote>
+      <p class="quote-note">Use a short line from a real, published review, credited as it appears. Do not paraphrase.</p>
+    </div>
+  </section>
+
+  <!-- People -->
+  <section class="section" aria-labelledby="people-title">
+    <div class="wrap people">
+      <figure class="photo-slot photo-slot--plank">
+        <svg viewBox="0 0 400 500" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Placeholder scene: two chairs at a table on a dock, sea behind">
+          <rect class="sc-plank" width="400" height="500"/>
+          <rect class="sc-sky" width="400" height="230"/>
+          <rect class="sc-sea" y="200" width="400" height="60"/>
+          <rect class="sc-shallow" y="200" width="400" height="2" opacity=".7"/>
+          <g class="sc-seam"><line x1="0" y1="300" x2="400" y2="300"/><line x1="0" y1="350" x2="400" y2="350"/><line x1="0" y1="410" x2="400" y2="410"/><line x1="0" y1="480" x2="400" y2="480"/></g>
+          <rect class="sc-dark" x="110" y="300" width="180" height="10" rx="2"/>
+          <rect class="sc-dark" x="124" y="310" width="8" height="90"/><rect class="sc-dark" x="268" y="310" width="8" height="90"/>
+          <path class="sc-dark" d="M60 260h14v80h30v8H74v60h-8v-60h-6zM340 260h-14v80h-30v8h30v60h8v-60h6z"/>
+          <path class="sc-salt" d="M170 282h26l-3 18h-20zM210 282h26l-3 18h-20z"/>
+          <circle class="sc-sun" cx="300" cy="110" r="36" opacity=".85"/>
+        </svg>
+        <figcaption><b>Shot list:</b> Mandy and Kevin together, relaxed, at a beach table or behind the bar in natural light. Half-length portrait, sea behind, candid not posed.</figcaption>
+      </figure>
+
+      <div>
+        <h2 id="people-title">Mandy and Kevin</h2>
+        <p class="role"><span class="tbd">[confirm roles and bio with owners]</span></p>
+        <div class="prose">
+          <p>Read enough reviews of Mesa and two names keep coming up. Guests mention Mandy and Kevin by name: the welcome at the table, the recommendation that turned out right, the check-in that never felt like a sales pitch.</p>
+          <p>That is the job as they see it. Know the regulars, remember how they take their coffee, and make the first-timer off the water taxi feel like they have been coming for years.</p>
+          <p><span class="tbd">[Add two or three lines in their own words: how they came to San Pedro, what they love about the morning shift, the dish they eat themselves.]</span></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- What we believe -->
+  <section class="section section--alt beliefs" aria-labelledby="believe-title">
+    <div class="wrap">
+      <h2 id="believe-title">What we believe, in plain words</h2>
+      <div class="prose">
+        <p>Good food on an island starts with the island. We cook European, Mediterranean and island-leaning dishes, and we build them around what is local and fresh on the island. If it is not good this week, it is not on the plate this week.</p>
+        <p><strong>Vegetarians eat well here.</strong> Not one sad salad at the bottom of the menu, but real choices at breakfast, lunch and dinner. Bring the friend who does not eat meat. They will order seconds.</p>
+        <p><strong>Coffee is not an afterthought.</strong> It was the reason people found us on Tarpon Street and it is still poured strong and hot from 8 in the morning.</p>
+        <p><strong>Nobody is rushing you.</strong> You came a long way to sit by the sea. Stay for another coffee, another cocktail, another hour of watching the boats run the channel. The table is yours until you are ready.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Close -->
+  <section class="section section--night close" aria-labelledby="close-title">
+    <div class="wrap">
+      <h2 id="close-title">Come walk the dock</h2>
+      <p class="lead">Breakfast from <span class="stencil num">8AM</span>, Tuesday to Sunday, on the beach north of the bridge. See what is cooking, then save yourself a table.</p>
+      <div class="cta-row">
+        <a class="btn" href="reserve.html">Book a table
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+        <a class="btn btn--ghost" href="menu.html">See the menu</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-foot">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <img src="assets/logo-mark.svg" alt="" width="56" height="56" style="margin-bottom:1rem">
+        <p style="color:var(--salt);font:800 1.6rem/1 var(--font-display);text-transform:uppercase">Breakfast to last call,<br>feet in the sand.</p>
+      </div>
+      <div><h3>Hours</h3><ul class="num"><li>Tue–Sun · 8am–9pm</li><li>Monday · closed</li></ul></div>
+      <div><h3>Find us</h3><ul><li>On the beach, ½ mile north of the bridge</li><li>San Pedro, Ambergris Caye, Belize</li><li><a href="visit.html">Directions</a></li></ul></div>
+      <div><h3>Say hola</h3><ul><li><a href="tel:+5016216226">+501 621-6226</a></li><li><a href="https://wa.me/5016216226">WhatsApp</a></li><li><a href="https://www.facebook.com/mesasanpedro/" rel="noopener">Facebook</a></li></ul></div>
+    </div>
+    <div class="foot-base"><span>© <span data-year>2026</span> Mesa Cantina San Pedro</span><span>Formerly Mesa Cafe &amp; Mesa Bistro</span></div>
+  </div>
+</footer>
+</body>
+</html>

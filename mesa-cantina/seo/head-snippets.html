@@ -1,0 +1,248 @@
+<!--
+  Mesa Cantina San Pedro: exact <head> tags per page.
+  Paste each block into the matching page, replacing the shell's <title> and <meta name="description">.
+  Keep the rest of the shell <head> (charset, viewport, theme-color, favicon, fonts, css, js) as is.
+
+  BASE URL PLACEHOLDER: https://www.mesacantinasanpedro.com/ is assumed [TBD: confirm the real domain].
+  Find-and-replace it everywhere (this file, seo/schema.json, sitemap.xml, robots.txt) once the domain is bought.
+
+  OG IMAGE: assets/og-image.svg is referenced below, but Facebook, WhatsApp, X and LinkedIn do not render SVG
+  previews reliably. Export a 1200x630 PNG or JPG (under ~300 KB), save it as assets/og-image.jpg, and swap the
+  og:image / twitter:image URLs and og:image:type to image/jpeg.
+
+  Shared tags to add once, on every page (including 404.html):
+    <link rel="manifest" href="site.webmanifest">
+    <link rel="apple-touch-icon" href="assets/logo-mark.svg">  (swap for a 180x180 PNG when exported)
+-->
+
+<!-- ===================== index.html ===================== -->
+<title>Mesa Cantina San Pedro | Beach Restaurant, Ambergris Caye</title>
+<meta name="description" content="Beachfront breakfast, lunch and cocktails ½ mile north of the bridge in San Pedro, Belize. Coconut French toast, strong coffee, sundown drinks. Tue–Sun.">
+<link rel="canonical" href="https://www.mesacantinasanpedro.com/">
+<meta property="og:type" content="restaurant.restaurant">
+<meta property="og:site_name" content="Mesa Cantina San Pedro">
+<meta property="og:locale" content="en_US">
+<meta property="og:title" content="Mesa Cantina San Pedro | Beach Restaurant, Ambergris Caye">
+<meta property="og:description" content="Beachfront breakfast, lunch and cocktails ½ mile north of the bridge in San Pedro, Belize. Coconut French toast, strong coffee, sundown drinks. Tue–Sun.">
+<meta property="og:url" content="https://www.mesacantinasanpedro.com/">
+<meta property="og:image" content="https://www.mesacantinasanpedro.com/assets/og-image.svg">
+<meta property="og:image:type" content="image/svg+xml">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Mesa Cantina San Pedro: a table on the sand at the end of a sun-bleached dock, Ambergris Caye, Belize">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Mesa Cantina San Pedro | Beach Restaurant, Ambergris Caye">
+<meta name="twitter:description" content="Beachfront breakfast, lunch and cocktails ½ mile north of the bridge in San Pedro, Belize. Coconut French toast, strong coffee, sundown drinks. Tue–Sun.">
+<meta name="twitter:image" content="https://www.mesacantinasanpedro.com/assets/og-image.svg">
+<meta name="twitter:image:alt" content="Mesa Cantina San Pedro: a table on the sand at the end of a sun-bleached dock, Ambergris Caye, Belize">
+<!--
+  Restaurant structured data (identical to seo/schema.json; keep the two in sync).
+  [TBD] streetAddress is a description until the owner confirms an exact address; add "geo" (lat/long) once confirmed.
+  [TBD] Confirm hours, phone and that reservations are accepted before launch.
+  No aggregateRating on purpose: Google's review-snippet guidelines forbid self-serving reviews/ratings that a
+  business marks up about itself on its own site. Let the TripAdvisor/Google ratings speak on those platforms.
+-->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Restaurant",
+  "@id": "https://www.mesacantinasanpedro.com/#restaurant",
+  "name": "Mesa Cantina San Pedro",
+  "alternateName": [
+    "Mesa Cafe",
+    "Mesa Bistro"
+  ],
+  "description": "Beachfront restaurant and cantina on Ambergris Caye, Belize, about half a mile north of the San Pedro bridge. Breakfast all morning, lunch, dinner and cocktails.",
+  "url": "https://www.mesacantinasanpedro.com/",
+  "image": "https://www.mesacantinasanpedro.com/assets/og-image.svg",
+  "logo": "https://www.mesacantinasanpedro.com/assets/logo-mark.svg",
+  "servesCuisine": [
+    "Breakfast",
+    "Caribbean",
+    "Mediterranean",
+    "European",
+    "Vegetarian"
+  ],
+  "priceRange": "$$",
+  "currenciesAccepted": "BZD, USD",
+  "telephone": "+501-621-6226",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "Beachfront, 0.5 mi north of the bridge",
+    "addressLocality": "San Pedro",
+    "addressRegion": "Ambergris Caye",
+    "addressCountry": "BZ"
+  },
+  "openingHoursSpecification": [
+    {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": [
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday",
+        "Sunday"
+      ],
+      "opens": "08:00",
+      "closes": "21:00"
+    }
+  ],
+  "acceptsReservations": true,
+  "hasMenu": "https://www.mesacantinasanpedro.com/menu.html",
+    "sameAs": [
+    "https://www.facebook.com/mesasanpedro/"
+  ]
+}
+</script>
+
+<!-- ===================== menu.html ===================== -->
+<title>Menu: Breakfast, Lunch & Dinner | Mesa Cantina San Pedro</title>
+<meta name="description" content="Coconut French toast, island breakfasts, Mediterranean plates from local produce and lots of vegetarian dishes, on the sand in San Pedro, Belize.">
+<link rel="canonical" href="https://www.mesacantinasanpedro.com/menu.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Mesa Cantina San Pedro">
+<meta property="og:locale" content="en_US">
+<meta property="og:title" content="Menu: Breakfast, Lunch & Dinner | Mesa Cantina San Pedro">
+<meta property="og:description" content="Coconut French toast, island breakfasts, Mediterranean plates from local produce and lots of vegetarian dishes, on the sand in San Pedro, Belize.">
+<meta property="og:url" content="https://www.mesacantinasanpedro.com/menu.html">
+<meta property="og:image" content="https://www.mesacantinasanpedro.com/assets/og-image.svg">
+<meta property="og:image:type" content="image/svg+xml">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Mesa Cantina San Pedro: a table on the sand at the end of a sun-bleached dock, Ambergris Caye, Belize">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Menu: Breakfast, Lunch & Dinner | Mesa Cantina San Pedro">
+<meta name="twitter:description" content="Coconut French toast, island breakfasts, Mediterranean plates from local produce and lots of vegetarian dishes, on the sand in San Pedro, Belize.">
+<meta name="twitter:image" content="https://www.mesacantinasanpedro.com/assets/og-image.svg">
+<meta name="twitter:image:alt" content="Mesa Cantina San Pedro: a table on the sand at the end of a sun-bleached dock, Ambergris Caye, Belize">
+
+<!-- ===================== drinks.html ===================== -->
+<title>Cantina Cocktails & Beach Bar | Mesa Cantina San Pedro</title>
+<meta name="description" content="Sundown cocktails, cold beer, wine and strong coffee on the beach north of the bridge, Ambergris Caye. Open till 9pm, Tuesday to Sunday.">
+<link rel="canonical" href="https://www.mesacantinasanpedro.com/drinks.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Mesa Cantina San Pedro">
+<meta property="og:locale" content="en_US">
+<meta property="og:title" content="Cantina Cocktails & Beach Bar | Mesa Cantina San Pedro">
+<meta property="og:description" content="Sundown cocktails, cold beer, wine and strong coffee on the beach north of the bridge, Ambergris Caye. Open till 9pm, Tuesday to Sunday.">
+<meta property="og:url" content="https://www.mesacantinasanpedro.com/drinks.html">
+<meta property="og:image" content="https://www.mesacantinasanpedro.com/assets/og-image.svg">
+<meta property="og:image:type" content="image/svg+xml">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Mesa Cantina San Pedro: a table on the sand at the end of a sun-bleached dock, Ambergris Caye, Belize">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Cantina Cocktails & Beach Bar | Mesa Cantina San Pedro">
+<meta name="twitter:description" content="Sundown cocktails, cold beer, wine and strong coffee on the beach north of the bridge, Ambergris Caye. Open till 9pm, Tuesday to Sunday.">
+<meta name="twitter:image" content="https://www.mesacantinasanpedro.com/assets/og-image.svg">
+<meta name="twitter:image:alt" content="Mesa Cantina San Pedro: a table on the sand at the end of a sun-bleached dock, Ambergris Caye, Belize">
+
+<!-- ===================== story.html ===================== -->
+<title>Our Story: From Mesa Cafe to the Beach | Mesa Cantina</title>
+<meta name="description" content="Mesa Cafe on Tarpon St became Mesa Bistro, then moved to the sand north of the San Pedro bridge. Same coconut French toast, a better view.">
+<link rel="canonical" href="https://www.mesacantinasanpedro.com/story.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Mesa Cantina San Pedro">
+<meta property="og:locale" content="en_US">
+<meta property="og:title" content="Our Story: From Mesa Cafe to the Beach | Mesa Cantina">
+<meta property="og:description" content="Mesa Cafe on Tarpon St became Mesa Bistro, then moved to the sand north of the San Pedro bridge. Same coconut French toast, a better view.">
+<meta property="og:url" content="https://www.mesacantinasanpedro.com/story.html">
+<meta property="og:image" content="https://www.mesacantinasanpedro.com/assets/og-image.svg">
+<meta property="og:image:type" content="image/svg+xml">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Mesa Cantina San Pedro: a table on the sand at the end of a sun-bleached dock, Ambergris Caye, Belize">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Our Story: From Mesa Cafe to the Beach | Mesa Cantina">
+<meta name="twitter:description" content="Mesa Cafe on Tarpon St became Mesa Bistro, then moved to the sand north of the San Pedro bridge. Same coconut French toast, a better view.">
+<meta name="twitter:image" content="https://www.mesacantinasanpedro.com/assets/og-image.svg">
+<meta name="twitter:image:alt" content="Mesa Cantina San Pedro: a table on the sand at the end of a sun-bleached dock, Ambergris Caye, Belize">
+
+<!-- ===================== visit.html ===================== -->
+<title>Hours & Directions, North of the Bridge | Mesa Cantina</title>
+<meta name="description" content="Find Mesa Cantina on the beach ½ mile north of the San Pedro bridge. Come by golf cart, bike or water taxi. Open Tue–Sun 8am–9pm, closed Mondays.">
+<link rel="canonical" href="https://www.mesacantinasanpedro.com/visit.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Mesa Cantina San Pedro">
+<meta property="og:locale" content="en_US">
+<meta property="og:title" content="Hours & Directions, North of the Bridge | Mesa Cantina">
+<meta property="og:description" content="Find Mesa Cantina on the beach ½ mile north of the San Pedro bridge. Come by golf cart, bike or water taxi. Open Tue–Sun 8am–9pm, closed Mondays.">
+<meta property="og:url" content="https://www.mesacantinasanpedro.com/visit.html">
+<meta property="og:image" content="https://www.mesacantinasanpedro.com/assets/og-image.svg">
+<meta property="og:image:type" content="image/svg+xml">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Mesa Cantina San Pedro: a table on the sand at the end of a sun-bleached dock, Ambergris Caye, Belize">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Hours & Directions, North of the Bridge | Mesa Cantina">
+<meta name="twitter:description" content="Find Mesa Cantina on the beach ½ mile north of the San Pedro bridge. Come by golf cart, bike or water taxi. Open Tue–Sun 8am–9pm, closed Mondays.">
+<meta name="twitter:image" content="https://www.mesacantinasanpedro.com/assets/og-image.svg">
+<meta name="twitter:image:alt" content="Mesa Cantina San Pedro: a table on the sand at the end of a sun-bleached dock, Ambergris Caye, Belize">
+
+<!-- ===================== events.html ===================== -->
+<title>Private Events & Beach Parties | Mesa Cantina San Pedro</title>
+<meta name="description" content="Birthdays, rehearsal dinners and wedding groups on the beach in San Pedro, Ambergris Caye. Tell us your date and headcount and we'll plan the table.">
+<link rel="canonical" href="https://www.mesacantinasanpedro.com/events.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Mesa Cantina San Pedro">
+<meta property="og:locale" content="en_US">
+<meta property="og:title" content="Private Events & Beach Parties | Mesa Cantina San Pedro">
+<meta property="og:description" content="Birthdays, rehearsal dinners and wedding groups on the beach in San Pedro, Ambergris Caye. Tell us your date and headcount and we'll plan the table.">
+<meta property="og:url" content="https://www.mesacantinasanpedro.com/events.html">
+<meta property="og:image" content="https://www.mesacantinasanpedro.com/assets/og-image.svg">
+<meta property="og:image:type" content="image/svg+xml">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Mesa Cantina San Pedro: a table on the sand at the end of a sun-bleached dock, Ambergris Caye, Belize">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Private Events & Beach Parties | Mesa Cantina San Pedro">
+<meta name="twitter:description" content="Birthdays, rehearsal dinners and wedding groups on the beach in San Pedro, Ambergris Caye. Tell us your date and headcount and we'll plan the table.">
+<meta name="twitter:image" content="https://www.mesacantinasanpedro.com/assets/og-image.svg">
+<meta name="twitter:image:alt" content="Mesa Cantina San Pedro: a table on the sand at the end of a sun-bleached dock, Ambergris Caye, Belize">
+
+<!-- ===================== reserve.html ===================== -->
+<title>Book a Table on the Beach | Mesa Cantina San Pedro</title>
+<meta name="description" content="Reserve breakfast, lunch or a sundown dinner on the sand north of the bridge in San Pedro, Belize. Book online, call +501 621-6226 or WhatsApp us.">
+<link rel="canonical" href="https://www.mesacantinasanpedro.com/reserve.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Mesa Cantina San Pedro">
+<meta property="og:locale" content="en_US">
+<meta property="og:title" content="Book a Table on the Beach | Mesa Cantina San Pedro">
+<meta property="og:description" content="Reserve breakfast, lunch or a sundown dinner on the sand north of the bridge in San Pedro, Belize. Book online, call +501 621-6226 or WhatsApp us.">
+<meta property="og:url" content="https://www.mesacantinasanpedro.com/reserve.html">
+<meta property="og:image" content="https://www.mesacantinasanpedro.com/assets/og-image.svg">
+<meta property="og:image:type" content="image/svg+xml">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Mesa Cantina San Pedro: a table on the sand at the end of a sun-bleached dock, Ambergris Caye, Belize">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Book a Table on the Beach | Mesa Cantina San Pedro">
+<meta name="twitter:description" content="Reserve breakfast, lunch or a sundown dinner on the sand north of the bridge in San Pedro, Belize. Book online, call +501 621-6226 or WhatsApp us.">
+<meta name="twitter:image" content="https://www.mesacantinasanpedro.com/assets/og-image.svg">
+<meta name="twitter:image:alt" content="Mesa Cantina San Pedro: a table on the sand at the end of a sun-bleached dock, Ambergris Caye, Belize">
+
+<!-- ===================== gallery.html ===================== -->
+<title>Photos: Beach Dining in San Pedro | Mesa Cantina</title>
+<meta name="description" content="See the dock, the sand, the coconut French toast and sundown at Mesa Cantina, a beach restaurant north of the bridge on Ambergris Caye, Belize.">
+<link rel="canonical" href="https://www.mesacantinasanpedro.com/gallery.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Mesa Cantina San Pedro">
+<meta property="og:locale" content="en_US">
+<meta property="og:title" content="Photos: Beach Dining in San Pedro | Mesa Cantina">
+<meta property="og:description" content="See the dock, the sand, the coconut French toast and sundown at Mesa Cantina, a beach restaurant north of the bridge on Ambergris Caye, Belize.">
+<meta property="og:url" content="https://www.mesacantinasanpedro.com/gallery.html">
+<meta property="og:image" content="https://www.mesacantinasanpedro.com/assets/og-image.svg">
+<meta property="og:image:type" content="image/svg+xml">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Mesa Cantina San Pedro: a table on the sand at the end of a sun-bleached dock, Ambergris Caye, Belize">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Photos: Beach Dining in San Pedro | Mesa Cantina">
+<meta name="twitter:description" content="See the dock, the sand, the coconut French toast and sundown at Mesa Cantina, a beach restaurant north of the bridge on Ambergris Caye, Belize.">
+<meta name="twitter:image" content="https://www.mesacantinasanpedro.com/assets/og-image.svg">
+<meta name="twitter:image:alt" content="Mesa Cantina San Pedro: a table on the sand at the end of a sun-bleached dock, Ambergris Caye, Belize">
+
+<!-- ===================== 404.html =====================
+  Already set in 404.html: its own title/description plus <meta name="robots" content="noindex">. No canonical, not in sitemap.
+-->
