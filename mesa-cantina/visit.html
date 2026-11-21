@@ -3,8 +3,26 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Visit · Hours &amp; Directions · Mesa Cantina San Pedro</title>
-<meta name="description" content="Open Tuesday to Sunday, 8am to 9pm. On the beach half a mile north of the San Pedro bridge, Ambergris Caye. Directions by golf cart, water taxi, foot or bike.">
+<title>Hours & Directions, North of the Bridge | Mesa Cantina</title>
+<meta name="description" content="Find Mesa Cantina on the beach ½ mile north of the San Pedro bridge. Come by golf cart, bike or water taxi. Open Tue–Sun 8am–9pm, closed Mondays.">
+<link rel="canonical" href="https://www.mesacantinasanpedro.com/visit.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Mesa Cantina San Pedro">
+<meta property="og:locale" content="en_US">
+<meta property="og:title" content="Hours & Directions, North of the Bridge | Mesa Cantina">
+<meta property="og:description" content="Find Mesa Cantina on the beach ½ mile north of the San Pedro bridge. Come by golf cart, bike or water taxi. Open Tue–Sun 8am–9pm, closed Mondays.">
+<meta property="og:url" content="https://www.mesacantinasanpedro.com/visit.html">
+<meta property="og:image" content="https://www.mesacantinasanpedro.com/assets/og-image.svg">
+<meta property="og:image:type" content="image/svg+xml">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Mesa Cantina San Pedro: a table on the sand at the end of a sun-bleached dock, Ambergris Caye, Belize">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Hours & Directions, North of the Bridge | Mesa Cantina">
+<meta name="twitter:description" content="Find Mesa Cantina on the beach ½ mile north of the San Pedro bridge. Come by golf cart, bike or water taxi. Open Tue–Sun 8am–9pm, closed Mondays.">
+<meta name="twitter:image" content="https://www.mesacantinasanpedro.com/assets/og-image.svg">
+<meta name="twitter:image:alt" content="Mesa Cantina San Pedro: a table on the sand at the end of a sun-bleached dock, Ambergris Caye, Belize">
+<link rel="manifest" href="site.webmanifest">
 <meta name="theme-color" content="#0B5D63">
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -12,7 +30,8 @@
 <style>
   /* ---------- Visit page ---------- */
   .v-top{padding-block:var(--s-7) var(--s-8)}
-  .v-top__grid{display:grid;gap:var(--s-7);grid-template-columns:1fr}
+  .v-top__grid{display:grid;gap:var(--s-7);grid-template-columns:minmax(0,1fr)}
+  .v-top__grid > *{min-width:0}
   @media (min-width:920px){.v-top__grid{grid-template-columns:1.1fr .9fr;align-items:start}}
   .v-top h1{margin-bottom:var(--s-4);color:var(--reef)}
   .v-status{display:flex;flex-wrap:wrap;align-items:center;gap:var(--s-3);margin-bottom:var(--s-4)}
@@ -46,6 +65,7 @@
   .v-hours th,.v-hours td{text-align:left;padding:.7rem .6rem;border-top:1px solid var(--rope);font-size:1.05rem}
   .v-hours th{font-weight:600}
   .v-hours td{text-align:right;white-space:nowrap}
+  @media (max-width:420px){.v-hours{padding:var(--s-4)}.v-hours th,.v-hours td{padding:.65rem .35rem;font-size:.95rem}.v-hours tr.is-today th::after{margin-left:.35rem}}
   .v-hours tr.is-closed td{color:var(--ink-2)}
   .v-hours tr.is-today{background:var(--reef);color:var(--salt)}
   .v-hours tr.is-today th,.v-hours tr.is-today td{color:var(--salt);border-top-color:var(--reef)}
