@@ -1,0 +1,585 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Book a table · Mesa Cantina San Pedro</title>
+<meta name="description" content="Book a table at Mesa Cantina on the beach in San Pedro, Ambergris Caye. Pick a day, time and party size and send your request to Mesa on WhatsApp. Open Tue–Sun, 8am–9pm.">
+<meta name="theme-color" content="#0B5D63">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="css/mesa.css">
+<style>
+  /* ---- reserve.html: page head ---- */
+  .book-head{padding-block:var(--s-6) var(--s-5)}
+  .book-head h1{margin-bottom:var(--s-3)}
+  .book-head .lead{margin:0}
+
+  /* ---- layout: form + side panel ---- */
+  .book{padding-bottom:var(--s-9)}
+  .book .wrap{display:grid;gap:var(--s-7);grid-template-columns:minmax(0,1fr) 22rem;align-items:start}
+  @media (max-width:960px){.book .wrap{grid-template-columns:minmax(0,1fr);gap:var(--s-7)}}
+
+  /* ---- form ---- */
+  .book-form{max-width:46rem}
+  .book-form .row{display:grid;gap:0 var(--s-5);grid-template-columns:1fr 1fr}
+  @media (max-width:560px){.book-form .row{grid-template-columns:1fr}}
+  .book-form .field{margin-bottom:var(--s-5)}
+  .book-form .opt{font-weight:400;color:var(--ink-2)}
+  .book-form .error:empty{display:none}
+  .book-form .error{display:flex;gap:.45rem;align-items:flex-start}
+  .book-form .error svg{flex:none;width:1.1em;height:1.1em;margin-top:.15em}
+  .field select:disabled{color:var(--ink-2);background:var(--plank-2);cursor:not-allowed}
+  .closed-fix{display:inline-flex;align-items:center;min-height:44px;padding:0 .2rem;font:inherit;font-weight:600;color:var(--reef);background:none;border:0;text-decoration:underline;text-underline-offset:.22em;cursor:pointer}
+  .closed-fix:hover{color:var(--buoy-deep)}
+
+  fieldset.group{border:0;margin:0 0 var(--s-5);padding:0;min-width:0}
+  fieldset.group legend{font-weight:600;font-size:.95rem;padding:0;margin-bottom:.4rem}
+  .group .hint{font-size:var(--t-small);color:var(--ink-2);margin:0 0 var(--s-3)}
+  .group .error{color:var(--buoy-deep);font-size:var(--t-small);font-weight:600;margin-top:.4rem}
+
+  /* party stepper */
+  .stepper{display:inline-flex;align-items:stretch;border:1.5px solid var(--rope);border-radius:var(--radius);background:var(--salt);overflow:hidden}
+  .stepper button{width:56px;min-height:56px;display:grid;place-items:center;background:none;border:0;color:var(--reef);cursor:pointer}
+  .stepper button:hover{background:var(--plank-2)}
+  .stepper button:disabled{color:var(--rope);cursor:not-allowed;background:none}
+  .stepper button svg{width:22px;height:22px}
+  .stepper button:focus-visible{outline-offset:-3px}
+  .stepper input{width:4.5rem;border:0;border-inline:1.5px solid var(--rope);background:transparent;text-align:center;
+    font:800 1.9rem/1 var(--font-display);color:var(--ink);-moz-appearance:textfield;appearance:textfield}
+  .stepper input::-webkit-inner-spin-button,.stepper input::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}
+  .stepper input:focus{outline:none;box-shadow:inset 0 0 0 3px rgb(11 93 99 / .25)}
+  .stepper:has([aria-invalid=true]){border-color:var(--buoy-deep)}
+  .party-line{display:flex;flex-wrap:wrap;align-items:center;gap:var(--s-3) var(--s-5)}
+  .party-line .guests{font-weight:600}
+  .party-line .groups{font-size:var(--t-small);color:var(--ink-2)}
+
+  /* seating radio cards */
+  .seats{display:grid;gap:var(--s-3);grid-template-columns:repeat(4,minmax(0,1fr))}
+  @media (max-width:720px){.seats{grid-template-columns:1fr 1fr}}
+  .seat{position:relative;display:grid;gap:.35rem;align-content:start;min-height:48px;padding:var(--s-4);background:var(--salt);
+    border:1.5px solid var(--rope);border-radius:var(--radius);cursor:pointer;transition:border-color .2s var(--ease-out),box-shadow .2s var(--ease-out)}
+  .seat:hover{border-color:var(--reef)}
+  .seat input{position:absolute;opacity:0;inset:0;margin:0;cursor:pointer}
+  .seat svg{width:28px;height:28px;color:var(--reef)}
+  .seat b{font:800 1.2rem/1 var(--font-display);text-transform:uppercase;letter-spacing:.01em}
+  .seat small{font-size:var(--t-small);color:var(--ink-2);line-height:1.35}
+  .seat:has(input:checked){border-color:var(--reef);box-shadow:inset 0 0 0 2px var(--reef)}
+  .seat:has(input:checked)::after{content:"";position:absolute;top:var(--s-3);right:var(--s-3);width:.7rem;height:.7rem;border-radius:50%;background:var(--buoy)}
+  .seat:has(input:focus-visible){outline:3px solid var(--focus);outline-offset:3px}
+
+  /* error summary */
+  .summary{display:none;margin-bottom:var(--s-5);padding:var(--s-4) var(--s-5);background:var(--salt);border:1.5px solid var(--buoy-deep);border-radius:var(--radius)}
+  .summary.is-shown{display:block}
+  .summary h2{font-size:1.35rem;color:var(--buoy-deep);margin-bottom:var(--s-2)}
+  .summary ul{margin:0;padding-left:1.1rem}
+  .summary a{color:var(--buoy-deep);font-weight:600}
+
+  /* submit row */
+  .send{display:flex;flex-wrap:wrap;align-items:center;gap:var(--s-4) var(--s-5);margin-top:var(--s-2);padding-top:var(--s-5);border-top:1px solid var(--rope)}
+  .send .btn{font-size:1.05rem;min-height:56px;padding-inline:1.6em}
+  .send .alt{font-size:.95rem;color:var(--ink-2)}
+  .send .alt a{font-weight:600;display:inline-flex;align-items:center;min-height:48px}
+  .send-note{font-size:var(--t-small);color:var(--ink-2);margin:var(--s-3) 0 0}
+
+  /* confirmation state */
+  .confirm{max-width:46rem}
+  .confirm[hidden]{display:none}
+  .confirm h2{font-size:var(--t-h2);margin-bottom:var(--s-4)}
+  .confirm h2:focus{outline:none}
+  .confirm .ticket{margin:var(--s-5) 0;padding:var(--s-5);background:var(--salt);border:1.5px solid var(--rope);border-radius:var(--radius);box-shadow:var(--shadow-1)}
+  .ticket dl{display:grid;grid-template-columns:auto 1fr;gap:.55rem var(--s-5);margin:0}
+  .ticket dt{font-weight:600;color:var(--ink-2);font-size:.95rem}
+  .ticket dd{margin:0;overflow-wrap:anywhere}
+  .ticket .when{display:flex;flex-wrap:wrap;align-items:baseline;gap:var(--s-2) var(--s-4);margin-bottom:var(--s-4);padding-bottom:var(--s-4);border-bottom:1px dashed var(--rope)}
+  .ticket .when .stencil{font-size:clamp(2.6rem,2rem + 3vw,3.6rem);line-height:1}
+  .ticket .when span:last-child{font:800 1.4rem/1.1 var(--font-display);text-transform:uppercase}
+  .confirm ol{padding-left:1.2rem;margin:0 0 var(--s-5);display:grid;gap:.35rem;max-width:var(--measure)}
+  .confirm .actions{display:flex;flex-wrap:wrap;gap:var(--s-3) var(--s-4);align-items:center}
+  .linkish{font:inherit;font-weight:600;color:var(--reef);background:none;border:0;padding:0 .2rem;min-height:48px;text-decoration:underline;text-underline-offset:.22em;cursor:pointer}
+  .linkish:hover{color:var(--buoy-deep)}
+
+  /* ---- side panel ---- */
+  .side{background:var(--reef);color:var(--reef-ink);border-radius:var(--radius);padding:var(--s-6) var(--s-5);display:grid;gap:var(--s-6)}
+  .side h2{font-size:1.5rem;color:var(--salt);margin-bottom:var(--s-3)}
+  .side a{color:var(--salt)}
+  .side p{margin:0}
+  .side .hours{display:flex;align-items:baseline;gap:var(--s-3);flex-wrap:wrap;margin-bottom:var(--s-2)}
+  .side .hours .stencil{font-size:2.6rem;line-height:1;color:var(--buoy)}
+  .side .hours .stencil{color:#FF8A5C} /* fallback overridden below */
+  .side .hours .stencil{color:var(--salt)}
+  .side ul{list-style:none;margin:0;padding:0;display:grid;gap:var(--s-3)}
+  .side li{display:grid;grid-template-columns:22px 1fr;gap:var(--s-3);align-items:start}
+  .side li svg{width:22px;height:22px;margin-top:.15em;color:var(--lagoon)}
+  .side .tbd{color:var(--salt);background:rgb(232 85 43 / .3)}
+  .side .walkins{padding-top:var(--s-5);border-top:1px solid rgb(212 236 234 / .25);font:800 1.5rem/1.05 var(--font-display);text-transform:uppercase;color:var(--salt)}
+  .side .walkins small{display:block;margin-top:var(--s-2);font:400 .95rem/1.5 var(--font-body);text-transform:none;color:var(--reef-ink)}
+  @media (max-width:960px){.side{max-width:46rem}}
+</style>
+<script src="js/mesa.js" defer></script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<div class="tide" data-tide role="status"><div class="wrap"><span><span class="dot" aria-hidden="true"></span><span data-tide-text>Tue–Sun · 8am–9pm · on the beach north of the bridge</span></span><a href="tel:+5016216226">Call +501 621-6226</a></div></div>
+<header class="site-head">
+  <div class="wrap">
+    <a class="brand" href="index.html" aria-label="Mesa Cantina San Pedro, home">
+      <img src="assets/logo-mark.svg" alt="" width="44" height="44">
+      <span><b>Mesa Cantina</b><small>San Pedro · Ambergris Caye</small></span>
+    </a>
+    <button class="nav-toggle" aria-expanded="false" aria-controls="site-nav" aria-label="Menu">
+      <svg width="28" height="28" viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M4 8h20M4 14h20M4 20h13"/></svg>
+    </button>
+    <nav class="nav" id="site-nav" aria-label="Main">
+      <ul>
+        <li><a href="menu.html">Menu</a></li>
+        <li><a href="drinks.html">Cantina</a></li>
+        <li><a href="story.html">Our Story</a></li>
+        <li><a href="events.html">Events</a></li>
+        <li><a href="gallery.html">Gallery</a></li>
+        <li><a href="visit.html">Visit</a></li>
+        <li><a class="btn" href="reserve.html">Book a table</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+<!--
+  DEVELOPER NOTE: booking backend
+  ================================
+  There is no booking system yet. Today this form builds a WhatsApp message to
+  wa.me/5016216226 and the team confirms by hand. To plug in a real booking tool:
+
+  - OpenTable: replace the <form id="book-form"> (and the #book-confirm block) with the
+    OpenTable widget script from the restaurant's OpenTable admin (Marketing > Widgets),
+    or point the submit handler at a deep link:
+    https://www.opentable.com/restref/client?rid=<RID>&datetime=<YYYY-MM-DDTHH:mm>&covers=<n>
+  - Resy: embed the Resy widget (resyWidget.addButton / openModal with the venue id) and
+    keep the side panel as is.
+  - SevenRooms: load the SevenRooms reservation widget script with the venue slug and
+    call it from the submit button, or link to https://www.sevenrooms.com/reservations/<slug>.
+
+  The values you need are all collected here: #b-date (YYYY-MM-DD), #b-time (HH:mm, 24h),
+  #b-party (1–12), input[name=seating], #b-name, #b-phone, #b-email, #b-notes.
+  See buildMessage() / onSubmit() in the script at the bottom of this page: swap the
+  WhatsApp hand-off for the provider call. Opening hours and closed days come from
+  window.Mesa.HOURS in js/mesa.js; keep the provider's availability in sync with them.
+  Keep WhatsApp + "Call instead" as the fallback if the provider widget fails to load.
+-->
+  <section class="book-head" aria-labelledby="book-title">
+    <div class="wrap">
+      <h1 id="book-title">Book a table</h1>
+      <p class="lead">Pick a day, a time and how many of you. We send your request to Mesa on WhatsApp and the team confirms your table.</p>
+    </div>
+  </section>
+
+  <section class="book" aria-label="Booking form and house notes">
+    <div class="wrap">
+      <div>
+        <form class="book-form" id="book-form" novalidate>
+          <div class="summary" id="book-summary" tabindex="-1" role="alert" aria-labelledby="summary-title">
+            <h2 id="summary-title">A couple of things to fix</h2>
+            <ul id="summary-list"></ul>
+          </div>
+
+          <div class="row">
+            <div class="field">
+              <label for="b-date">Date</label>
+              <input id="b-date" name="date" type="date" required aria-describedby="b-date-hint b-date-err">
+              <span class="hint" id="b-date-hint">Tuesday to Sunday. We're closed Mondays.</span>
+              <span class="error" id="b-date-err" aria-live="polite"></span>
+            </div>
+            <div class="field">
+              <label for="b-time">Time</label>
+              <select id="b-time" name="time" required aria-describedby="b-time-hint b-time-err">
+                <option value="">Choose a time</option>
+                <option value="08:00">8:00am</option><option value="08:30">8:30am</option>
+                <option value="09:00">9:00am</option><option value="09:30">9:30am</option>
+                <option value="10:00">10:00am</option><option value="10:30">10:30am</option>
+                <option value="11:00">11:00am</option><option value="11:30">11:30am</option>
+                <option value="12:00">12:00pm</option><option value="12:30">12:30pm</option>
+                <option value="13:00">1:00pm</option><option value="13:30">1:30pm</option>
+                <option value="14:00">2:00pm</option><option value="14:30">2:30pm</option>
+                <option value="15:00">3:00pm</option><option value="15:30">3:30pm</option>
+                <option value="16:00">4:00pm</option><option value="16:30">4:30pm</option>
+                <option value="17:00">5:00pm</option><option value="17:30">5:30pm</option>
+                <option value="18:00">6:00pm</option><option value="18:30">6:30pm</option>
+                <option value="19:00">7:00pm</option><option value="19:30">7:30pm</option>
+                <option value="20:00">8:00pm</option>
+              </select>
+              <span class="hint" id="b-time-hint">Every half hour, 8am to 8pm.</span>
+              <span class="error" id="b-time-err" aria-live="polite"></span>
+            </div>
+          </div>
+
+          <fieldset class="group" aria-describedby="b-party-err">
+            <legend id="b-party-legend">How many of you?</legend>
+            <div class="party-line">
+              <div class="stepper">
+                <button type="button" id="party-minus" aria-label="One fewer guest" aria-controls="b-party">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" aria-hidden="true"><path d="M5 12h14"/></svg>
+                </button>
+                <input id="b-party" name="party" type="number" inputmode="numeric" min="1" max="12" value="2" required aria-labelledby="b-party-legend" aria-describedby="b-party-groups b-party-err">
+                <button type="button" id="party-plus" aria-label="One more guest" aria-controls="b-party">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
+                </button>
+              </div>
+              <span class="guests" id="party-words" aria-live="polite">2 guests</span>
+              <span class="groups" id="b-party-groups">13 or more? <a href="events.html">Plan it as a group event</a>.</span>
+            </div>
+            <p class="error" id="b-party-err" aria-live="polite"></p>
+          </fieldset>
+
+          <fieldset class="group">
+            <legend>Where would you like to sit?</legend>
+            <p class="hint">We'll do our best; the sand fills up at sundown. <span class="tbd">[Confirm with owner: these three seating areas exist and can be requested]</span></p>
+            <div class="seats">
+              <label class="seat">
+                <input type="radio" name="seating" value="No preference" checked>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9h16M6 9v10M18 9v10M4 5h16"/></svg>
+                <b>Any table</b>
+                <small>First good spot</small>
+              </label>
+              <label class="seat">
+                <input type="radio" name="seating" value="On the sand">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="16" cy="7" r="3"/><path d="M2 19c3-2 6-2 9 0s6 2 11 0M2 15c4-1.5 8-1.5 12 0"/></svg>
+                <b>On the sand</b>
+                <small>Toes in, sea view</small>
+              </label>
+              <label class="seat">
+                <input type="radio" name="seating" value="Covered deck">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 10 12 4l9 6M5 10v9M19 10v9M3 19h18M8 15h8"/></svg>
+                <b>Covered deck</b>
+                <small>Shade and breeze</small>
+              </label>
+              <label class="seat">
+                <input type="radio" name="seating" value="Bar">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 4h12l-6 7zM12 11v8M8 20h8"/></svg>
+                <b>At the bar</b>
+                <small>Cocktails, good chat</small>
+              </label>
+            </div>
+          </fieldset>
+
+          <div class="row">
+            <div class="field">
+              <label for="b-name">Your name</label>
+              <input id="b-name" name="name" type="text" autocomplete="name" required aria-describedby="b-name-err">
+              <span class="error" id="b-name-err" aria-live="polite"></span>
+            </div>
+            <div class="field">
+              <label for="b-phone">Phone or WhatsApp</label>
+              <input id="b-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" required placeholder="+1 555 010 0199" aria-describedby="b-phone-hint b-phone-err">
+              <span class="hint" id="b-phone-hint">Include your country code so we can reach you.</span>
+              <span class="error" id="b-phone-err" aria-live="polite"></span>
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="b-email">Email <span class="opt">(optional)</span></label>
+            <input id="b-email" name="email" type="email" autocomplete="email" aria-describedby="b-email-err">
+            <span class="error" id="b-email-err" aria-live="polite"></span>
+          </div>
+
+          <div class="field">
+            <label for="b-notes">Anything we should know? <span class="opt">(optional)</span></label>
+            <textarea id="b-notes" name="notes" rows="3" maxlength="500" aria-describedby="b-notes-hint"></textarea>
+            <span class="hint" id="b-notes-hint">Birthdays, allergies, a high chair, arriving by water taxi.</span>
+          </div>
+
+          <div class="send">
+            <button class="btn" type="submit">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20l1.3-3.9A8 8 0 1 1 8 19z"/><path d="M9.5 9.5c.3 1.8 1.7 3.6 3.7 4.5l1.3-1.1 1.8.9"/></svg>
+              Send request on WhatsApp
+            </button>
+            <span class="alt">or <a href="tel:+5016216226">call instead: +501 621-6226</a></span>
+          </div>
+          <p class="send-note">Nothing is booked until Mesa replies to confirm.</p>
+          <noscript><p class="send-note">This form needs JavaScript. Message us on <a href="https://wa.me/5016216226">WhatsApp</a> or call <a href="tel:+5016216226">+501 621-6226</a>.</p></noscript>
+        </form>
+
+        <div class="confirm" id="book-confirm" hidden>
+          <h2 id="confirm-title" tabindex="-1">Almost there. Press send in WhatsApp.</h2>
+          <p class="lead">We've written your request as a WhatsApp message to Mesa. Send it, and the team will reply on WhatsApp to confirm your table.</p>
+          <div class="ticket">
+            <div class="when"><span class="stencil num" id="c-time"></span><span id="c-date"></span></div>
+            <dl>
+              <dt>Guests</dt><dd id="c-party"></dd>
+              <dt>Seating</dt><dd id="c-seat"></dd>
+              <dt>Name</dt><dd id="c-name"></dd>
+              <dt>Phone</dt><dd id="c-phone"></dd>
+              <dt>Email</dt><dd id="c-email"></dd>
+              <dt>Notes</dt><dd id="c-notes"></dd>
+            </dl>
+          </div>
+          <ol>
+            <li>WhatsApp opens with your message ready. If it didn't, use the button below.</li>
+            <li>Press send. Your table is not held until Mesa replies.</li>
+            <li>Mesa confirms on WhatsApp <span class="tbd">[confirm usual reply time with owner]</span>.</li>
+          </ol>
+          <div class="actions">
+            <a class="btn" id="c-wa" href="https://wa.me/5016216226" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20l1.3-3.9A8 8 0 1 1 8 19z"/><path d="M9.5 9.5c.3 1.8 1.7 3.6 3.7 4.5l1.3-1.1 1.8.9"/></svg>
+              Open WhatsApp
+            </a>
+            <a class="btn btn--ghost" href="tel:+5016216226">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/></svg>
+              Call instead
+            </a>
+            <button class="linkish" type="button" id="c-edit">Change details</button>
+          </div>
+        </div>
+      </div>
+
+      <aside class="side" aria-label="Hours and house notes" data-reveal>
+        <div>
+          <h2>Hours</h2>
+          <p class="hours"><span class="stencil num">8AM–9PM</span></p>
+          <p>Tuesday to Sunday. Closed Mondays. <span class="tbd">[confirm]</span></p>
+        </div>
+        <div>
+          <h2>Good to know</h2>
+          <ul>
+            <li>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+              <span>We hold your table for 15 minutes past your time. <span class="tbd">[confirm hold time]</span></span>
+            </li>
+            <li>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3"/><path d="M3 20a6 6 0 0 1 12 0M16 4a3 3 0 0 1 0 6M18 14a5 5 0 0 1 3 6"/></svg>
+              <span>Eight or more? Give us a day's notice so we can set the tables together. <span class="tbd">[confirm large-party policy]</span> Over 12, <a href="events.html">plan a group event</a>.</span>
+            </li>
+            <li>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7-5.5-7-11a7 7 0 0 1 14 0c0 5.5-7 11-7 11"/><circle cx="12" cy="10" r="2.5"/></svg>
+              <span>On the beach, ½ mile north of the bridge. Golf cart or water taxi. <a href="visit.html">Directions</a></span>
+            </li>
+            <li>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/></svg>
+              <span>Running late or changing plans? <a href="https://wa.me/5016216226">WhatsApp</a> or <a href="tel:+5016216226">call +501 621-6226</a>.</span>
+            </li>
+          </ul>
+        </div>
+        <p class="walkins">Walk-ins welcome, always.<small>No booking? Come down the beach and we'll find you a seat when there's one free. <span class="tbd">[confirm walk-in policy]</span></small></p>
+      </aside>
+    </div>
+  </section>
+</main>
+
+<footer class="site-foot">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <img src="assets/logo-mark.svg" alt="" width="56" height="56" style="margin-bottom:1rem">
+        <p style="color:var(--salt);font:800 1.6rem/1 var(--font-display);text-transform:uppercase">Breakfast to last call,<br>feet in the sand.</p>
+      </div>
+      <div><h3>Hours</h3><ul class="num"><li>Tue–Sun · 8am–9pm</li><li>Monday · closed</li></ul></div>
+      <div><h3>Find us</h3><ul><li>On the beach, ½ mile north of the bridge</li><li>San Pedro, Ambergris Caye, Belize</li><li><a href="visit.html">Directions</a></li></ul></div>
+      <div><h3>Say hola</h3><ul><li><a href="tel:+5016216226">+501 621-6226</a></li><li><a href="https://wa.me/5016216226">WhatsApp</a></li><li><a href="https://www.facebook.com/mesasanpedro/" rel="noopener">Facebook</a></li></ul></div>
+    </div>
+    <div class="foot-base"><span>© <span data-year>2026</span> Mesa Cantina San Pedro</span><span>Formerly Mesa Cafe &amp; Mesa Bistro</span></div>
+  </div>
+</footer>
+
+<script>
+(() => {
+  const WA = '5016216226';
+  // Slots: every 30 min, 8:00am–8:00pm (last seating). Hours/closed days [confirm with owner].
+  const FIRST = 8 * 60, LAST = 20 * 60, STEP = 30, LEAD = 30; // LEAD: minutes notice for same-day requests
+  const CLOSED = [1]; // Monday; kept in sync with js/mesa.js HOURS.closedDays when present
+  const MAX_PARTY = 12;
+  const DAYS = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+  const MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+  const ERR_ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7.5v5.5M12 16.5v.01"/></svg>';
+
+  const $ = id => document.getElementById(id);
+  const form = $('book-form'), date = $('b-date'), time = $('b-time'), party = $('b-party');
+  const minus = $('party-minus'), plus = $('party-plus'), words = $('party-words');
+  const nameI = $('b-name'), phone = $('b-phone'), email = $('b-email'), notes = $('b-notes');
+  const summary = $('book-summary'), sumList = $('summary-list'), confirmBox = $('book-confirm');
+  let closedDays = CLOSED;
+
+  // ---- dates (Belize time, UTC-6, no DST) ----
+  function belizeNow() { const d = new Date(); return new Date(d.getTime() + d.getTimezoneOffset() * 60000 - 6 * 3600000); }
+  const pad = n => String(n).padStart(2, '0');
+  const iso = d => `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
+  const parse = s => { const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(s || ''); return m ? new Date(+m[1], +m[2] - 1, +m[3]) : null; };
+  const nowMins = () => { const n = belizeNow(); return n.getHours() * 60 + n.getMinutes(); };
+  const todayIso = () => iso(belizeNow());
+  const label = mins => { const h = Math.floor(mins / 60), m = mins % 60; return `${h % 12 || 12}:${pad(m)}${h >= 12 ? 'pm' : 'am'}`; };
+  const longDate = d => `${DAYS[d.getDay()]} ${d.getDate()} ${MONTHS[d.getMonth()]}`;
+  const isClosed = d => closedDays.includes(d.getDay());
+
+  function firstOpenDate() {
+    const d = parse(todayIso());
+    if (isClosed(d) || nowMins() + LEAD > LAST) d.setDate(d.getDate() + 1);
+    while (isClosed(d)) d.setDate(d.getDate() + 1);
+    return d;
+  }
+  function nextOpenAfter(d) { const n = new Date(d); do n.setDate(n.getDate() + 1); while (isClosed(n)); return n; }
+
+  // ---- time slots: rebuilt whenever the date changes ----
+  function buildSlots() {
+    const keep = time.value, d = parse(date.value);
+    time.innerHTML = '';
+    if (!d || isClosed(d) || dateProblem()) {
+      time.add(new Option(d && isClosed(d) ? 'Closed Mondays' : 'Pick a date first', ''));
+      time.disabled = true; return;
+    }
+    time.disabled = false;
+    const sameDay = date.value === todayIso();
+    const from = sameDay ? Math.max(FIRST, Math.ceil((nowMins() + LEAD) / STEP) * STEP) : FIRST;
+    time.add(new Option('Choose a time', ''));
+    for (let m = from; m <= LAST; m += STEP) time.add(new Option(label(m), `${pad(Math.floor(m / 60))}:${pad(m % 60)}`));
+    if (time.options.length === 1) { time.options[0].text = 'No times left today'; time.disabled = true; }
+    if ([...time.options].some(o => o.value === keep && keep)) time.value = keep;
+    $('b-time-hint').textContent = sameDay ? 'Times still open today. Every half hour until 8pm.' : 'Every half hour, 8am to 8pm.';
+  }
+
+  // ---- validation ----
+  function setErr(input, errEl, msg, html) {
+    if (msg) { errEl.innerHTML = ERR_ICON + '<span>' + msg + '</span>' + (html || ''); input.setAttribute('aria-invalid', 'true'); }
+    else { errEl.innerHTML = ''; input.removeAttribute('aria-invalid'); }
+  }
+  function dateProblem() {
+    if (!date.value) return 'Choose a date.';
+    const d = parse(date.value);
+    if (!d) return 'Enter a date like 24/11/2026.';
+    if (date.value < todayIso()) return "That date has passed. Choose today or later.";
+    if (isClosed(d)) return 'closed';
+    if (date.value === todayIso() && nowMins() + LEAD > LAST) return 'closed-today';
+    return '';
+  }
+  function checkDate() {
+    const p = dateProblem(), d = parse(date.value);
+    if (p === 'closed' || p === 'closed-today') {
+      const alt = p === 'closed' ? nextOpenAfter(d) : firstOpenDate();
+      const msg = p === 'closed' ? "We're closed on Mondays." : "We're out of times for today.";
+      setErr(date, $('b-date-err'), msg, ` <button type="button" class="closed-fix" data-go="${iso(alt)}">Try ${longDate(alt)}</button>`);
+      return p === 'closed' ? "We're closed on Mondays. Choose another day." : 'No times left today. Choose another day.';
+    }
+    setErr(date, $('b-date-err'), p); return p;
+  }
+  function checkTime() {
+    if (time.disabled) { time.removeAttribute('aria-invalid'); $('b-time-err').innerHTML = ''; return dateProblem() ? '' : 'Choose a time.'; }
+    const p = time.value ? '' : 'Choose a time.'; setErr(time, $('b-time-err'), p); return p;
+  }
+  function checkParty() {
+    const raw = party.value.trim(), n = Number(raw);
+    let p = '', extra = '';
+    if (!raw || !Number.isInteger(n) || n < 1) p = 'Enter how many guests, from 1 to 12.';
+    else if (n > MAX_PARTY) { p = `Tables here go up to ${MAX_PARTY}.`; extra = ' <a href="events.html">Book 13 or more as a group event</a>.'; }
+    setErr(party, $('b-party-err'), p, extra); return p;
+  }
+  function checkName() { const p = nameI.value.trim().length < 2 ? 'Tell us the name for the booking.' : ''; setErr(nameI, $('b-name-err'), p); return p; }
+  function checkPhone() {
+    const digits = phone.value.replace(/\D/g, '');
+    const p = !phone.value.trim() ? 'Add a phone or WhatsApp number so Mesa can confirm.' : (digits.length < 7 || digits.length > 15 || /[^\d\s+().-]/.test(phone.value)) ? 'That number looks short or has odd characters. Include the country code, like +1 555 010 0199.' : '';
+    setErr(phone, $('b-phone-err'), p); return p;
+  }
+  function checkEmail() {
+    const v = email.value.trim();
+    const p = v && !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v) ? 'That email looks incomplete. Check it, or leave it blank.' : '';
+    setErr(email, $('b-email-err'), p); return p;
+  }
+
+  // ---- party stepper ----
+  function syncParty() {
+    const n = Number(party.value);
+    minus.disabled = !(n > 1);
+    plus.disabled = n >= MAX_PARTY;
+    words.textContent = Number.isInteger(n) && n >= 1 ? (n > MAX_PARTY ? `${n} guests` : `${n} guest${n === 1 ? '' : 's'}`) : '';
+  }
+  function bump(by) {
+    const n = Math.min(MAX_PARTY, Math.max(1, (parseInt(party.value, 10) || (by > 0 ? 0 : 2)) + by));
+    party.value = n; syncParty(); if (party.getAttribute('aria-invalid')) checkParty();
+  }
+  minus.addEventListener('click', () => bump(-1));
+  plus.addEventListener('click', () => bump(1));
+  party.addEventListener('input', () => { syncParty(); if (Number(party.value) > MAX_PARTY || party.getAttribute('aria-invalid')) checkParty(); });
+  party.addEventListener('blur', checkParty);
+
+  // ---- date wiring: Monday message appears as soon as it's picked ----
+  function onDate() { checkDate(); buildSlots(); if (time.getAttribute('aria-invalid')) checkTime(); }
+  date.addEventListener('change', onDate);
+  date.addEventListener('input', onDate);
+  $('b-date-err').addEventListener('click', e => {
+    const b = e.target.closest('[data-go]'); if (!b) return;
+    date.value = b.dataset.go; onDate(); date.focus();
+  });
+  time.addEventListener('change', checkTime);
+  // validate text fields on blur, re-validate live once flagged
+  [[nameI, checkName], [phone, checkPhone], [email, checkEmail]].forEach(([el, fn]) => {
+    el.addEventListener('blur', () => { if (el.value || el.getAttribute('aria-invalid')) fn(); });
+    el.addEventListener('input', () => { if (el.getAttribute('aria-invalid')) fn(); });
+  });
+
+  // ---- compose WhatsApp message ----
+  function details() {
+    const d = parse(date.value), t = time.value.split(':').map(Number);
+    return {
+      date: `${longDate(d)} ${d.getFullYear()}`, shortDate: longDate(d), time: label(t[0] * 60 + t[1]),
+      party: Number(party.value), seating: (form.querySelector('input[name=seating]:checked') || {}).value || 'No preference',
+      name: nameI.value.trim(), phone: phone.value.trim(), email: email.value.trim(), notes: notes.value.trim()
+    };
+  }
+  function buildMessage(b) {
+    return [
+      'Hi Mesa! I\'d like to book a table, please.', '',
+      `Date: ${b.date}`, `Time: ${b.time}`, `Guests: ${b.party}`, `Seating: ${b.seating}`,
+      `Name: ${b.name}`, `Phone: ${b.phone}`, b.email ? `Email: ${b.email}` : '', b.notes ? `Notes: ${b.notes}` : '', '',
+      'Sent from the booking page on the Mesa Cantina website.'
+    ].filter((l, i, a) => l !== '' || (a[i - 1] !== '' && i > 0)).join('\n');
+  }
+
+  function showSummary(errs) {
+    sumList.innerHTML = '';
+    errs.forEach(([el, msg]) => {
+      const li = document.createElement('li'), a = document.createElement('a');
+      a.href = '#' + el.id; a.textContent = msg;
+      a.addEventListener('click', e => { e.preventDefault(); el.focus(); });
+      li.append(a); sumList.append(li);
+    });
+    summary.classList.add('is-shown'); summary.focus();
+  }
+
+  function onSubmit(e) {
+    e.preventDefault();
+    const checks = [[date, checkDate()], [time, checkTime()], [party, checkParty()], [nameI, checkName()], [phone, checkPhone()], [email, checkEmail()]];
+    const errs = checks.filter(([, m]) => m);
+    if (errs.length) { showSummary(errs); return; }
+    summary.classList.remove('is-shown');
+
+    const b = details(), url = `https://wa.me/${WA}?text=${encodeURIComponent(buildMessage(b))}`;
+    $('c-time').textContent = b.time.replace(':00', '').toUpperCase();
+    $('c-date').textContent = b.shortDate;
+    $('c-party').textContent = `${b.party} guest${b.party === 1 ? '' : 's'}`;
+    $('c-seat').textContent = b.seating;
+    $('c-name').textContent = b.name;
+    $('c-phone').textContent = b.phone;
+    $('c-email').textContent = b.email || 'Not given';
+    $('c-notes').textContent = b.notes || 'None';
+    $('c-wa').href = url;
+
+    form.hidden = true; confirmBox.hidden = false;
+    $('confirm-title').focus();
+    window.scrollTo({ top: Math.max(0, confirmBox.getBoundingClientRect().top + scrollY - 120) });
+    // Primary hand-off: open WhatsApp with the message ready (user gesture, so not blocked).
+    window.open(url, '_blank', 'noopener');
+  }
+  form.addEventListener('submit', onSubmit);
+  $('c-edit').addEventListener('click', () => { confirmBox.hidden = true; form.hidden = false; date.focus(); });
+
+  // ---- init ----
+  document.addEventListener('DOMContentLoaded', () => {
+    if (window.Mesa && window.Mesa.HOURS && Array.isArray(window.Mesa.HOURS.closedDays)) closedDays = window.Mesa.HOURS.closedDays;
+    const open = firstOpenDate();
+    date.min = todayIso();
+    const max = parse(todayIso()); max.setMonth(max.getMonth() + 6); date.max = iso(max);
+    date.value = iso(open);
+    buildSlots(); syncParty();
+  });
+  // in case DOMContentLoaded already fired (script is at end of body, so it hasn't)
+})();
+</script>
+</body>
+</html>

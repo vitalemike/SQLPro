@@ -1,0 +1,587 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Events &amp; Private Parties · Mesa Cantina San Pedro</title>
+<meta name="description" content="Taco nights, live music at sundown and Sunday brunch on the beach north of the San Pedro bridge. Plan a birthday, rehearsal dinner, wedding welcome party or full buyout at Mesa Cantina.">
+<meta name="theme-color" content="#0B5D63">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="css/mesa.css">
+<style>
+  /* photo slots */
+  .photo-slot{margin:0;background:var(--reef);border-radius:var(--radius);overflow:hidden;display:grid;grid-template-rows:1fr auto}
+  .photo-slot svg{width:100%;height:100%;min-height:0}
+  .photo-slot figcaption{background:var(--reef-deep);color:var(--reef-ink);font-size:var(--t-small);line-height:1.45;padding:var(--s-3) var(--s-4)}
+  .photo-slot--sand{background:var(--plank-2)}
+
+  /* intro */
+  .ev-hero{padding-block:var(--s-8) var(--s-8)}
+  .ev-hero .wrap{display:grid;gap:var(--s-7);grid-template-columns:1.15fr .85fr;align-items:center}
+  .ev-hero h1{margin-bottom:var(--s-5)}
+  .ev-hero .lead{margin-bottom:var(--s-6)}
+  .actions{display:flex;flex-wrap:wrap;gap:var(--s-3)}
+  .ev-hero .photo-slot{aspect-ratio:4/5}
+
+  /* the noticeboard */
+  .week .wrap{display:grid;gap:var(--s-7);grid-template-columns:.8fr 1.2fr;align-items:start}
+  .week h2{margin-bottom:var(--s-5)}
+  .week .tbd{color:var(--salt)}
+  .board{background:var(--plank);color:var(--ink);border-radius:var(--radius);box-shadow:var(--shadow-2);
+    padding:var(--s-5) var(--s-5) var(--s-4);position:relative;
+    background-image:repeating-linear-gradient(180deg, transparent 0 63px, rgb(183 169 143 / .45) 63px 64px)}
+  .board::before,.board::after{content:"";position:absolute;top:var(--s-3);width:.55rem;height:.55rem;border-radius:50%;background:var(--rope)}
+  .board::before{left:var(--s-3)} .board::after{right:var(--s-3)}
+  .board-head{display:flex;justify-content:space-between;align-items:baseline;gap:var(--s-3);flex-wrap:wrap;
+    padding-bottom:var(--s-3);border-bottom:2px solid var(--reef);margin-bottom:var(--s-2)}
+  .board-head h3{color:var(--reef);font-size:var(--t-h3)}
+  .board-head p{margin:0;font-size:var(--t-small);color:var(--ink-2)}
+  .sched{list-style:none;margin:0;padding:0}
+  .sched li{display:grid;grid-template-columns:4.5rem 1fr auto;gap:var(--s-2) var(--s-4);align-items:baseline;
+    padding:var(--s-4) 0;border-bottom:1px solid rgb(183 169 143 / .7)}
+  .sched li:last-child{border-bottom:0}
+  .sched .day{font:900 1.6rem/1 var(--font-display);text-transform:uppercase;color:var(--reef);letter-spacing:.02em}
+  .sched .what b{display:block;font:800 1.3rem/1.1 var(--font-display);text-transform:uppercase}
+  .sched .what span{display:block;color:var(--ink-2);font-size:.95rem;line-height:1.45;margin-top:.2rem}
+  .sched .when{font-size:1.5rem;white-space:nowrap;text-align:right}
+  .sched .closed .day,.sched .closed .what b{color:var(--ink-2)}
+  .sched .closed .when{font:600 var(--t-small)/1 var(--font-body);color:var(--ink-2)}
+  @media (max-width:520px){
+    .sched li{grid-template-columns:3.4rem 1fr}
+    .sched .when{grid-column:2;text-align:left;font-size:1.25rem}
+  }
+
+  /* private events */
+  .private .intro{display:grid;gap:var(--s-7);grid-template-columns:1fr 1fr;align-items:end;margin-bottom:var(--s-8)}
+  .private h2{margin-bottom:var(--s-5)}
+  .occasions{list-style:none;margin:0;padding:0;border-top:1px solid var(--rope)}
+  .occasions li{display:grid;grid-template-columns:minmax(9rem,14rem) 1fr;gap:var(--s-2) var(--s-5);padding:var(--s-4) 0;border-bottom:1px solid var(--rope)}
+  .occasions b{font:800 1.25rem/1.1 var(--font-display);text-transform:uppercase;color:var(--reef)}
+  .occasions span{color:var(--ink-2)}
+  .facts{display:flex;flex-wrap:wrap;gap:var(--s-3) var(--s-6);margin:var(--s-5) 0 0;padding:0;list-style:none}
+  .facts li{display:flex;align-items:center;gap:.5rem;font-weight:600}
+  .facts svg{width:24px;height:24px;color:var(--reef);flex:none}
+
+  .included{display:grid;gap:var(--s-7);grid-template-columns:.9fr 1.1fr;align-items:start}
+  .included h3{font-size:var(--t-h2);margin-bottom:var(--s-5)}
+  .inc-list{margin:0}
+  .inc-list > div{padding:var(--s-5) 0;border-top:2px solid var(--reef)}
+  .inc-list dt{display:flex;align-items:center;gap:var(--s-3);font:800 var(--t-h3)/1 var(--font-display);text-transform:uppercase;color:var(--reef);margin-bottom:var(--s-2)}
+  .inc-list dt svg{width:26px;height:26px;flex:none}
+  .inc-list dd{margin:0;max-width:var(--measure)}
+  .inc-list dd p{margin-bottom:var(--s-2)}
+  .inc-list ul{margin:0;padding-left:1.1em;color:var(--ink-2)}
+  .inc-list li{margin-bottom:.2rem}
+  .photo-pair{display:grid;gap:var(--s-4);grid-template-columns:1fr}
+  .photo-pair .photo-slot:first-child{aspect-ratio:3/2}
+  .photo-pair .photo-slot:last-child{aspect-ratio:16/9}
+
+  /* inquiry */
+  .inquire .wrap{display:grid;gap:var(--s-7);grid-template-columns:.75fr 1.25fr;align-items:start}
+  .inquire h2{margin-bottom:var(--s-5)}
+  .inquire aside .note{font-size:var(--t-small);color:var(--reef-ink);margin-top:var(--s-5)}
+  .inquire aside .note .tbd{color:var(--salt)}
+  .steps{margin:var(--s-5) 0 0;padding-left:1.2em}
+  .steps li{margin-bottom:var(--s-2)}
+  .form-panel{background:var(--salt);color:var(--ink);border-radius:var(--radius);padding:clamp(1.25rem,1rem + 2vw,2.5rem);box-shadow:var(--shadow-2)}
+  .form-panel a:not(.btn){color:var(--reef)}
+  .form-grid{display:grid;gap:0 var(--s-5);grid-template-columns:1fr 1fr}
+  .form-grid .full{grid-column:1/-1}
+  .field textarea{min-height:8rem;resize:vertical}
+  .field .req{color:var(--buoy-deep);font-weight:600}
+  .field .error:empty{display:none}
+  .field .error{display:flex;gap:.4rem;align-items:flex-start}
+  .field .error svg{width:18px;height:18px;flex:none;margin-top:.1rem}
+  .form-foot{display:flex;flex-wrap:wrap;gap:var(--s-4);align-items:center;justify-content:space-between;margin-top:var(--s-2)}
+  .form-foot p{margin:0;font-size:var(--t-small);color:var(--ink-2)}
+  .summary{background:rgb(232 85 43 / .1);border:1px solid var(--buoy-deep);border-radius:var(--radius);padding:var(--s-4);margin-bottom:var(--s-5)}
+  .summary h3{font-size:1.3rem;margin-bottom:var(--s-2);color:var(--buoy-deep)}
+  .summary ul{margin:0;padding-left:1.1em}
+  .success h3{font-size:var(--t-h2);color:var(--reef);margin-bottom:var(--s-4)}
+  .success:focus{outline:none}
+  .success dl{display:grid;grid-template-columns:auto 1fr;gap:.35rem var(--s-4);margin:var(--s-5) 0;padding:var(--s-4) 0;border-block:1px solid var(--rope);font-size:.95rem}
+  .success dt{font-weight:600}
+  .success dd{margin:0;color:var(--ink-2);overflow-wrap:anywhere}
+  .success .actions{margin-bottom:var(--s-4)}
+  .btn--wa{--bg:var(--reef);--fg:var(--salt)}
+  .btn--wa:hover{--bg:var(--reef-deep)}
+  .linkish{background:none;border:0;padding:.6rem 0;min-height:48px;font:inherit;color:var(--reef);text-decoration:underline;text-underline-offset:.22em;cursor:pointer}
+
+  @media (max-width:860px){
+    .ev-hero .wrap,.week .wrap,.private .intro,.included,.inquire .wrap{grid-template-columns:1fr}
+    .ev-hero .photo-slot{aspect-ratio:4/3}
+  }
+  @media (max-width:600px){
+    .form-grid{grid-template-columns:1fr}
+    .occasions li{grid-template-columns:1fr}
+    .success dl{grid-template-columns:1fr}
+    .success dd{margin-bottom:var(--s-2)}
+  }
+</style>
+<script src="js/mesa.js" defer></script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<div class="tide" data-tide role="status"><div class="wrap"><span><span class="dot" aria-hidden="true"></span><span data-tide-text>Tue–Sun · 8am–9pm · on the beach north of the bridge</span></span><a href="tel:+5016216226">Call +501 621-6226</a></div></div>
+<header class="site-head">
+  <div class="wrap">
+    <a class="brand" href="index.html" aria-label="Mesa Cantina San Pedro, home">
+      <img src="assets/logo-mark.svg" alt="" width="44" height="44">
+      <span><b>Mesa Cantina</b><small>San Pedro · Ambergris Caye</small></span>
+    </a>
+    <button class="nav-toggle" aria-expanded="false" aria-controls="site-nav" aria-label="Menu">
+      <svg width="28" height="28" viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M4 8h20M4 14h20M4 20h13"/></svg>
+    </button>
+    <nav class="nav" id="site-nav" aria-label="Main">
+      <ul>
+        <li><a href="menu.html">Menu</a></li>
+        <li><a href="drinks.html">Cantina</a></li>
+        <li><a href="story.html">Our Story</a></li>
+        <li><a href="events.html">Events</a></li>
+        <li><a href="gallery.html">Gallery</a></li>
+        <li><a href="visit.html">Visit</a></li>
+        <li><a class="btn" href="reserve.html">Book a table</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+
+  <!-- Intro -->
+  <section class="ev-hero" aria-labelledby="ev-title">
+    <div class="wrap">
+      <div>
+        <h1 id="ev-title">Nights on the sand, parties by the water</h1>
+        <p class="lead">Something happens at Mesa most nights of the week, and any night can be yours. Pull the tables onto the beach, light the lanterns, and let the kitchen feed your people while the sun drops behind the lagoon.</p>
+        <div class="actions">
+          <a class="btn" href="#inquire">
+            Plan a party
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </a>
+          <a class="btn btn--ghost" href="#this-week">See this week</a>
+        </div>
+      </div>
+      <figure class="photo-slot">
+        <svg viewBox="0 0 400 500" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Illustration: a long table set on the sand at sundown, lanterns overhead, palm against the sky">
+          <rect width="400" height="500" fill="#0B5D63"/>
+          <rect width="400" height="250" fill="#06393D"/>
+          <circle cx="290" cy="238" r="46" fill="#E8552B"/>
+          <rect y="238" width="400" height="60" fill="#0B5D63"/>
+          <path d="M0 240h400" stroke="#5FB7B0" stroke-width="2"/>
+          <path d="M0 262h400M40 280h320" stroke="#5FB7B0" stroke-width="1.5" opacity=".5"/>
+          <rect y="298" width="400" height="202" fill="#E1DBD1"/>
+          <path d="M20 90 Q200 130 380 92" stroke="#B7A98F" stroke-width="1.5" fill="none"/>
+          <g fill="#E8552B"><circle cx="70" cy="104" r="5"/><circle cx="135" cy="116" r="5"/><circle cx="200" cy="120" r="5"/><circle cx="265" cy="115" r="5"/><circle cx="330" cy="102" r="5"/></g>
+          <g fill="#06393D">
+            <path d="M58 300 C62 220 66 150 78 70" stroke="#06393D" stroke-width="7" fill="none" stroke-linecap="round"/>
+            <path d="M78 70 C50 52 22 60 6 80 C34 66 56 68 78 70Z"/>
+            <path d="M78 70 C98 46 130 46 150 60 C124 58 100 62 78 70Z"/>
+            <path d="M78 70 C70 40 48 24 26 24 C48 36 64 50 78 70Z"/>
+            <path d="M78 70 C104 70 128 86 136 106 C116 90 98 80 78 70Z"/>
+          </g>
+          <rect x="70" y="360" width="260" height="14" rx="3" fill="#152422"/>
+          <rect x="88" y="374" width="8" height="70" fill="#152422"/><rect x="304" y="374" width="8" height="70" fill="#152422"/>
+          <g fill="#FAF9F6"><rect x="96" y="350" width="22" height="10" rx="2"/><rect x="150" y="350" width="22" height="10" rx="2"/><rect x="204" y="350" width="22" height="10" rx="2"/><rect x="258" y="350" width="22" height="10" rx="2"/></g>
+          <g fill="#0B5D63"><rect x="60" y="388" width="12" height="46" rx="3"/><rect x="328" y="388" width="12" height="46" rx="3"/></g>
+        </svg>
+        <figcaption>Shot list: golden hour, long table for 12 set on the sand facing the water, lanterns strung overhead, guests mid-laugh and slightly soft. Shoot low from the table's end.</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- This week -->
+  <section class="section section--reef week" id="this-week" aria-labelledby="week-title">
+    <div class="wrap">
+      <div>
+        <h2 id="week-title">This week at Mesa</h2>
+        <p class="lead">Same rhythm every week, so you can plan your trip around it. Walk up, ride the golf cart down the beach road, or come in by water taxi.</p>
+        <p><span class="tbd">Sample programming. Nights, times and acts to be confirmed by the owner before launch.</span></p>
+        <p>Specials change with the catch and the season. Check <a href="https://www.facebook.com/mesasanpedro/" rel="noopener">our Facebook</a> for the week's line-up, or message us on <a href="https://wa.me/5016216226">WhatsApp</a>.</p>
+      </div>
+
+      <div class="board" data-reveal>
+        <div class="board-head">
+          <h3>Dock board</h3>
+          <p>Kitchen &amp; bar <span class="num">Tue–Sun · 8am–9pm</span></p>
+        </div>
+        <ol class="sched">
+          <li>
+            <span class="day">Tue</span>
+            <span class="what"><b>Taco night</b><span>Fresh catch, slow pork and a vegetarian taco, with lime and house salsa. Cold Belikin on the side.</span></span>
+            <span class="when"><span class="stencil num">5PM</span></span>
+          </li>
+          <li>
+            <span class="day">Wed</span>
+            <span class="what"><b>Trivia on the sand</b><span>Teams of up to six. Island history, reef fish, pub classics. Winners drink on the house.</span></span>
+            <span class="when"><span class="stencil num">7PM</span></span>
+          </li>
+          <li>
+            <span class="day">Thu</span>
+            <span class="what"><b>Mediterranean supper</b><span>A short chef's menu built on whatever came off the boats and in from the farms that morning.</span></span>
+            <span class="when"><span class="stencil num">5PM</span></span>
+          </li>
+          <li>
+            <span class="day">Fri</span>
+            <span class="what"><b>Live music at sundown</b><span>Acoustic sets from local players as the sky goes orange over the lagoon side.</span></span>
+            <span class="when"><span class="stencil num">5:30PM</span></span>
+          </li>
+          <li>
+            <span class="day">Sat</span>
+            <span class="what"><b>Cantina night</b><span>Rum punch pitchers, bar snacks and the speakers turned up a notch till close.</span></span>
+            <span class="when"><span class="stencil num">6PM</span></span>
+          </li>
+          <li>
+            <span class="day">Sun</span>
+            <span class="what"><b>Sunday brunch</b><span>Coconut French toast, eggs every way, strong coffee and mimosas until the sun gets serious.</span></span>
+            <span class="when"><span class="stencil num">8AM</span></span>
+          </li>
+          <li class="closed">
+            <span class="day">Mon</span>
+            <span class="what"><b>Closed</b><span>The crew's day on the water. See you Tuesday for breakfast.</span></span>
+            <span class="when">Rest day</span>
+          </li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <!-- Private events -->
+  <section class="section private" id="private" aria-labelledby="private-title">
+    <div class="wrap">
+      <div class="intro">
+        <div>
+          <h2 id="private-title">Your party, on our beach</h2>
+          <p class="lead">You bring the people. We handle the food, the bar, the tables in the sand and the clean-up after. One contact from first message to last toast.</p>
+          <ul class="facts">
+            <li>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.6-3.6 3.3-6 6.5-6s5.9 2.4 6.5 6"/><path d="M16 4.6a3.5 3.5 0 0 1 0 6.8M18.5 14.5c1.6.9 2.7 2.9 3 5.5"/></svg>
+              Seated groups up to <span class="tbd">[TBD]</span> guests
+            </li>
+            <li>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.6-3.6 3.3-6 6.5-6s5.9 2.4 6.5 6"/><path d="M16 4.6a3.5 3.5 0 0 1 0 6.8M18.5 14.5c1.6.9 2.7 2.9 3 5.5"/></svg>
+              Standing, full buyout up to <span class="tbd">[TBD]</span>
+            </li>
+            <li>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15" rx="2"/><path d="M3.5 10h17M8 3v4M16 3v4"/></svg>
+              Booking ahead: <span class="tbd">[TBD, suggest 2+ weeks]</span>
+            </li>
+          </ul>
+        </div>
+        <ul class="occasions" aria-label="Occasions we host">
+          <li><b>Birthdays</b><span>A reserved stretch of beach, a cake from our kitchen and a crew that knows how to sing.</span></li>
+          <li><b>Rehearsal dinners</b><span>Family-style platters at one long table, speeches with the water behind you.</span></li>
+          <li><b>Wedding welcome parties</b><span>The first night your guests are on the island. Rum punch on arrival, sandals encouraged.</span></li>
+          <li><b>Dive-group dinners</b><span>Off the boat at four, fed by six. Big plates, cold beer and room to swap reef stories.</span></li>
+          <li><b>Full buyouts</b><span>The whole cantina, the beach in front of it and our full team, just for your group.</span></li>
+        </ul>
+      </div>
+
+      <div class="included">
+        <div>
+          <h3>What's included</h3>
+          <dl class="inc-list">
+            <div>
+              <dt>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 3v8M4.5 3v5a2.5 2.5 0 0 0 5 0V3M7 11v10M17 21V3c-2.2 1.3-3.5 4-3.5 7.5V13H17"/></svg>
+                Set menus
+              </dt>
+              <dd>
+                <p>Built with the chef around your group and the season. Every menu carries vegetarian dishes as standard, not as an afterthought.</p>
+                <ul>
+                  <li>Morning: brunch spread with coconut French toast and fresh fruit</li>
+                  <li>Evening: shared starters, family-style mains, dessert</li>
+                  <li>Dietary needs handled ahead, not on the night</li>
+                </ul>
+              </dd>
+            </div>
+            <div>
+              <dt>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h14l-7 8z"/><path d="M12 12v8M8 20h8"/></svg>
+                Open bar packages
+              </dt>
+              <dd>
+                <p>Priced per guest, by the hour. Pick a level and we keep the glasses full.</p>
+                <ul>
+                  <li>Beer and wine</li>
+                  <li>House cocktails, rum punch on arrival</li>
+                  <li>Premium spirits and a signature drink named for your event</li>
+                </ul>
+              </dd>
+            </div>
+            <div>
+              <dt>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="9" r="3.5"/><path d="M12 2v1.5M12 14.5V16M5 9H3.5M20.5 9H19M7 4l1 1M16 13l1 1M7 14l1-1M16 5l1-1M3 20c3-1.5 6-1.5 9 0s6 1.5 9 0"/></svg>
+                Beach setup
+              </dt>
+              <dd>
+                <p>Tables carried down to the sand, linens, lanterns and a clear path for anyone arriving by water taxi.</p>
+                <ul>
+                  <li>Long tables or scattered lounge seating</li>
+                  <li>String lights and lanterns for after sundown</li>
+                  <li>Space for a guitarist or a playlist</li>
+                </ul>
+              </dd>
+            </div>
+          </dl>
+          <p class="num" style="margin-top:var(--s-4)"><span class="tbd">Package pricing in BZ$ to be supplied by the owner.</span> US$ accepted at 2:1.</p>
+        </div>
+
+        <div class="photo-pair" data-reveal>
+          <figure class="photo-slot photo-slot--sand">
+            <svg viewBox="0 0 600 400" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Illustration: tables on the sand beside the dock with the reef line on the horizon">
+              <rect width="600" height="400" fill="#E1DBD1"/>
+              <rect width="600" height="170" fill="#0B5D63"/>
+              <path d="M0 150h600" stroke="#D4ECEA" stroke-width="3" stroke-dasharray="14 10"/>
+              <circle cx="470" cy="70" r="30" fill="#ECE8E1"/>
+              <g fill="#B7A98F"><rect x="340" y="170" width="260" height="22"/><rect x="340" y="196" width="260" height="22"/><rect x="340" y="222" width="260" height="22"/></g>
+              <g fill="#06393D"><rect x="360" y="244" width="10" height="70"/><rect x="460" y="244" width="10" height="70"/><rect x="560" y="244" width="10" height="70"/></g>
+              <g fill="#0B5D63"><rect x="40" y="260" width="120" height="10" rx="2"/><rect x="190" y="290" width="120" height="10" rx="2"/></g>
+              <g fill="#06393D"><rect x="50" y="270" width="6" height="50"/><rect x="144" y="270" width="6" height="50"/><rect x="200" y="300" width="6" height="50"/><rect x="294" y="300" width="6" height="50"/></g>
+              <g fill="#E8552B"><circle cx="100" cy="250" r="7"/><circle cx="250" cy="280" r="7"/></g>
+            </svg>
+            <figcaption>Shot list: wide, late afternoon. Event tables set on the sand beside the dock, reef break visible on the horizon, no guests yet. Show the full scale of the space.</figcaption>
+          </figure>
+          <figure class="photo-slot">
+            <svg viewBox="0 0 640 360" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Illustration: hands raising glasses over a table at night">
+              <rect width="640" height="360" fill="#06393D"/>
+              <path d="M0 60 Q320 110 640 60" stroke="#B7A98F" stroke-width="1.5" fill="none"/>
+              <g fill="#E8552B"><circle cx="80" cy="72" r="5"/><circle cx="200" cy="86" r="5"/><circle cx="320" cy="90" r="5"/><circle cx="440" cy="86" r="5"/><circle cx="560" cy="72" r="5"/></g>
+              <rect y="280" width="640" height="80" fill="#0B5D63"/>
+              <g fill="none" stroke="#D4ECEA" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M230 160h44l-6 60h-32z"/><path d="M252 220v40"/>
+                <path d="M300 150h40l-20 40z"/><path d="M320 190v60M306 250h28"/>
+                <path d="M370 160h44l-6 60h-32z"/><path d="M392 220v40"/>
+              </g>
+              <path d="M222 130l-14-14M320 126v-18M418 130l14-14" stroke="#E8552B" stroke-width="3" stroke-linecap="round"/>
+            </svg>
+            <figcaption>Shot list: after dark, close on a toast. Three or four glasses raised over the table, lantern light, faces cropped out so it works for any event.</figcaption>
+          </figure>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Inquiry -->
+  <section class="section section--night inquire" id="inquire" aria-labelledby="inquire-title">
+    <div class="wrap">
+      <aside>
+        <h2 id="inquire-title">Tell us about your event</h2>
+        <p class="lead">A few details and we can come back with dates, a menu and a price.</p>
+        <ol class="steps">
+          <li>Fill in the form. It takes about two minutes.</li>
+          <li>Send it by email or WhatsApp, whichever you check more.</li>
+          <li>We reply with options and a quote.</li>
+        </ol>
+        <p class="note">Rather talk? Call <a href="tel:+5016216226">+501 621-6226</a> during opening hours, or <a href="https://wa.me/5016216226">message us on WhatsApp</a>.</p>
+        <p class="note">Email inquiries go to <span class="tbd">events@mesacantinasanpedro.com [TBD: confirm address with owner]</span>.</p>
+      </aside>
+
+      <div class="form-panel">
+        <form id="event-form" novalidate aria-describedby="form-req">
+          <div id="form-summary" class="summary" role="alert" tabindex="-1" hidden></div>
+          <p id="form-req" class="hint" style="font-size:var(--t-small);color:var(--ink-2);margin-bottom:var(--s-5)">Fields marked <span class="req" aria-hidden="true">*</span> are required.</p>
+          <div class="form-grid">
+            <div class="field">
+              <label for="f-name">Your name <span class="req" aria-hidden="true">*</span></label>
+              <input id="f-name" name="name" type="text" autocomplete="name" required aria-describedby="f-name-err">
+              <p class="error" id="f-name-err"></p>
+            </div>
+            <div class="field">
+              <label for="f-email">Email <span class="req" aria-hidden="true">*</span></label>
+              <input id="f-email" name="email" type="email" autocomplete="email" inputmode="email" required aria-describedby="f-email-err">
+              <p class="error" id="f-email-err"></p>
+            </div>
+            <div class="field">
+              <label for="f-phone">Phone or WhatsApp <span class="req" aria-hidden="true">*</span></label>
+              <input id="f-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" required aria-describedby="f-phone-hint f-phone-err">
+              <span class="hint" id="f-phone-hint">Include your country code, e.g. +1 for US and Canada.</span>
+              <p class="error" id="f-phone-err"></p>
+            </div>
+            <div class="field">
+              <label for="f-type">Event type <span class="req" aria-hidden="true">*</span></label>
+              <select id="f-type" name="type" required aria-describedby="f-type-err">
+                <option value="">Choose one</option>
+                <option>Birthday</option>
+                <option>Rehearsal dinner</option>
+                <option>Wedding welcome party</option>
+                <option>Dive-group dinner</option>
+                <option>Full buyout</option>
+                <option>Something else</option>
+              </select>
+              <p class="error" id="f-type-err"></p>
+            </div>
+            <div class="field">
+              <label for="f-date">Event date <span class="req" aria-hidden="true">*</span></label>
+              <input id="f-date" name="date" type="date" required aria-describedby="f-date-err">
+              <p class="error" id="f-date-err"></p>
+            </div>
+            <div class="field">
+              <label for="f-guests">Number of guests <span class="req" aria-hidden="true">*</span></label>
+              <input id="f-guests" name="guests" type="number" inputmode="numeric" min="2" max="500" step="1" required aria-describedby="f-guests-err">
+              <p class="error" id="f-guests-err"></p>
+            </div>
+            <div class="field full">
+              <label for="f-budget">Budget range</label>
+              <select id="f-budget" name="budget" aria-describedby="f-budget-hint">
+                <option value="">Not sure yet</option>
+                <option>Under BZ$2,000 (US$1,000)</option>
+                <option>BZ$2,000–5,000 (US$1,000–2,500)</option>
+                <option>BZ$5,000–10,000 (US$2,500–5,000)</option>
+                <option>BZ$10,000–20,000 (US$5,000–10,000)</option>
+                <option>Over BZ$20,000 (US$10,000)</option>
+              </select>
+              <span class="hint" id="f-budget-hint">Total for the event. It helps us suggest the right menu and bar package.</span>
+            </div>
+            <div class="field full">
+              <label for="f-msg">Tell us more</label>
+              <textarea id="f-msg" name="message" rows="5" aria-describedby="f-msg-hint"></textarea>
+              <span class="hint" id="f-msg-hint">Time of day, dietary needs, a theme, anyone arriving by water taxi.</span>
+            </div>
+          </div>
+          <div class="form-foot">
+            <button class="btn" type="submit">
+              Prepare my inquiry
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </button>
+            <p>Nothing is sent until you choose email or WhatsApp.</p>
+          </div>
+        </form>
+
+        <div id="event-success" class="success" tabindex="-1" hidden>
+          <h3>Ready to send</h3>
+          <p>Here's your inquiry. Choose how to send it and we'll reply with dates, a menu and a quote.</p>
+          <dl id="success-details"></dl>
+          <div class="actions">
+            <a class="btn" id="send-email" href="#">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3.5 6.5l8.5 6.5 8.5-6.5"/></svg>
+              Send by email
+            </a>
+            <a class="btn btn--wa" id="send-wa" href="https://wa.me/5016216226" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 20.5l1.3-4.2A8.5 8.5 0 1 1 8 19.4z"/><path d="M9 8.5c0 3.5 3 6.5 6.5 6.5l1-1.6-2-1-1 .9c-1-.4-1.9-1.3-2.3-2.3l.9-1-1-2z"/></svg>
+              Send via WhatsApp<span class="sr-only"> (opens in a new tab)</span>
+            </a>
+          </div>
+          <p style="font-size:var(--t-small);color:var(--ink-2)">Email opens your mail app, addressed to <span class="tbd">events@mesacantinasanpedro.com</span>. WhatsApp opens a chat with +501 621-6226 with your details filled in.</p>
+          <button type="button" class="linkish" id="edit-again">Edit my details</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-foot">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <img src="assets/logo-mark.svg" alt="" width="56" height="56" style="margin-bottom:1rem">
+        <p style="color:var(--salt);font:800 1.6rem/1 var(--font-display);text-transform:uppercase">Breakfast to last call,<br>feet in the sand.</p>
+      </div>
+      <div><h3>Hours</h3><ul class="num"><li>Tue–Sun · 8am–9pm</li><li>Monday · closed</li></ul></div>
+      <div><h3>Find us</h3><ul><li>On the beach, ½ mile north of the bridge</li><li>San Pedro, Ambergris Caye, Belize</li><li><a href="visit.html">Directions</a></li></ul></div>
+      <div><h3>Say hola</h3><ul><li><a href="tel:+5016216226">+501 621-6226</a></li><li><a href="https://wa.me/5016216226">WhatsApp</a></li><li><a href="https://www.facebook.com/mesasanpedro/" rel="noopener">Facebook</a></li></ul></div>
+    </div>
+    <div class="foot-base"><span>© <span data-year>2026</span> Mesa Cantina San Pedro</span><span>Formerly Mesa Cafe &amp; Mesa Bistro</span></div>
+  </div>
+</footer>
+<script>
+(() => {
+  const EVENTS_EMAIL = 'events@mesacantinasanpedro.com'; // [TBD] confirm with owner
+  const WA = '5016216226';
+  const form = document.getElementById('event-form');
+  const summary = document.getElementById('form-summary');
+  const success = document.getElementById('event-success');
+  if (!form) return;
+
+  const $ = id => document.getElementById(id);
+  const dateEl = $('f-date');
+  const today = () => { const d = new Date(); d.setMinutes(d.getMinutes() - d.getTimezoneOffset()); return d.toISOString().slice(0, 10); };
+  dateEl.min = today();
+
+  const ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7.5v5.5M12 16.5v.01"/></svg>';
+
+  const rules = {
+    'f-name': v => !v.trim() ? 'Enter your name so we know who to reply to.' : '',
+    'f-email': v => !v.trim() ? 'Enter your email address so we can send you a quote.'
+      : !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v.trim()) ? 'This email looks incomplete. Use the format name@example.com.' : '',
+    'f-phone': v => {
+      const digits = v.replace(/\D/g, '');
+      if (!v.trim()) return 'Enter a phone or WhatsApp number so we can reach you quickly.';
+      if (/[^\d\s()+.-]/.test(v)) return 'Use only digits, spaces, brackets, dashes and a leading +.';
+      if (digits.length < 7 || digits.length > 15) return 'This number looks too ' + (digits.length < 7 ? 'short' : 'long') + '. Include the country code, e.g. +1 555 123 4567.';
+      return '';
+    },
+    'f-type': v => !v ? 'Choose an event type. Pick "Something else" if none fit.' : '',
+    'f-date': v => !v ? 'Choose the date of your event.'
+      : v < today() ? 'This date has already passed. Choose today or a later date.' : '',
+    'f-guests': v => {
+      if (!v.trim()) return 'Enter roughly how many guests you expect. A best guess is fine.';
+      const n = Number(v);
+      if (!Number.isInteger(n)) return 'Enter the number of guests as a whole number, e.g. 24.';
+      if (n < 2) return 'Private events start at 2 guests. Enter 2 or more.';
+      if (n > 500) return 'That is more than we can host. Enter 500 or fewer, or call us to talk it through.';
+      return '';
+    }
+  };
+  const labels = { 'f-name':'Your name','f-email':'Email','f-phone':'Phone or WhatsApp','f-type':'Event type','f-date':'Event date','f-guests':'Number of guests' };
+
+  function check(id) {
+    const el = $(id), msg = rules[id](el.value), err = $(id + '-err');
+    if (msg) { el.setAttribute('aria-invalid', 'true'); err.innerHTML = ICON + '<span>' + msg + '</span>'; }
+    else { el.removeAttribute('aria-invalid'); err.textContent = ''; }
+    return msg;
+  }
+
+  let attempted = false;
+  Object.keys(rules).forEach(id => {
+    const el = $(id);
+    el.addEventListener('blur', () => { if (attempted || el.value) check(id); });
+    el.addEventListener('input', () => { if (el.getAttribute('aria-invalid') === 'true') check(id); });
+    el.addEventListener('change', () => { if (attempted) check(id); });
+  });
+
+  function niceDate(v) {
+    const [y, m, d] = v.split('-').map(Number);
+    return new Date(y, m - 1, d).toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' });
+  }
+
+  form.addEventListener('submit', e => {
+    e.preventDefault();
+    attempted = true;
+    const bad = Object.keys(rules).map(id => [id, check(id)]).filter(([, m]) => m);
+    if (bad.length) {
+      summary.innerHTML = '<h3>' + (bad.length === 1 ? 'One thing to fix' : bad.length + ' things to fix') + '</h3><ul>' +
+        bad.map(([id, m]) => '<li><a href="#' + id + '">' + labels[id] + ': ' + m + '</a></li>').join('') + '</ul>';
+      summary.hidden = false;
+      summary.querySelectorAll('a').forEach(a => a.addEventListener('click', ev => { ev.preventDefault(); $(a.getAttribute('href').slice(1)).focus(); }));
+      $(bad[0][0]).focus();
+      return;
+    }
+    summary.hidden = true; summary.innerHTML = '';
+
+    const v = id => $(id).value.trim();
+    const rows = [
+      ['Name', v('f-name')], ['Email', v('f-email')], ['Phone / WhatsApp', v('f-phone')],
+      ['Event type', v('f-type')], ['Date', niceDate(v('f-date'))], ['Guests', v('f-guests')],
+      ['Budget', v('f-budget') || 'Not sure yet']
+    ];
+    if (v('f-msg')) rows.push(['Details', v('f-msg')]);
+
+    const text = 'Hi Mesa, I\'d like to plan an event.\n\n' + rows.map(([k, x]) => k + ': ' + x).join('\n');
+    const subject = v('f-type') + ' inquiry, ' + niceDate(v('f-date')) + ', ' + v('f-guests') + ' guests';
+    $('send-email').href = 'mailto:' + EVENTS_EMAIL + '?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(text);
+    $('send-wa').href = 'https://wa.me/' + WA + '?text=' + encodeURIComponent(text);
+
+    const dl = $('success-details'); dl.textContent = '';
+    rows.forEach(([k, x]) => { const dt = document.createElement('dt'), dd = document.createElement('dd'); dt.textContent = k; dd.textContent = x; dl.append(dt, dd); });
+
+    form.hidden = true; success.hidden = false; success.focus();
+  });
+
+  $('edit-again').addEventListener('click', () => { success.hidden = true; form.hidden = false; $('f-name').focus(); });
+})();
+</script>
+</body>
+</html>
