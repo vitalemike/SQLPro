@@ -1,0 +1,496 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Beach Restaurant &amp; Cantina, North of the Bridge · Mesa Cantina San Pedro</title>
+<meta name="description" content="Breakfast to last call on the beach, ½ mile north of the San Pedro bridge on Ambergris Caye. Coconut French toast, island and Mediterranean cooking, cocktails at sundown. Tue–Sun 8am–9pm.">
+<meta name="theme-color" content="#0B5D63">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="css/mesa.css">
+<style>
+/* ---------- shared SVG fills (tokens only) ---------- */
+.f-plank{fill:var(--plank)} .f-plank2{fill:var(--plank-2)} .f-salt{fill:var(--salt)}
+.f-reef{fill:var(--reef)} .f-deep{fill:var(--reef-deep)} .f-lagoon{fill:var(--lagoon)}
+.f-ink{fill:var(--ink)} .f-rope{fill:var(--rope)} .f-reefink{fill:var(--reef-ink)}
+.s-rope{stroke:var(--rope);fill:none} .s-salt{stroke:var(--salt);fill:none} .s-deep{stroke:var(--reef-deep);fill:none}
+.s-lagoon{stroke:var(--lagoon);fill:none} .s-reefink{stroke:var(--reef-ink);fill:none}
+
+/* ---------- photo slots ---------- */
+.photo-slot{margin:0;background:var(--reef);border-radius:var(--radius);overflow:hidden;display:flex;flex-direction:column;box-shadow:var(--shadow-1)}
+.photo-slot > svg{flex:1;width:100%;height:100%;min-height:0}
+.photo-slot figcaption{background:var(--reef-deep);color:var(--reef-ink);font-size:var(--t-small);line-height:1.45;padding:var(--s-3) var(--s-4)}
+.photo-slot figcaption b{color:var(--salt);font-weight:600}
+
+/* ---------- hero: end of the dock ---------- */
+.dock{position:relative;background:var(--reef);color:var(--reef-ink);overflow:hidden;
+  padding-block:var(--s-8) clamp(15rem, 42vw, 27rem);min-height:calc(100svh - 6.5rem)}
+.dock > .wrap{position:relative;z-index:1}
+.dock-scene{position:absolute;inset:auto 0 0 0;width:100%;height:clamp(17rem, 46vw, 30rem)}
+.dock h1{font-size:var(--t-hero);color:var(--salt);max-width:12ch;line-height:.9}
+.dock h1 span{display:block;color:var(--reef-ink)}
+.dock .lead{color:var(--reef-ink);max-width:44ch;margin-top:var(--s-5)}
+.status-row{display:flex;flex-wrap:wrap;align-items:center;gap:var(--s-2) var(--s-4);margin-bottom:var(--s-5);font-size:var(--t-small)}
+[data-open-badge]{display:inline-flex;align-items:center;gap:.5em;min-height:2rem;padding:.25em .85em;border-radius:999px;
+  background:var(--reef-deep);color:var(--salt);font-weight:600;letter-spacing:.02em}
+[data-open-badge]::before{content:"";width:.55rem;height:.55rem;border-radius:50%;background:var(--rope)}
+[data-open-badge][data-state=open]::before{background:var(--lagoon);box-shadow:0 0 0 3px color-mix(in srgb, var(--lagoon) 35%, transparent)}
+[data-open-badge]:empty::after{content:"Tue–Sun 8am–9pm"}
+.status-row .num{color:var(--reef-ink)}
+.actions{display:flex;flex-wrap:wrap;align-items:center;gap:var(--s-3) var(--s-4);margin-top:var(--s-6)}
+.call-link{display:inline-flex;align-items:center;gap:.5em;min-height:48px;padding-inline:.25em;font-weight:600;font-variant-numeric:tabular-nums}
+.call-link svg{width:1.2em;height:1.2em}
+.dock .call-link{color:var(--salt)}
+
+/* ---------- the day at Mesa ---------- */
+.day h2{max-width:16ch}
+.day-intro{display:grid;gap:var(--s-5);align-items:end;margin-bottom:var(--s-7)}
+.day-line{list-style:none;margin:0;padding:0;display:grid;gap:0}
+.day-line li{display:grid;grid-template-columns:7.5rem 1fr;gap:var(--s-4);padding-block:var(--s-5);border-top:1px solid var(--rope);position:relative}
+.day-line li:last-child{border-bottom:1px solid var(--rope)}
+.day-line .stencil{font-size:clamp(3rem, 2rem + 3vw, 4.75rem);line-height:.85}
+.day-line .stencil small{font-size:.42em;letter-spacing:.06em;margin-left:.08em}
+.day-line h3{margin-bottom:var(--s-2)}
+.day-line p{margin:0;color:var(--ink-2);max-width:34ch}
+.day-line .now{display:none;align-items:center;gap:.4em;margin-bottom:var(--s-2);font-size:var(--t-small);font-weight:600;color:var(--reef)}
+.day-line .now::before{content:"";width:.55rem;height:.55rem;border-radius:50%;background:var(--lagoon)}
+.day-line li.is-now .now{display:inline-flex}
+.day-line li.is-now h3{color:var(--reef)}
+@media (min-width:860px){
+  .day-intro{grid-template-columns:1.1fr 1fr}
+  .day-line{grid-template-columns:repeat(4,1fr);gap:var(--s-5)}
+  .day-line li{grid-template-columns:1fr;padding-block:var(--s-5) 0;border-bottom:0!important}
+  .day-line li::before{content:"";position:absolute;top:-7px;left:0;width:13px;height:13px;border-radius:2px;background:var(--plank-2);border:1px solid var(--rope)}
+  .day-line li.is-now::before{background:var(--lagoon);border-color:var(--reef)}
+  .day-line .stencil{margin-bottom:var(--s-3)}
+}
+
+/* ---------- signature plates ---------- */
+.plates-grid{display:grid;gap:var(--s-6)}
+.plates-head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:end;gap:var(--s-4);margin-bottom:var(--s-6)}
+.plates-head p{margin:0}
+.feature-dish{display:grid;gap:var(--s-5);align-content:start}
+.feature-dish h3{font-size:var(--t-h2);line-height:.95}
+.feature-dish .price{font-size:clamp(2rem,1.5rem + 2vw,3rem);line-height:1}
+.board{list-style:none;margin:0;padding:0}
+.board li{display:grid;grid-template-columns:1fr auto;gap:var(--s-1) var(--s-4);padding-block:var(--s-4);border-bottom:1px solid var(--rope)}
+.board li:first-child{border-top:1px solid var(--rope)}
+.board h3{font-size:1.45rem}
+.board p{grid-column:1/-1;margin:0;color:var(--ink-2);font-size:.98rem}
+.board .price{font:700 1.15rem/1 var(--font-body);font-variant-numeric:tabular-nums;color:var(--reef);align-self:center}
+.veg{display:inline-flex;align-items:center;gap:.3em;margin-left:.4em;vertical-align:.2em;font:600 .72rem/1 var(--font-body);letter-spacing:.08em;text-transform:uppercase;color:var(--reef);padding:.3em .5em;border:1px solid var(--reef);border-radius:999px}
+.veg svg{width:.95em;height:.95em}
+.plates-more{margin-top:var(--s-5);display:flex;flex-wrap:wrap;gap:var(--s-3) var(--s-5);align-items:center}
+@media (min-width:860px){.plates-grid{grid-template-columns:5fr 6fr;gap:var(--s-8);align-items:start}}
+
+/* ---------- story teaser ---------- */
+.story{display:grid;gap:var(--s-6);align-items:center}
+.story .trail{list-style:none;margin:var(--s-5) 0;padding:0;display:grid;gap:var(--s-2);font-weight:500}
+.story .trail li{display:flex;gap:var(--s-3);align-items:baseline}
+.story .trail b{font:800 1.3rem/1 var(--font-display);text-transform:uppercase;color:var(--reef);min-width:8.5ch}
+@media (min-width:860px){.story{grid-template-columns:5fr 6fr;gap:var(--s-8)}}
+
+/* ---------- rating ---------- */
+.rating{padding-block:var(--s-8)}
+.rating .wrap{display:grid;gap:var(--s-5) var(--s-7);align-items:center}
+.score{display:flex;align-items:flex-end;gap:var(--s-3)}
+.score .stencil{font-size:clamp(6rem, 4rem + 9vw, 10rem);line-height:.8}
+.score-meta{padding-bottom:.4rem;font-weight:600;line-height:1.3}
+.score-meta small{display:block;font-weight:400;color:var(--ink-2);font-size:var(--t-small)}
+.rating blockquote{margin:0;font:800 clamp(1.5rem,1.1rem + 1.6vw,2.3rem)/1.05 var(--font-display);text-transform:uppercase;color:var(--reef);max-width:28ch}
+.rating cite{display:block;margin-top:var(--s-3);font:400 var(--t-small)/1.4 var(--font-body);font-style:normal;color:var(--ink-2);text-transform:none}
+@media (min-width:860px){.rating .wrap{grid-template-columns:auto 1fr}}
+
+/* ---------- night cantina ---------- */
+.night{display:grid;gap:var(--s-6);align-items:center}
+.night h2{color:var(--salt);max-width:13ch}
+.night .times{display:flex;flex-wrap:wrap;gap:var(--s-2) var(--s-5);margin:var(--s-5) 0;font-weight:500}
+.night .times .stencil{font-size:2.2rem;line-height:1;margin-right:.3rem;vertical-align:-.1em}
+.night .photo-slot{background:var(--reef-deep);border:1px solid color-mix(in srgb, var(--reef-ink) 18%, transparent)}
+@media (min-width:860px){.night{grid-template-columns:6fr 5fr;gap:var(--s-8)}}
+
+/* ---------- getting here ---------- */
+.here{display:grid;gap:var(--s-6)}
+.here .stencil{font-size:clamp(4rem,3rem + 5vw,6.5rem);line-height:.85;display:block;margin-bottom:var(--s-3)}
+.ways{list-style:none;margin:var(--s-5) 0 0;padding:0;display:grid;gap:var(--s-4)}
+.ways li{display:grid;grid-template-columns:2.5rem 1fr;gap:var(--s-3);align-items:start}
+.ways svg{width:28px;height:28px;color:var(--reef);margin-top:.15rem}
+.ways strong{display:block;font:800 1.35rem/1 var(--font-display);text-transform:uppercase;margin-bottom:.25rem}
+.ways p{margin:0;color:var(--ink-2)}
+.closer{margin-top:var(--s-8);padding:var(--s-7) var(--gutter);background:var(--reef);color:var(--reef-ink);border-radius:var(--radius);display:grid;gap:var(--s-5);align-items:center}
+.closer h2{color:var(--salt);font-size:var(--t-h2)}
+.closer p{margin:0}
+.closer .actions{margin-top:0}
+.closer a:not(.btn){color:var(--salt)}
+.closer .btn--ghost{--fg:var(--salt)}
+.closer .btn--ghost:hover{--bg:var(--salt);--fg:var(--reef-deep);border-color:var(--salt)}
+@media (min-width:860px){.here{grid-template-columns:5fr 6fr;gap:var(--s-8);align-items:center}.closer{grid-template-columns:1fr auto}}
+</style>
+<script src="js/mesa.js" defer></script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<div class="tide" data-tide role="status"><div class="wrap"><span><span class="dot" aria-hidden="true"></span><span data-tide-text>Tue–Sun · 8am–9pm · on the beach north of the bridge</span></span><a href="tel:+5016216226">Call +501 621-6226</a></div></div>
+<header class="site-head">
+  <div class="wrap">
+    <a class="brand" href="index.html" aria-label="Mesa Cantina San Pedro, home">
+      <img src="assets/logo-mark.svg" alt="" width="44" height="44">
+      <span><b>Mesa Cantina</b><small>San Pedro · Ambergris Caye</small></span>
+    </a>
+    <button class="nav-toggle" aria-expanded="false" aria-controls="site-nav" aria-label="Menu">
+      <svg width="28" height="28" viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M4 8h20M4 14h20M4 20h13"/></svg>
+    </button>
+    <nav class="nav" id="site-nav" aria-label="Main">
+      <ul>
+        <li><a href="menu.html">Menu</a></li>
+        <li><a href="drinks.html">Cantina</a></li>
+        <li><a href="story.html">Our Story</a></li>
+        <li><a href="events.html">Events</a></li>
+        <li><a href="gallery.html">Gallery</a></li>
+        <li><a href="visit.html">Visit</a></li>
+        <li><a class="btn" href="reserve.html">Book a table</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+
+  <!-- 1. THESIS: the end of the dock, looking out to the reef -->
+  <section class="dock" aria-labelledby="hero-title">
+    <div class="wrap">
+      <p class="status-row"><span data-open-badge></span><span class="num">Tue–Sun · 8am–9pm · Monday closed</span></p>
+      <h1 id="hero-title">Breakfast to last call. <span>Feet in the sand.</span></h1>
+      <p class="lead">Coffee and coconut French toast at eight. Lunch with the reef in view. Cocktails as the sun drops. All of it at one table on the beach, half a mile north of the San Pedro bridge.</p>
+      <div class="actions">
+        <a class="btn" href="reserve.html">Book a table
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        <a class="btn btn--ghost" href="visit.html">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-6.5-5.6-6.5-11a6.5 6.5 0 0 1 13 0c0 5.4-6.5 11-6.5 11z"/><circle cx="12" cy="10" r="2.4"/></svg>
+          Get directions</a>
+        <a class="call-link" href="tel:+5016216226">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h3.5l1.8 4.5-2.3 1.4a11 11 0 0 0 6.1 6.1l1.4-2.3L20 15.5V19a1.5 1.5 0 0 1-1.6 1.5A16 16 0 0 1 3.5 5.6 1.5 1.5 0 0 1 5 4z"/></svg>
+          Call +501 621-6226</a>
+      </div>
+    </div>
+    <!-- Shot list (future hero photo): stand at the very end of Mesa's dock around 8am, lens at eye level, planks leading the eye to the reef break on the horizon. No people; one coffee cup on the last plank. -->
+    <svg class="dock-scene" viewBox="0 0 1200 420" preserveAspectRatio="xMidYMax slice" aria-hidden="true" focusable="false">
+      <!-- sun low over the reef -->
+      <circle class="f-salt" cx="905" cy="62" r="34" opacity=".9"/>
+      <g class="s-salt" stroke-width="3" stroke-linecap="round" opacity=".35">
+        <path d="M880 140h50M870 152h70M886 166h38"/>
+      </g>
+      <!-- shallow lagoon band and the reef break -->
+      <rect class="f-lagoon" x="0" y="112" width="1200" height="20" opacity=".35"/>
+      <path class="s-salt" d="M0 114H1200" stroke-width="3" stroke-dasharray="46 16 12 34" stroke-linecap="round" opacity=".75"/>
+      <!-- palm at the water's edge -->
+      <g class="f-deep">
+        <path d="M118 420c-6-90 2-170 30-250l10 3c-24 80-30 158-24 247z"/>
+        <path d="M152 172c-40-34-96-40-132-22 46-6 88 6 128 30zM152 172c-14-50-54-82-96-90 34 18 62 50 86 96zM152 172c30-44 80-62 124-56-40 12-82 34-114 66zM152 172c46-14 96 0 126 30-40-14-82-18-122-20zM152 172c-48 0-90 30-110 66 30-30 70-50 112-58z"/>
+      </g>
+      <!-- dock shadow on the water -->
+      <polygon class="f-deep" points="360,420 900,420 712,196 520,196" opacity=".35"/>
+      <!-- dock deck -->
+      <polygon class="f-plank" points="300,420 900,420 700,180 500,180"/>
+      <g class="s-rope" stroke-width="2">
+        <path d="M493 188H707M484 198H716M473 210H727M460 224H740M445 241H755M427 261H773M405 286H795M378 316H822M346 352H854M308 397H892"/>
+        <path d="M600 180V420M550 180L450 420M650 180L750 420" stroke-width="1.5" opacity=".6"/>
+      </g>
+      <rect class="f-plank2" x="496" y="174" width="208" height="8" rx="1"/>
+      <!-- end posts and rope -->
+      <g class="f-plank2"><rect x="490" y="140" width="14" height="46" rx="2"/><rect x="696" y="140" width="14" height="46" rx="2"/>
+        <rect x="268" y="290" width="36" height="130" rx="3"/><rect x="896" y="290" width="36" height="130" rx="3"/></g>
+      <g class="s-rope" stroke-width="3" stroke-linecap="round"><path d="M497 150C430 220 360 260 286 300"/><path d="M703 150C770 220 840 260 914 300"/></g>
+      <!-- mooring numbers on the posts -->
+      <g class="f-rope" font-family="Big Shoulders Display, sans-serif" font-weight="900" font-size="20" text-anchor="middle"><text x="286" y="330">M</text><text x="914" y="330">M</text></g>
+    </svg>
+  </section>
+
+  <!-- 2. THE DAY AT MESA -->
+  <section class="section day" aria-labelledby="day-title">
+    <div class="wrap">
+      <div class="day-intro">
+        <h2 id="day-title">One table. The whole day.</h2>
+        <p class="lead">Come for breakfast, stay for lunch, and don't move when the light goes gold. The kitchen shifts with the sun. The view doesn't.</p>
+      </div>
+      <ol class="day-line" data-day>
+        <li data-from="8" data-to="11">
+          <span class="stencil num" aria-hidden="true">8<small>AM</small></span>
+          <div>
+            <span class="now">Happening now</span>
+            <h3><span class="sr-only">8am: </span>Breakfast, slow</h3>
+            <p>Strong coffee, coconut French toast, eggs any way. Served all morning, no rush to the dive boat.</p>
+          </div>
+        </li>
+        <li data-from="11" data-to="16">
+          <span class="stencil num" aria-hidden="true">11<small>AM</small></span>
+          <div>
+            <span class="now">Happening now</span>
+            <h3><span class="sr-only">11am: </span>Lunch on the sand</h3>
+            <p>Mezze, fresh catch and big salads. Shade under the palms, the reef break in front.</p>
+          </div>
+        </li>
+        <li data-from="16" data-to="21">
+          <span class="stencil num" aria-hidden="true">4<small>PM</small></span>
+          <div>
+            <span class="now">Happening now</span>
+            <h3><span class="sr-only">4pm: </span>Cantina at sundown</h3>
+            <p>The bar side wakes up. Cold beer, cocktails, dinner plates as the sky goes orange.</p>
+          </div>
+        </li>
+        <li data-from="20.5" data-to="21">
+          <span class="stencil num" aria-hidden="true">9<small>PM</small></span>
+          <div>
+            <span class="now">Last orders</span>
+            <h3><span class="sr-only">9pm: </span>Last call</h3>
+            <p>One more round, then the golf cart home. <span class="tbd">[confirm: kitchen and bar close times]</span></p>
+          </div>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- 3. SIGNATURE PLATES -->
+  <section class="section section--alt" aria-labelledby="plates-title">
+    <div class="wrap">
+      <div class="plates-head">
+        <h2 id="plates-title">What people come back for</h2>
+        <p class="num"><span class="tbd">Illustrative dishes and BZ$ prices until the owner supplies the real menu</span></p>
+      </div>
+      <div class="plates-grid">
+        <div class="feature-dish" data-reveal>
+          <figure class="photo-slot" style="aspect-ratio:4/5">
+            <svg viewBox="0 0 400 460" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Illustration: coconut French toast with banana and coffee on a plank table">
+              <rect class="f-plank2" width="400" height="460"/>
+              <g class="s-rope" stroke-width="2"><path d="M0 92H400M0 184H400M0 276H400M0 368H400"/></g>
+              <circle class="f-salt" cx="190" cy="250" r="138"/>
+              <circle class="s-rope" cx="190" cy="250" r="112" stroke-width="1.5"/>
+              <g transform="rotate(-14 190 250)">
+                <rect class="f-rope" x="108" y="182" width="150" height="104" rx="16"/>
+                <rect class="f-plank2" x="116" y="190" width="134" height="88" rx="12"/>
+                <rect class="f-rope" x="130" y="226" width="150" height="104" rx="16"/>
+                <rect class="f-plank" x="138" y="234" width="134" height="88" rx="12"/>
+              </g>
+              <g class="f-plank2" stroke="var(--rope)" stroke-width="2"><circle cx="128" cy="320" r="14"/><circle cx="156" cy="336" r="14"/><circle cx="186" cy="342" r="14"/></g>
+              <g class="f-salt" opacity=".9"><circle cx="210" cy="232" r="3"/><circle cx="224" cy="248" r="2.5"/><circle cx="200" cy="262" r="2.5"/><circle cx="240" cy="226" r="2"/></g>
+              <circle class="f-salt" cx="338" cy="76" r="44"/><circle class="f-deep" cx="338" cy="76" r="32"/>
+              <path class="s-rope" d="M380 76h14" stroke-width="8" stroke-linecap="round"/>
+            </svg>
+            <figcaption><b>Shot list:</b> coconut French toast straight overhead on the real plate, morning side-light, coffee cup top right, plank table edge-to-edge. Shoot before 9am.</figcaption>
+          </figure>
+          <div>
+            <h3>Coconut French toast</h3>
+            <p class="lead">The plate regulars order before they sit down. Thick coconut bread, caramelised banana, local honey.</p>
+            <p><span class="stencil num price" aria-label="Illustrative price BZ$ 18">BZ$18</span></p>
+          </div>
+        </div>
+
+        <div>
+          <ul class="board">
+            <li><h3>Fry jacks &amp; eggs<span class="veg"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 19c0-8 5-14 15-14 0 10-6 15-14 15"/><path d="M5 19l8-8"/></svg>Veg</span></h3>
+              <span class="price">BZ$16</span>
+              <p>Puffy Belizean fry jacks, eggs your way, refried beans, fresh salsa.</p></li>
+            <li><h3>Mezze for the table<span class="veg"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 19c0-8 5-14 15-14 0 10-6 15-14 15"/><path d="M5 19l8-8"/></svg>Veg</span></h3>
+              <span class="price">BZ$28</span>
+              <p>Hummus, whipped feta, olives, grilled flatbread. Built to share with a cold one.</p></li>
+            <li><h3>Catch of the day</h3>
+              <span class="price">BZ$42</span>
+              <p>Whatever came off the boat, grilled with lemon, capers and herbs. Ask what's in.</p></li>
+            <li><h3>Garden &amp; tomato salad<span class="veg"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 19c0-8 5-14 15-14 0 10-6 15-14 15"/><path d="M5 19l8-8"/></svg>Veg</span></h3>
+              <span class="price">BZ$22</span>
+              <p>Local greens and tomatoes, cucumber, red onion, feta, lime-oregano dressing.</p></li>
+            <li><h3>Garlic shrimp linguine</h3>
+              <span class="price">BZ$38</span>
+              <p>Island shrimp, chili, white wine and parsley. A Mediterranean plate with Caribbean roots.</p></li>
+          </ul>
+          <div class="plates-more">
+            <a class="btn btn--ghost" href="menu.html">See the full menu</a>
+            <span class="num" style="color:var(--ink-2);font-size:var(--t-small)">US$ welcome at 2:1</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. STORY TEASER -->
+  <section class="section" aria-labelledby="story-title">
+    <div class="wrap story">
+      <figure class="photo-slot" style="aspect-ratio:4/3;background:var(--plank-2)">
+        <svg viewBox="0 0 480 330" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Illustration: the original Mesa Cafe storefront on Tarpon Street">
+          <rect class="f-plank2" width="480" height="330"/>
+          <rect class="f-rope" y="282" width="480" height="48" opacity=".55"/>
+          <rect class="f-salt" x="60" y="60" width="360" height="222"/>
+          <rect class="f-reef" x="60" y="60" width="360" height="40"/>
+          <text x="240" y="90" text-anchor="middle" class="f-salt" font-family="Big Shoulders Display, sans-serif" font-weight="900" font-size="28" letter-spacing="3">MESA CAFE</text>
+          <g class="f-reef"><path d="M52 100h376l-14 34H66z"/></g>
+          <g class="f-plank"><path d="M80 100h26l-3 34H86zM132 100h26l-2 34h-22zM184 100h26v34h-25zM236 100h26l1 34h-26zM288 100h26l2 34h-26zM340 100h26l3 34h-26zM392 100h26l3 34h-23z" opacity=".55"/></g>
+          <rect class="f-deep" x="96" y="160" width="110" height="122" opacity=".85"/>
+          <rect class="f-lagoon" x="250" y="160" width="134" height="80" opacity=".5"/>
+          <path class="s-rope" d="M317 160v80M250 200h134" stroke-width="3"/>
+          <g class="f-deep"><path d="M440 282c-2-60 4-110 18-150l7 2c-12 40-16 90-14 148z"/><path d="M462 134c-22-18-52-20-74-8 26-2 48 4 70 16zM462 134c18-24 44-32 70-26-24 6-46 18-64 34z"/></g>
+        </svg>
+        <figcaption><b>Shot list:</b> any archive photo of the original Mesa Cafe at Vilma Linda Plaza on Tarpon St. If none exists, shoot Mandy and Kevin at the bar today, laughing, mid-service.</figcaption>
+      </figure>
+      <div data-reveal>
+        <h2 id="story-title">It started as a breakfast counter on Tarpon Street</h2>
+        <p class="lead">Before the beach, Mesa was a small café in Vilma Linda Plaza feeding San Pedro breakfast and lunch. The French toast followed us all the way to the sand.</p>
+        <ol class="trail">
+          <li><b>Mesa Cafe</b> Tarpon Street, breakfast and lunch</li>
+          <li><b>Mesa Bistro</b> the menu grew up</li>
+          <li><b>Mesa Cantina</b> on the beach, ½ mile north of the bridge</li>
+        </ol>
+        <p>Ask for Mandy or Kevin when you come in. <span class="tbd">[confirm names and roles with owner]</span></p>
+        <a class="btn btn--ghost" href="story.html">Read our story</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. RATING -->
+  <section class="rating section--alt" aria-labelledby="rating-title">
+    <div class="wrap">
+      <div class="score">
+        <span class="stencil num" aria-hidden="true">4.8</span>
+        <p class="score-meta" id="rating-title"><span class="sr-only">Rated 4.8 </span>out of 5 on TripAdvisor
+          <small>from <span class="tbd">several hundred [confirm count]</span> reviews</small></p>
+      </div>
+      <figure style="margin:0">
+        <blockquote><p style="margin:0"><span class="tbd">[Placeholder: pull a real TripAdvisor review]</span></p></blockquote>
+        <figcaption><cite><span class="tbd">[Reviewer name, month and year, from the TripAdvisor listing]</span></cite></figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- 6. NIGHT CANTINA -->
+  <section class="section section--night" aria-labelledby="night-title">
+    <div class="wrap night">
+      <div data-reveal>
+        <h2 id="night-title">When the sun drops, the cantina opens up</h2>
+        <p class="lead">The lights come on over the sand and the bar side gets loud in the good way. Cocktails, beer and wine, dinner plates, the sound of the water.</p>
+        <p class="times num"><span><span class="stencil" aria-hidden="true">4PM</span><span class="sr-only">4pm </span>bar side open</span><span><span class="stencil" aria-hidden="true">9PM</span><span class="sr-only">9pm </span>last call</span></p>
+        <div class="actions" style="margin-top:0">
+          <a class="btn btn--ghost" href="drinks.html">See the cantina list</a>
+          <a href="events.html">Private parties and events</a>
+        </div>
+      </div>
+      <figure class="photo-slot" style="aspect-ratio:5/4">
+        <svg viewBox="0 0 500 400" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Illustration: string lights over the beach bar at night, moon over the reef">
+          <rect class="f-deep" width="500" height="400"/>
+          <g class="f-reefink" opacity=".7"><circle cx="60" cy="40" r="1.6"/><circle cx="140" cy="70" r="1.2"/><circle cx="230" cy="30" r="1.4"/><circle cx="300" cy="62" r="1.1"/><circle cx="440" cy="110" r="1.3"/><circle cx="90" cy="120" r="1"/></g>
+          <circle class="f-plank" cx="380" cy="70" r="26"/>
+          <rect class="f-reef" y="200" width="500" height="200"/>
+          <path class="s-lagoon" d="M0 200H500" stroke-width="2.5" stroke-dasharray="30 12 8 22" opacity=".8"/>
+          <path class="s-reefink" d="M362 222h36M356 236h48M368 250h24" stroke-width="2.5" stroke-linecap="round" opacity=".4"/>
+          <rect class="f-plank2" y="300" width="500" height="100"/>
+          <path class="s-rope" d="M0 330H500M0 362H500" stroke-width="1.5"/>
+          <path class="s-rope" d="M0 92Q125 160 250 104T500 112" stroke-width="1.5"/>
+          <g class="f-plank"><circle cx="30" cy="110" r="5"/><circle cx="72" cy="126" r="5"/><circle cx="116" cy="136" r="5"/><circle cx="160" cy="134" r="5"/><circle cx="204" cy="122" r="5"/><circle cx="296" cy="96" r="5"/><circle cx="342" cy="92" r="5"/><circle cx="388" cy="98" r="5"/><circle cx="434" cy="108" r="5"/><circle cx="480" cy="114" r="5"/></g>
+          <rect class="f-ink" x="40" y="250" width="250" height="60" opacity=".85"/>
+          <rect class="f-rope" x="30" y="242" width="270" height="10"/>
+          <g class="f-ink"><rect x="70" y="310" width="6" height="56"/><rect x="150" y="310" width="6" height="56"/><rect x="230" y="310" width="6" height="56"/><rect x="58" y="304" width="30" height="8" rx="3"/><rect x="138" y="304" width="30" height="8" rx="3"/><rect x="218" y="304" width="30" height="8" rx="3"/></g>
+          <g class="f-salt"><path d="M110 226h18l-9 12zM118 238v4M190 220h12v22h-12z" opacity=".85"/></g>
+        </svg>
+        <figcaption><b>Shot list:</b> the bar from the waterline after sundown, string lights lit, two or three guests as soft silhouettes, one cocktail sharp in the foreground. Tripod, no flash.</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- 7. GETTING HERE + CLOSE -->
+  <section class="section" aria-labelledby="here-title">
+    <div class="wrap">
+      <div class="here">
+        <div data-reveal>
+          <span class="stencil num" aria-hidden="true">½ MI</span>
+          <h2 id="here-title">North of the bridge, on the beach</h2>
+          <p class="lead">Cross the bridge out of town and keep going half a mile. We're on the sand side. <span class="tbd">[exact address and landmark to confirm]</span></p>
+          <ul class="ways">
+            <li>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 15V8h9l3 4h3a1 1 0 0 1 1 1v2"/><path d="M4 8V5h11"/><circle cx="7.5" cy="17" r="2"/><circle cx="17" cy="17" r="2"/><path d="M9.5 17h5.5"/></svg>
+              <div><strong>Golf cart</strong><p>Over the bridge, about five minutes north. Parking out front <span class="tbd">[confirm]</span>.</p></div>
+            </li>
+            <li>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 15l2.5 4h13L21 15z"/><path d="M12 15V4l6 9h-6"/><path d="M2 21c2 0 2-1 4-1s2 1 4 1 2-1 4-1 2 1 4 1 2-1 4-1"/></svg>
+              <div><strong>Water taxi</strong><p>Ask your captain for Mesa Cantina, north of the bridge. <span class="tbd">[confirm dock or nearest stop]</span></p></div>
+            </li>
+            <li>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v2M12 19v2M4.2 4.2l1.4 1.4M18.4 18.4l1.4 1.4M3 12h2M19 12h2M4.2 19.8l1.4-1.4M18.4 5.6l1.4-1.4"/><circle cx="12" cy="12" r="4"/></svg>
+              <div><strong>On foot</strong><p>Staying close by? Walk the beach north and look for the tables on the sand.</p></div>
+            </li>
+          </ul>
+        </div>
+        <figure class="photo-slot" style="aspect-ratio:1/1;background:var(--plank-2)">
+          <svg viewBox="0 0 400 400" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Sketch map, not to scale: Mesa Cantina on the beach side half a mile north of the San Pedro bridge, with town to the south and the reef to the east">
+            <rect class="f-plank2" width="400" height="400"/>
+            <rect class="f-lagoon" width="120" height="400" opacity=".35"/>
+            <path class="f-reef" d="M270 0H400V400H250C262 300 258 200 266 100 268 60 270 30 270 0z"/>
+            <path class="s-salt" d="M360 0V400" stroke-width="3" stroke-dasharray="20 10 6 16" opacity=".8"/>
+            <rect class="f-lagoon" x="0" y="282" width="268" height="22" opacity=".7"/>
+            <rect class="f-rope" x="150" y="276" width="34" height="34" rx="3"/>
+            <path class="s-deep" d="M167 330V60" stroke-width="2.5" stroke-dasharray="2 8" stroke-linecap="round"/>
+            <circle class="f-deep" cx="167" cy="355" r="5"/>
+            <g transform="translate(232 96)">
+              <path class="f-deep" d="M0 22S-16 8-16-4a16 16 0 0 1 32 0C16 8 0 22 0 22z"/>
+              <circle class="f-plank" cx="0" cy="-4" r="6"/>
+            </g>
+            <path class="s-deep" d="M196 282V130" stroke-width="1.5"/>
+            <path class="s-deep" d="M190 136l6-8 6 8M190 276l6 8 6-8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <g font-family="Instrument Sans, sans-serif" font-size="14" font-weight="600" class="f-ink">
+              <text x="208" y="214">½ mile</text>
+              <text x="196" y="300" class="f-ink">Bridge</text>
+              <text x="180" y="360">San Pedro town</text>
+              <text x="200" y="66">Mesa Cantina</text>
+              <text x="14" y="40" opacity=".8">Lagoon</text>
+            </g>
+            <text x="380" y="200" font-family="Instrument Sans, sans-serif" font-size="14" font-weight="600" class="f-salt" text-anchor="middle" transform="rotate(90 380 200)">The reef</text>
+            <text x="14" y="388" font-family="Instrument Sans, sans-serif" font-size="11" class="f-ink" opacity=".8">Not to scale</text>
+          </svg>
+          <figcaption><b>Shot list:</b> drone or rooftop shot looking south from above Mesa, bridge in the distance, beach and tables in the foreground. Until then, this sketch stands in.</figcaption>
+        </figure>
+      </div>
+
+      <div class="closer">
+        <div>
+          <h2>Save a spot on the sand</h2>
+          <p>Walk-ins welcome. For sundown, groups or a birthday, book ahead or <a href="https://wa.me/5016216226">WhatsApp us</a>. <span class="num">Tue–Sun 8am–9pm.</span></p>
+        </div>
+        <div class="actions">
+          <a class="btn" href="reserve.html">Book a table
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+          <a class="btn btn--ghost" href="visit.html">Get directions</a>
+          <a class="call-link" href="tel:+5016216226">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h3.5l1.8 4.5-2.3 1.4a11 11 0 0 0 6.1 6.1l1.4-2.3L20 15.5V19a1.5 1.5 0 0 1-1.6 1.5A16 16 0 0 1 3.5 5.6 1.5 1.5 0 0 1 5 4z"/></svg>
+            +501 621-6226</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-foot">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <img src="assets/logo-mark.svg" alt="" width="56" height="56" style="margin-bottom:1rem">
+        <p style="color:var(--salt);font:800 1.6rem/1 var(--font-display);text-transform:uppercase">Breakfast to last call,<br>feet in the sand.</p>
+      </div>
+      <div><h3>Hours</h3><ul class="num"><li>Tue–Sun · 8am–9pm</li><li>Monday · closed</li></ul></div>
+      <div><h3>Find us</h3><ul><li>On the beach, ½ mile north of the bridge</li><li>San Pedro, Ambergris Caye, Belize</li><li><a href="visit.html">Directions</a></li></ul></div>
+      <div><h3>Say hola</h3><ul><li><a href="tel:+5016216226">+501 621-6226</a></li><li><a href="https://wa.me/5016216226">WhatsApp</a></li><li><a href="https://www.facebook.com/mesasanpedro/" rel="noopener">Facebook</a></li></ul></div>
+    </div>
+    <div class="foot-base"><span>© <span data-year>2026</span> Mesa Cantina San Pedro</span><span>Formerly Mesa Cafe &amp; Mesa Bistro</span></div>
+  </div>
+</footer>
+<script>
+/* Mark the part of the day happening now (Belize time, UTC-6). Hours mirror js/mesa.js. */
+document.addEventListener('DOMContentLoaded', function () {
+  var d = new Date(), b = new Date(d.getTime() + d.getTimezoneOffset() * 60000 - 6 * 3600000);
+  var h = b.getHours() + b.getMinutes() / 60, closed = [1].indexOf(b.getDay()) > -1;
+  if (closed) return;
+  var slots = document.querySelectorAll('[data-day] li'), hit = null;
+  slots.forEach(function (li) { if (h >= +li.dataset.from && h < +li.dataset.to) hit = li; });
+  if (hit) hit.classList.add('is-now');
+});
+</script>
+</body>
+</html>

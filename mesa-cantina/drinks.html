@@ -33,6 +33,7 @@
   .sd-reef{stroke:var(--salt);stroke-width:1.75;stroke-linecap:round;fill:none;opacity:.55}
   .sd-glint{stroke:var(--lagoon);stroke-width:3;stroke-linecap:round;fill:none}
   .sd-dock{fill:var(--reef-deep)}
+  .sd-pier{fill:var(--reef)}
   .sd-dusk{fill:var(--reef-deep);opacity:0}
   /* motion: only armed by JS when motion is allowed; final state is the default */
   .sundown .sd-sunset{transition:transform 2.6s var(--ease-out)}
@@ -187,12 +188,14 @@
         <path class="sd-glint" d="M752 358h16" opacity=".4"/>
       </g>
       <!-- dock running out from the left edge -->
-      <g class="sd-dock">
+      <g class="sd-pier">
         <path d="M0 330h420l-10 8H0z"/>
         <rect x="70" y="302" width="10" height="70"/>
         <rect x="190" y="306" width="10" height="66"/>
         <rect x="300" y="310" width="9" height="56"/>
         <rect x="396" y="314" width="8" height="40"/>
+      </g>
+      <g class="sd-dock">
         <!-- a palm leaning over the sand -->
         <path d="M58 400c6-60 18-120 46-176l6 3c-26 56-38 114-42 173z"/>
         <path d="M107 226c-30-16-68-12-96 8 30-6 58-4 90 4zM107 226c10-34 40-56 78-58-30 12-52 30-70 60zM107 226c38-6 74 8 96 36-30-18-58-24-90-26zM107 226c-14-30-44-46-80-44 32 6 54 22 74 46zM107 226c-28 6-48 28-54 58 14-26 32-42 58-50z"/>

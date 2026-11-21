@@ -63,7 +63,7 @@
   .v-map__key{list-style:none;margin:var(--s-5) 0 0;padding:0;display:grid;gap:var(--s-3);font-size:.98rem}
   .v-map__key li{display:flex;align-items:center;gap:var(--s-3)}
   .v-map__key svg{width:36px;height:20px;flex:none}
-  .map-figure{margin:0;background:var(--reef-deep);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow-2)}
+  .map-figure{margin:0;width:100%;max-width:30rem;justify-self:center;background:var(--reef-deep);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow-2)}
   .map-figure svg{width:100%;height:auto;max-height:82vh;margin-inline:auto}
   .map-figure figcaption{padding:var(--s-3) var(--s-4);font-size:var(--t-small);color:var(--reef-ink);border-top:1px solid rgb(212 236 234 / .2)}
 
@@ -80,8 +80,8 @@
   .m-strip{fill:var(--plank-2);stroke:var(--ink-2);stroke-width:1.5}
   .m-bridge{fill:var(--salt);stroke:var(--ink);stroke-width:2}
   .m-pin{fill:var(--buoy);stroke:var(--salt);stroke-width:3}
-  .m-ink{fill:var(--ink);font-family:var(--font-body);font-weight:600}
-  .m-ink2{fill:var(--ink-2);font-family:var(--font-body);font-weight:600}
+  .m-ink{fill:var(--ink);font-family:var(--font-body);font-weight:600;paint-order:stroke;stroke:var(--plank);stroke-width:6px;stroke-linejoin:round}
+  .m-ink2{fill:var(--ink-2);font-family:var(--font-body);font-weight:600;paint-order:stroke;stroke:var(--plank);stroke-width:5px;stroke-linejoin:round}
   .m-light{fill:var(--reef-ink);font-family:var(--font-body);font-weight:600}
   .m-display{font-family:var(--font-display);font-weight:800;text-transform:uppercase;letter-spacing:.04em}
   .m-salt{fill:var(--salt)}
@@ -207,8 +207,8 @@
         <p class="v-map__dist"><span class="stencil" aria-hidden="true">½ MI</span><span>north of the San Pedro bridge<span class="sr-only">: half a mile</span></span></p>
         <p class="lead">Town sits south of the Boca del Rio. Cross the bridge, head north along the beach side, and we are on the sand facing the reef.</p>
         <ul class="v-map__key" aria-label="Map key">
-          <li><svg viewBox="0 0 36 20" aria-hidden="true"><path class="m-route" d="M3 10h30"/></svg>Route from town</li>
-          <li><svg viewBox="0 0 36 20" aria-hidden="true"><path class="m-road" d="M3 10h30"/></svg>Main golf cart road</li>
+          <li><svg viewBox="0 0 36 20" aria-hidden="true"><rect class="m-land" width="36" height="20" rx="3"/><path class="m-route" d="M3 10h30"/></svg>Route from town</li>
+          <li><svg viewBox="0 0 36 20" aria-hidden="true"><rect class="m-land" width="36" height="20" rx="3"/><path class="m-road" d="M3 10h30"/></svg>Main golf cart road</li>
           <li><svg viewBox="0 0 36 20" aria-hidden="true"><path class="m-reef" d="M3 10h30"/></svg>Barrier reef</li>
         </ul>
       </div>
@@ -243,7 +243,7 @@
           <path class="m-road" d="M200 595 C202 520 206 440 212 380 C216 330 220 260 226 180 C230 110 234 50 238 0"/>
 
           <!-- route: town to bridge to Mesa -->
-          <path class="m-route" d="M205 470 C207 430 209 405 212 380 C214 360 216 345 218 330 C220 290 222 250 225 215 L250 212"/>
+          <path class="m-route" d="M206 450 C207 430 209 405 212 380 C214 360 216 345 218 330 C220 290 222 250 225 215 L250 212"/>
 
           <!-- bridge -->
           <g>
@@ -255,7 +255,7 @@
           <path class="m-reef" d="M330 0 C326 140 318 300 312 420 C308 500 304 560 302 600"/>
 
           <!-- half mile bracket, in the reef lagoon -->
-          <path class="m-bracket" d="M270 212 h8 V357 h-8"/>
+          <path class="m-bracket" d="M263 212 h7 V357 h-7"/>
 
           <!-- Mesa pin -->
           <path class="m-pin" d="M254 212 c0 0 -14 -14 -14 -24 a14 14 0 0 1 28 0 c0 10 -14 24 -14 24z"/>
@@ -264,7 +264,7 @@
           <!-- labels -->
           <text class="m-ink m-display" x="234" y="182" font-size="21" text-anchor="end">Mesa</text>
           <text class="m-ink m-display" x="234" y="202" font-size="15" text-anchor="end">Cantina</text>
-          <text class="m-salt m-display" x="284" y="290" font-size="20">½ MI</text>
+          <text class="m-salt m-display" x="276" y="291" font-size="19">½ MI</text>
 
           <text class="m-ink m-display" x="196" y="334" font-size="15" text-anchor="end">Bridge</text>
           <text class="m-light" x="98" y="352" font-size="13" text-anchor="end">Boca</text>
