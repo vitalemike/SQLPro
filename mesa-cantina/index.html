@@ -25,7 +25,10 @@
 
 /* ---------- hero: end of the dock ---------- */
 .dock{position:relative;background:var(--reef);color:var(--reef-ink);overflow:hidden;
-  padding-block:var(--s-8) clamp(15rem, 42vw, 27rem);min-height:calc(100svh - 6.5rem)}
+  padding-block:var(--s-8) clamp(15rem, 42vw, 27rem)}
+@media (min-width:1100px){
+  .dock{padding-block:var(--s-8);min-height:min(calc(100svh - 6.5rem), 46rem);display:flex;align-items:center}
+}
 .dock > .wrap{position:relative;z-index:1}
 .dock-scene{position:absolute;inset:auto 0 0 0;width:100%;height:clamp(17rem, 46vw, 30rem)}
 .dock h1{font-size:var(--t-hero);color:var(--salt);max-width:12ch;line-height:.9}
@@ -42,6 +45,14 @@
 .call-link{display:inline-flex;align-items:center;gap:.5em;min-height:48px;padding-inline:.25em;font-weight:600;font-variant-numeric:tabular-nums}
 .call-link svg{width:1.2em;height:1.2em}
 .dock .call-link{color:var(--salt)}
+.dock .btn--ghost{--fg:var(--salt)}
+.dock .btn--ghost:hover{--bg:var(--salt);--fg:var(--reef-deep);border-color:var(--salt)}
+.dock-scene--tall{display:none}
+@media (min-width:1100px){
+  .dock .lead{max-width:36ch}
+  .dock-scene--wide{display:none}
+  .dock-scene--tall{display:block;inset:0 0 0 54%;width:46%;height:100%}
+}
 
 /* ---------- the day at Mesa ---------- */
 .day h2{max-width:16ch}
@@ -175,11 +186,11 @@
       </div>
     </div>
     <!-- Shot list (future hero photo): stand at the very end of Mesa's dock around 8am, lens at eye level, planks leading the eye to the reef break on the horizon. No people; one coffee cup on the last plank. -->
-    <svg class="dock-scene" viewBox="0 0 1200 420" preserveAspectRatio="xMidYMax slice" aria-hidden="true" focusable="false">
+    <svg class="dock-scene dock-scene--wide" viewBox="0 0 1200 420" preserveAspectRatio="xMidYMax slice" aria-hidden="true" focusable="false">
       <!-- sun low over the reef -->
-      <circle class="f-salt" cx="905" cy="62" r="34" opacity=".9"/>
+      <circle class="f-salt" cx="760" cy="62" r="34" opacity=".9"/>
       <g class="s-salt" stroke-width="3" stroke-linecap="round" opacity=".35">
-        <path d="M880 140h50M870 152h70M886 166h38"/>
+        <path d="M735 140h50M725 152h70M741 166h38"/>
       </g>
       <!-- shallow lagoon band and the reef break -->
       <rect class="f-lagoon" x="0" y="112" width="1200" height="20" opacity=".35"/>
@@ -204,6 +215,21 @@
       <g class="s-rope" stroke-width="3" stroke-linecap="round"><path d="M497 150C430 220 360 260 286 300"/><path d="M703 150C770 220 840 260 914 300"/></g>
       <!-- mooring numbers on the posts -->
       <g class="f-rope" font-family="Big Shoulders Display, sans-serif" font-weight="900" font-size="20" text-anchor="middle"><text x="286" y="330">M</text><text x="914" y="330">M</text></g>
+    </svg>
+    <svg class="dock-scene dock-scene--tall" viewBox="0 0 600 700" preserveAspectRatio="xMidYMax slice" aria-hidden="true" focusable="false">
+      <circle class="f-salt" cx="430" cy="118" r="40" opacity=".9"/>
+      <g class="s-salt" stroke-width="3" stroke-linecap="round" opacity=".35"><path d="M400 238h60M390 252h80M408 268h44"/></g>
+      <rect class="f-lagoon" x="0" y="204" width="600" height="22" opacity=".35"/>
+      <path class="s-salt" d="M0 206H600" stroke-width="3" stroke-dasharray="40 14 10 30" stroke-linecap="round" opacity=".75"/>
+      <polygon class="f-deep" points="10,700 660,700 390,320 250,320" opacity=".35"/>
+      <polygon class="f-plank" points="-40,700 640,700 370,300 230,300"/>
+      <g class="s-rope" stroke-width="2"><path d="M222 312H378M212 326H388M202 342H398M189 361H411M173 384H427M154 412H446M131 446H469M103 488H497M68 540H532M25 604H575M-26 680H626"/>
+        <path d="M300 300V700M265 300L130 700M335 300L470 700" stroke-width="1.5" opacity=".6"/></g>
+      <rect class="f-plank2" x="226" y="294" width="148" height="8" rx="1"/>
+      <g class="f-plank2"><rect x="222" y="258" width="12" height="44" rx="2"/><rect x="366" y="258" width="12" height="44" rx="2"/>
+        <rect x="-6" y="500" width="44" height="200" rx="3"/><rect x="562" y="500" width="44" height="200" rx="3"/></g>
+      <g class="s-rope" stroke-width="3" stroke-linecap="round"><path d="M228 266C170 360 90 450 16 510"/><path d="M372 266C430 360 510 450 584 510"/></g>
+      <g class="f-rope" font-family="Big Shoulders Display, sans-serif" font-weight="900" font-size="24" text-anchor="middle"><text x="16" y="546">M</text><text x="584" y="546">M</text></g>
     </svg>
   </section>
 
