@@ -1,0 +1,368 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The Cantina: Coffee, Cocktails &amp; Sundown · Mesa Cantina San Pedro</title>
+<meta name="description" content="Strong Belizean coffee from 8am, island cocktails with local rum, mezcal, hibiscus and habanero at sundown, cold Belikin on the sand. The bar side of Mesa Cantina, San Pedro, Ambergris Caye.">
+<meta name="theme-color" content="#0B5D63">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="css/mesa.css">
+<style>
+  /* ---------- hero: daylight on the plank ---------- */
+  .dk-hero{padding-block:var(--s-8) var(--s-6)}
+  .dk-hero h1{max-width:14ch;color:var(--reef)}
+  .dk-hero .lead{margin-top:var(--s-5);max-width:52ch}
+  .dk-clock{display:flex;flex-wrap:wrap;align-items:flex-end;gap:var(--s-4) var(--s-6);margin:var(--s-6) 0 0;padding:0;list-style:none}
+  .dk-clock li{display:grid;gap:var(--s-1)}
+  .dk-clock .stencil{font-size:clamp(3.2rem,2rem + 5vw,5.5rem);line-height:.85}
+  .dk-clock small{font-size:var(--t-small);font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-2)}
+  .dk-clock .rope{flex:1 1 4rem;align-self:center;height:1px;background:var(--rope);min-width:3rem;max-width:14rem}
+
+  /* ---------- the sundown moment ---------- */
+  .sundown{margin:0;background:var(--reef-deep);line-height:0}
+  .sundown svg{width:100%;height:clamp(200px,34vw,420px)}
+  .sd-sky-0{stop-color:var(--plank)}
+  .sd-sky-1{stop-color:var(--rope)}
+  .sd-sky-2{stop-color:var(--reef)}
+  .sd-sky-3{stop-color:var(--reef-deep)}
+  .sd-sun{fill:var(--salt)}
+  .sd-halo{fill:var(--salt);opacity:.18}
+  .sd-sea{fill:var(--reef-deep)}
+  .sd-reef{stroke:var(--salt);stroke-width:1.75;stroke-linecap:round;fill:none;opacity:.55}
+  .sd-glint{stroke:var(--lagoon);stroke-width:3;stroke-linecap:round;fill:none}
+  .sd-dock{fill:var(--reef-deep)}
+  .sd-dusk{fill:var(--reef-deep);opacity:0}
+  /* motion: only armed by JS when motion is allowed; final state is the default */
+  .sundown .sd-sunset{transition:transform 2.6s var(--ease-out)}
+  .sundown .sd-glints{transition:opacity 1.6s ease 1.2s}
+  .sundown .sd-dusk{transition:opacity 2.6s var(--ease-out)}
+  .sundown.is-armed .sd-sunset{transform:translateY(-150px)}
+  .sundown.is-armed .sd-glints{opacity:0}
+  .sundown.is-armed.is-set .sd-sunset{transform:none}
+  .sundown.is-armed.is-set .sd-glints{opacity:1}
+  .sundown.is-armed.is-set .sd-dusk{opacity:.22}
+
+  /* ---------- night world ---------- */
+  .night{background:var(--reef-deep);color:var(--reef-ink)}
+  .night h2,.night h3{color:var(--salt)}
+  .night .lead{color:var(--reef-ink)}
+  .night a{color:var(--salt)}
+  .dk-section{padding-block:var(--s-8)}
+  .dk-section + .dk-section{border-top:1px solid rgb(212 236 234 / .14)}
+  .dk-section h2{color:var(--salt);margin-bottom:var(--s-4)}
+  .dk-note{font-size:var(--t-small);color:var(--reef-ink);margin:0 0 var(--s-2)}
+  .dk-head{display:grid;gap:var(--s-2) var(--s-7);margin-bottom:var(--s-6)}
+  .dk-head .lead{margin:0}
+  @media (min-width:900px){.dk-head{grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);align-items:end}}
+
+  /* menu lines */
+  .pours{list-style:none;margin:0;padding:0;display:grid;gap:0}
+  .pour{padding-block:var(--s-4);border-bottom:1px solid rgb(212 236 234 / .14)}
+  .pour:first-child{border-top:1px solid rgb(212 236 234 / .14)}
+  .pour-line{display:flex;align-items:baseline;gap:var(--s-3)}
+  .pour-line h3,.pour-line .name{font-family:var(--font-display);font-weight:800;text-transform:uppercase;font-size:var(--t-h3);line-height:1.05;color:var(--salt);margin:0}
+  .pour-line .name{font-size:1.3rem}
+  .pour-line::after{content:"";order:1;flex:1 1 1rem;border-bottom:1px dotted rgb(212 236 234 / .35);transform:translateY(-.3em)}
+  .price{order:2;font-variant-numeric:tabular-nums;font-weight:600;color:var(--lagoon);white-space:nowrap;font-size:1.05rem}
+  .price small{font-size:.72em;letter-spacing:.06em;margin-right:.15em;opacity:.85}
+  .pour p{margin:var(--s-2) 0 0;color:var(--reef-ink);font-size:.98rem;max-width:52ch}
+  .pour .zero{display:inline-block;margin-left:.5em;font:600 .72rem/1 var(--font-body);letter-spacing:.08em;text-transform:uppercase;color:var(--lagoon);vertical-align:.35em}
+
+  /* coffee bar: two columns of short lines */
+  .coffee-grid{display:grid;gap:var(--s-6)}
+  .coffee-grid h3{font-size:1.15rem;letter-spacing:.06em;color:var(--lagoon);margin-bottom:var(--s-3)}
+  @media (min-width:760px){.coffee-grid{grid-template-columns:1fr 1fr;gap:var(--s-7)}}
+
+  /* cocktails with photo slot */
+  .bar{display:grid;gap:var(--s-7)}
+  @media (min-width:960px){.bar{grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);align-items:start}.bar .photo-slot{position:sticky;top:6rem}}
+  .photo-slot{margin:0;background:var(--reef);border-radius:var(--radius);overflow:hidden;display:grid;grid-template-rows:1fr auto}
+  .photo-slot svg{width:100%;height:100%;min-height:0}
+  .photo-slot figcaption{line-height:1.5;font-size:var(--t-small);color:var(--reef-ink);padding:var(--s-3) var(--s-4) var(--s-4);background:var(--reef)}
+  .photo-slot figcaption b{color:var(--salt)}
+
+  /* beer & wine */
+  .cellar{display:grid;gap:var(--s-7)}
+  @media (min-width:860px){.cellar{grid-template-columns:1fr 1fr}}
+  .cellar h3.group{font-size:var(--t-h3);color:var(--salt);margin-bottom:var(--s-3)}
+  .cellar .pour{padding-block:var(--s-3)}
+  .wine-cols{display:flex;justify-content:flex-end;gap:var(--s-4);font-size:var(--t-small);letter-spacing:.06em;text-transform:uppercase;color:var(--reef-ink);margin-bottom:var(--s-2)}
+  .wine-cols span{min-width:4.6rem;text-align:right}
+  .pour-line .pair{order:2;display:flex;gap:var(--s-4)}
+  .pour-line .pair .price{min-width:4.6rem;text-align:right}
+
+  /* happy hour */
+  .hh{display:grid;gap:var(--s-5);padding:var(--s-6);border:1px dashed var(--lagoon);border-radius:var(--radius)}
+  .hh h2{margin:0}
+  .hh dl{margin:0;display:grid;gap:var(--s-3)}
+  .hh dt{font-size:var(--t-small);letter-spacing:.08em;text-transform:uppercase;color:var(--lagoon);font-weight:600}
+  .hh dd{margin:0;color:var(--salt);font-size:1.1rem}
+  @media (min-width:860px){.hh{grid-template-columns:1.1fr 1fr;align-items:center;padding:var(--s-7)}}
+
+  /* closing CTA */
+  .dk-cta{padding-block:var(--s-8) var(--s-9);text-align:left}
+  .dk-cta h2{font-size:var(--t-h1);max-width:12ch;margin-bottom:var(--s-5)}
+  .dk-cta .lead{max-width:46ch}
+  .dk-actions{display:flex;flex-wrap:wrap;gap:var(--s-3);margin-top:var(--s-6)}
+  .night .btn{color:#fff}
+  .night .btn--ghost{--fg:var(--salt);color:var(--fg)}
+  .night .btn--ghost:hover{--bg:var(--salt);--fg:var(--reef-deep);border-color:var(--salt)}
+  .dk-fine{margin-top:var(--s-5);font-size:var(--t-small);color:var(--reef-ink)}
+</style>
+<script src="js/mesa.js" defer></script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<div class="tide" data-tide role="status"><div class="wrap"><span><span class="dot" aria-hidden="true"></span><span data-tide-text>Tue–Sun · 8am–9pm · on the beach north of the bridge</span></span><a href="tel:+5016216226">Call +501 621-6226</a></div></div>
+<header class="site-head">
+  <div class="wrap">
+    <a class="brand" href="index.html" aria-label="Mesa Cantina San Pedro, home">
+      <img src="assets/logo-mark.svg" alt="" width="44" height="44">
+      <span><b>Mesa Cantina</b><small>San Pedro · Ambergris Caye</small></span>
+    </a>
+    <button class="nav-toggle" aria-expanded="false" aria-controls="site-nav" aria-label="Menu">
+      <svg width="28" height="28" viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M4 8h20M4 14h20M4 20h13"/></svg>
+    </button>
+    <nav class="nav" id="site-nav" aria-label="Main">
+      <ul>
+        <li><a href="menu.html">Menu</a></li>
+        <li><a href="drinks.html">Cantina</a></li>
+        <li><a href="story.html">Our Story</a></li>
+        <li><a href="events.html">Events</a></li>
+        <li><a href="gallery.html">Gallery</a></li>
+        <li><a href="visit.html">Visit</a></li>
+        <li><a class="btn" href="reserve.html">Book a table</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+
+  <!-- Daylight: the plank end of the dock -->
+  <section class="dk-hero" aria-labelledby="dk-title">
+    <div class="wrap">
+      <h1 id="dk-title">Strong coffee at eight. Cold rum at sundown.</h1>
+      <p class="lead">The Cantina is the bar side of Mesa. The espresso machine wakes the beach up, the rail sees the sun off, and the table on the sand stays the same all day. Only the light changes.</p>
+      <ul class="dk-clock" aria-label="Cantina hours, Tuesday to Sunday">
+        <li><span class="stencil num">8AM</span><small>First espresso</small></li>
+        <li class="rope" aria-hidden="true"></li>
+        <li><span class="stencil num">9PM</span><small>Last pour</small></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- The one motion moment: the sun drops into the reef -->
+  <figure class="sundown" data-sundown>
+    <svg viewBox="0 0 1200 400" preserveAspectRatio="xMidYMax slice" role="img" aria-labelledby="sd-t">
+      <title id="sd-t">The sun sinking onto the reef horizon off San Pedro, a dock running out into dark water</title>
+      <defs>
+        <linearGradient id="sd-sky" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" class="sd-sky-0"/>
+          <stop offset=".38" class="sd-sky-1"/>
+          <stop offset=".78" class="sd-sky-2"/>
+          <stop offset="1" class="sd-sky-3"/>
+        </linearGradient>
+        <clipPath id="sd-above"><rect x="0" y="0" width="1200" height="282"/></clipPath>
+      </defs>
+      <rect width="1200" height="282" fill="url(#sd-sky)"/>
+      <rect class="sd-dusk" width="1200" height="282"/>
+      <g clip-path="url(#sd-above)">
+        <g class="sd-sunset">
+          <circle class="sd-halo" cx="760" cy="282" r="118"/>
+          <circle class="sd-halo" cx="760" cy="282" r="86"/>
+          <circle class="sd-sun" cx="760" cy="282" r="58"/>
+        </g>
+      </g>
+      <rect class="sd-sea" y="282" width="1200" height="118"/>
+      <!-- the barrier reef: a broken line of surf on the horizon -->
+      <path class="sd-reef" d="M40 296h70M150 294h120M318 297h46M402 295h150M600 296h62M960 295h88M1086 297h74"/>
+      <!-- sun glints on the water -->
+      <g class="sd-glints">
+        <path class="sd-glint" d="M712 304h96"/>
+        <path class="sd-glint" d="M728 320h64" opacity=".8"/>
+        <path class="sd-glint" d="M742 338h36" opacity=".6"/>
+        <path class="sd-glint" d="M752 358h16" opacity=".4"/>
+      </g>
+      <!-- dock running out from the left edge -->
+      <g class="sd-dock">
+        <path d="M0 330h420l-10 8H0z"/>
+        <rect x="70" y="302" width="10" height="70"/>
+        <rect x="190" y="306" width="10" height="66"/>
+        <rect x="300" y="310" width="9" height="56"/>
+        <rect x="396" y="314" width="8" height="40"/>
+        <!-- a palm leaning over the sand -->
+        <path d="M58 400c6-60 18-120 46-176l6 3c-26 56-38 114-42 173z"/>
+        <path d="M107 226c-30-16-68-12-96 8 30-6 58-4 90 4zM107 226c10-34 40-56 78-58-30 12-52 30-70 60zM107 226c38-6 74 8 96 36-30-18-58-24-90-26zM107 226c-14-30-44-46-80-44 32 6 54 22 74 46zM107 226c-28 6-48 28-54 58 14-26 32-42 58-50z"/>
+      </g>
+    </svg>
+  </figure>
+
+  <div class="night">
+
+    <!-- Coffee bar -->
+    <section class="dk-section" id="coffee" aria-labelledby="coffee-h">
+      <div class="wrap">
+        <p class="dk-note"><span class="tbd">Illustrative list and BZ$ prices. Final drinks and prices to come from the owners before launch.</span></p>
+        <div class="dk-head">
+          <h2 id="coffee-h">The coffee bar</h2>
+          <p class="lead">Mornings start strong. Belizean beans pulled hard, fruit squeezed to order, and a licuado thick enough to count as breakfast. Bring it down to the water.</p>
+        </div>
+        <div class="coffee-grid" data-reveal>
+          <div>
+            <h3>Hot</h3>
+            <ul class="pours">
+              <li class="pour"><div class="pour-line"><span class="name">Espresso</span><span class="price"><small>BZ$</small>5</span></div></li>
+              <li class="pour"><div class="pour-line"><span class="name">Cortado</span><span class="price"><small>BZ$</small>6</span></div></li>
+              <li class="pour"><div class="pour-line"><span class="name">Cappuccino</span><span class="price"><small>BZ$</small>8</span></div></li>
+              <li class="pour"><div class="pour-line"><span class="name">Belizean drip</span><span class="price"><small>BZ$</small>6</span></div><p>Grown in the Maya Mountains, bottomless till 11am.</p></li>
+            </ul>
+          </div>
+          <div>
+            <h3>Cold &amp; fresh</h3>
+            <ul class="pours">
+              <li class="pour"><div class="pour-line"><span class="name">Iced coffee</span><span class="price"><small>BZ$</small>8</span></div><p>Cold brew over ice, a splash of coconut milk if you like.</p></li>
+              <li class="pour"><div class="pour-line"><span class="name">Iced latte</span><span class="price"><small>BZ$</small>9</span></div></li>
+              <li class="pour"><div class="pour-line"><span class="name">Fresh juice</span><span class="price"><small>BZ$</small>8</span></div><p>Orange, watermelon, or pineapple and mint.</p></li>
+              <li class="pour"><div class="pour-line"><span class="name">Licuado</span><span class="price"><small>BZ$</small>10</span></div><p>Banana, papaya or mango, blended with milk and a little honey.</p></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- House cocktails -->
+    <section class="dk-section" id="cocktails" aria-labelledby="cocktails-h">
+      <div class="wrap">
+        <div class="dk-head">
+          <h2 id="cocktails-h">House cocktails</h2>
+          <p class="lead">Built around what the island does best: aged Belizean rum, fresh lime, coconut, and hibiscus steeped red. The habanero is from down the road. Ask for it gentle or ask for it properly.</p>
+        </div>
+        <div class="bar">
+          <figure class="photo-slot" style="aspect-ratio:4/5">
+            <svg viewBox="0 0 400 500" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false">
+              <rect style="fill:var(--reef)" width="400" height="300"/>
+              <circle style="fill:var(--salt)" cx="290" cy="300" r="46" opacity=".9"/>
+              <rect style="fill:var(--reef-deep)" y="300" width="400" height="200"/>
+              <path style="stroke:var(--lagoon)" d="M240 318h100M258 334h64M272 350h36" stroke-width="3" stroke-linecap="round"/>
+              <!-- bar rail -->
+              <rect style="fill:var(--plank-2)" y="392" width="400" height="18" opacity=".9"/>
+              <rect style="fill:var(--reef-deep)" y="410" width="400" height="90"/>
+              <!-- glass on the rail -->
+              <path style="fill:var(--salt);stroke:var(--salt)" d="M112 300h76l-10 92h-56z" fill-opacity=".22" stroke-width="1.75" stroke-linejoin="round"/>
+              <path style="fill:var(--lagoon)" d="M117 336h66l-6 56h-54z" opacity=".55"/>
+              <circle style="stroke:var(--plank)" cx="176" cy="300" r="16" fill="none" stroke-width="5"/>
+              <path style="stroke:var(--plank)" d="M150 276l12 60" stroke-width="3" stroke-linecap="round"/>
+            </svg>
+            <figcaption><b>Shot list:</b> one Jamaica Sundown on the bar rail at golden hour, sun low over the reef behind it, glass in sharp focus, horizon soft. No people, no props, no logo.</figcaption>
+          </figure>
+
+          <ul class="pours" data-reveal>
+            <li class="pour"><div class="pour-line"><h3>Jamaica Sundown</h3><span class="price"><small>BZ$</small>20</span></div><p>Mezcal, hibiscus steeped as agua de jamaica, lime, a pinch of salt, topped with soda. Red as the last ten minutes of light.</p></li>
+            <li class="pour"><div class="pour-line"><h3>Last Water Taxi</h3><span class="price"><small>BZ$</small>18</span></div><p>Aged Belizean rum, lime, raw cane sugar, bitters. Short, stiff, and worth missing the boat for.</p></li>
+            <li class="pour"><div class="pour-line"><h3>Bridge Run</h3><span class="price"><small>BZ$</small>18</span></div><p>White island rum, coconut cream, fresh pineapple, grated nutmeg. Shaken cold, served colder.</p></li>
+            <li class="pour"><div class="pour-line"><h3>North of the Bridge</h3><span class="price"><small>BZ$</small>20</span></div><p>Mezcal, passion fruit, lime, agave, three drops of habanero tincture. Smoke first, heat second.</p></li>
+            <li class="pour"><div class="pour-line"><h3>Habanero Paloma</h3><span class="price"><small>BZ$</small>18</span></div><p>Blanco tequila, fresh grapefruit, lime, soda, habanero-salt rim.</p></li>
+            <li class="pour"><div class="pour-line"><h3>Reef Night</h3><span class="price"><small>BZ$</small>19</span></div><p>Spiced Belizean rum, cold brew from the coffee bar, coconut milk. The espresso machine works a double shift.</p></li>
+            <li class="pour"><div class="pour-line"><h3>Golf Cart Lemonade</h3><span class="price"><small>BZ$</small>16</span></div><p>White rum, fresh-squeezed lemonade, a float of hibiscus. Tall, easy, made for the ride home with someone else driving.</p></li>
+            <li class="pour"><div class="pour-line"><h3>Sundown Spritz <span class="zero">Zero proof</span></h3><span class="price"><small>BZ$</small>10</span></div><p>Jamaica, lime, fresh ginger, soda. All the colour, none of the rum.</p></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Beer & wine -->
+    <section class="dk-section" id="beer-wine" aria-labelledby="bw-h">
+      <div class="wrap">
+        <div class="dk-head">
+          <h2 id="bw-h">Beer &amp; wine</h2>
+          <p class="lead">Belikin sweating on the table is the national view. We keep it cold, along with a short list of wines that hold up to heat, salt and grilled fish.</p>
+        </div>
+        <div class="cellar" data-reveal>
+          <div>
+            <h3 class="group">Beer</h3>
+            <ul class="pours">
+              <li class="pour"><div class="pour-line"><span class="name">Belikin</span><span class="price"><small>BZ$</small>7</span></div><p>Belize's own lager. Crisp, light, everywhere for a reason.</p></li>
+              <li class="pour"><div class="pour-line"><span class="name">Belikin Stout</span><span class="price"><small>BZ$</small>8</span></div><p>Dark and sweet-edged, better than you'd expect at 30°C.</p></li>
+              <li class="pour"><div class="pour-line"><span class="name">Lighthouse Lager</span><span class="price"><small>BZ$</small>7</span></div><p>The lighter Belizean bottle, for a long afternoon.</p></li>
+              <li class="pour"><div class="pour-line"><span class="name">Imports</span><span class="price"><small>BZ$</small>9</span></div><p>Mexican and Caribbean lagers, depending on what came over on the boat.</p></li>
+            </ul>
+          </div>
+          <div>
+            <h3 class="group">Wine</h3>
+            <div class="wine-cols" aria-hidden="true"><span>Glass</span><span>Bottle</span></div>
+            <ul class="pours">
+              <li class="pour"><div class="pour-line"><span class="name">Sauvignon blanc</span><span class="pair"><span class="price"><span class="sr-only">Glass </span><small>BZ$</small>16</span><span class="price"><span class="sr-only">Bottle </span><small>BZ$</small>70</span></span></div><p>Chile. Bright, citrusy, made for ceviche.</p></li>
+              <li class="pour"><div class="pour-line"><span class="name">Rosé</span><span class="pair"><span class="price"><span class="sr-only">Glass </span><small>BZ$</small>16</span><span class="price"><span class="sr-only">Bottle </span><small>BZ$</small>70</span></span></div><p>Dry, pale, served properly cold.</p></li>
+              <li class="pour"><div class="pour-line"><span class="name">Prosecco</span><span class="pair"><span class="price"><span class="sr-only">Glass </span><small>BZ$</small>18</span><span class="price"><span class="sr-only">Bottle </span><small>BZ$</small>80</span></span></div><p>For birthdays, anniversaries, or a clear sky.</p></li>
+              <li class="pour"><div class="pour-line"><span class="name">Malbec</span><span class="pair"><span class="price"><span class="sr-only">Glass </span><small>BZ$</small>18</span><span class="price"><span class="sr-only">Bottle </span><small>BZ$</small>85</span></span></div><p>Argentina. Soft enough for a hot night, big enough for steak.</p></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Happy hour -->
+    <section class="dk-section" id="happy-hour" aria-labelledby="hh-h">
+      <div class="wrap">
+        <div class="hh">
+          <div>
+            <h2 id="hh-h">Happy hour</h2>
+            <p class="lead" style="margin-top:var(--s-4)">The hour the sky turns the colour of the Jamaica Sundown. Get here early and get the front row.</p>
+          </div>
+          <dl>
+            <div><dt>When</dt><dd><span class="tbd">Days and times to confirm with the owners</span></dd></div>
+            <div><dt>On the rail</dt><dd><span class="tbd">Happy hour pours and prices to confirm</span></dd></div>
+          </dl>
+        </div>
+      </div>
+    </section>
+
+    <!-- Closing CTA -->
+    <section class="dk-section dk-cta" aria-labelledby="cta-h">
+      <div class="wrap">
+        <h2 id="cta-h">Save your sunset seat</h2>
+        <p class="lead">The tables nearest the water go first. Book ahead, tell us it's for sundown, and we'll do our best to put you up front with a drink in hand as the sun hits the reef.</p>
+        <div class="dk-actions">
+          <a class="btn" href="reserve.html">Book a sundown table
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </a>
+          <a class="btn btn--ghost" href="https://wa.me/5016216226">Ask on WhatsApp</a>
+        </div>
+        <p class="dk-fine">Tue–Sun, 8am–9pm. Closed Monday. US$ welcome at 2 to 1.</p>
+      </div>
+    </section>
+
+  </div>
+</main>
+
+<footer class="site-foot">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <img src="assets/logo-mark.svg" alt="" width="56" height="56" style="margin-bottom:1rem">
+        <p style="color:var(--salt);font:800 1.6rem/1 var(--font-display);text-transform:uppercase">Breakfast to last call,<br>feet in the sand.</p>
+      </div>
+      <div><h3>Hours</h3><ul class="num"><li>Tue–Sun · 8am–9pm</li><li>Monday · closed</li></ul></div>
+      <div><h3>Find us</h3><ul><li>On the beach, ½ mile north of the bridge</li><li>San Pedro, Ambergris Caye, Belize</li><li><a href="visit.html">Directions</a></li></ul></div>
+      <div><h3>Say hola</h3><ul><li><a href="tel:+5016216226">+501 621-6226</a></li><li><a href="https://wa.me/5016216226">WhatsApp</a></li><li><a href="https://www.facebook.com/mesasanpedro/" rel="noopener">Facebook</a></li></ul></div>
+    </div>
+    <div class="foot-base"><span>© <span data-year>2026</span> Mesa Cantina San Pedro</span><span>Formerly Mesa Cafe &amp; Mesa Bistro</span></div>
+  </div>
+</footer>
+<script>
+/* Sundown: the page's single motion moment. Plays once when scrolled into view; skipped under reduced motion (final frame shows by default). */
+(() => {
+  const fig = document.querySelector('[data-sundown]');
+  if (!fig || !('IntersectionObserver' in window) || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  fig.classList.add('is-armed');
+  const io = new IntersectionObserver(es => es.forEach(e => {
+    if (e.isIntersecting) { requestAnimationFrame(() => fig.classList.add('is-set')); io.disconnect(); }
+  }), { threshold: .45 });
+  requestAnimationFrame(() => io.observe(fig));
+})();
+</script>
+</body>
+</html>

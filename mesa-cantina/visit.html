@@ -220,7 +220,6 @@
 
           <!-- water -->
           <rect class="m-sea" width="400" height="600"/>
-          <rect class="m-lagoon" width="150" height="600"/>
           <path class="m-lagoon" d="M150 0 C140 200 120 400 110 600 L0 600 L0 0 Z"/>
 
           <!-- island -->
@@ -249,7 +248,7 @@
           <!-- bridge -->
           <g>
             <rect class="m-bridge" x="203" y="340" width="20" height="34" rx="2" transform="rotate(5 213 357)"/>
-            <path d="M206 346 L220 347 M205 358 L220 359 M205 369 L219 370" stroke="var(--ink-2)" stroke-width="1.5" stroke-linecap="round" transform="rotate(5 213 357)"/>
+            <path d="M206 346 L220 347 M205 358 L220 359 M205 369 L219 370" style="stroke:var(--ink-2)" stroke-width="1.5" stroke-linecap="round" transform="rotate(5 213 357)"/>
           </g>
 
           <!-- reef line offshore -->
@@ -260,7 +259,7 @@
 
           <!-- Mesa pin -->
           <path class="m-pin" d="M254 212 c0 0 -14 -14 -14 -24 a14 14 0 0 1 28 0 c0 10 -14 24 -14 24z"/>
-          <circle cx="254" cy="188" r="5" fill="var(--salt)"/>
+          <circle class="m-salt" cx="254" cy="188" r="5"/>
 
           <!-- labels -->
           <text class="m-ink m-display" x="234" y="182" font-size="21" text-anchor="end">Mesa</text>
@@ -408,8 +407,6 @@
     if (!row) return;
     row.classList.add('is-today');
     row.setAttribute('aria-current', 'date');
-    var th = row.querySelector('th');
-    if (th) th.insertAdjacentHTML('beforeend', '<span class="sr-only"> (today)</span>');
   })();
 </script>
 </body>

@@ -105,9 +105,7 @@
   .side a{color:var(--salt)}
   .side p{margin:0}
   .side .hours{display:flex;align-items:baseline;gap:var(--s-3);flex-wrap:wrap;margin-bottom:var(--s-2)}
-  .side .hours .stencil{font-size:2.6rem;line-height:1;color:var(--buoy)}
-  .side .hours .stencil{color:#FF8A5C} /* fallback overridden below */
-  .side .hours .stencil{color:var(--salt)}
+  .side .hours .stencil{font-size:2.6rem;line-height:1;color:var(--salt)}
   .side ul{list-style:none;margin:0;padding:0;display:grid;gap:var(--s-3)}
   .side li{display:grid;grid-template-columns:22px 1fr;gap:var(--s-3);align-items:start}
   .side li svg{width:22px;height:22px;margin-top:.15em;color:var(--lagoon)}
@@ -445,6 +443,7 @@
     const d = parse(date.value);
     if (!d) return 'Enter a date like 24/11/2026.';
     if (date.value < todayIso()) return "That date has passed. Choose today or later.";
+    if (date.max && date.value > date.max) return 'We take requests up to six months ahead. Choose an earlier date.';
     if (isClosed(d)) return 'closed';
     if (date.value === todayIso() && nowMins() + LEAD > LAST) return 'closed-today';
     return '';
@@ -523,12 +522,13 @@
     };
   }
   function buildMessage(b) {
-    return [
-      'Hi Mesa! I\'d like to book a table, please.', '',
+    const lines = ['Hi Mesa! I\'d like to book a table, please.', '',
       `Date: ${b.date}`, `Time: ${b.time}`, `Guests: ${b.party}`, `Seating: ${b.seating}`,
-      `Name: ${b.name}`, `Phone: ${b.phone}`, b.email ? `Email: ${b.email}` : '', b.notes ? `Notes: ${b.notes}` : '', '',
-      'Sent from the booking page on the Mesa Cantina website.'
-    ].filter((l, i, a) => l !== '' || (a[i - 1] !== '' && i > 0)).join('\n');
+      `Name: ${b.name}`, `Phone: ${b.phone}`];
+    if (b.email) lines.push(`Email: ${b.email}`);
+    if (b.notes) lines.push(`Notes: ${b.notes}`);
+    lines.push('', 'Sent from the booking page on the Mesa Cantina website.');
+    return lines.join('\n');
   }
 
   function showSummary(errs) {
@@ -578,7 +578,6 @@
     date.value = iso(open);
     buildSlots(); syncParty();
   });
-  // in case DOMContentLoaded already fired (script is at end of body, so it hasn't)
 })();
 </script>
 </body>
