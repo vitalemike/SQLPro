@@ -1,0 +1,640 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Gallery · Mesa Cantina San Pedro</title>
+<meta name="description" content="A day at Mesa Cantina San Pedro, frame by frame: first coffee on the dock, coconut French toast, lunch on the sand, cocktails at sundown and the bar at night on Ambergris Caye.">
+<meta name="theme-color" content="#0B5D63">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="css/mesa.css">
+<style>
+  /* ---------- Gallery page (tokens only) ---------- */
+  .g-intro{padding-block:var(--s-8) var(--s-7)}
+  .g-intro h1{max-width:14ch;margin-bottom:var(--s-5)}
+  .g-intro .note{font-size:var(--t-small);color:var(--ink-2);margin:0}
+
+  .g-group{padding-block:var(--s-7) var(--s-8)}
+  .g-group--alt{background:var(--plank-2)}
+  .g-group--night{background:var(--reef-deep);color:var(--reef-ink)}
+  .g-head{display:flex;flex-wrap:wrap;align-items:baseline;gap:var(--s-2) var(--s-5);margin-bottom:var(--s-6)}
+  .g-head h2{display:flex;align-items:baseline;gap:var(--s-4)}
+  .g-head h2 .stencil{font-size:.8em}
+  .g-head p{margin:0;color:var(--ink-2);max-width:44ch}
+  .g-group--night .g-head h2{color:var(--salt)}
+  .g-group--night .g-head p{color:var(--reef-ink)}
+
+  /* two-column masonry: each group holds one 16:9 + 1:1 and one 4:5 + 3:2, so the stacks balance */
+  .g-cols{display:grid;grid-template-columns:13fr 11fr;gap:var(--s-6) var(--s-5);align-items:start}
+  .g-cols--mirror{grid-template-columns:11fr 13fr}
+  .g-col{display:grid;gap:var(--s-6)}
+  .g-cols > .g-col:nth-child(2){margin-top:var(--s-8)}
+  .g-cols--mirror > .g-col:nth-child(2){margin-top:0}
+  .g-cols--mirror > .g-col:nth-child(1){margin-top:var(--s-8)}
+  @media (max-width:700px){
+    .g-cols,.g-cols--mirror{grid-template-columns:1fr}
+    .g-cols > .g-col:nth-child(n){margin-top:0}
+  }
+
+  .photo-slot{margin:0;border-radius:var(--radius);overflow:hidden}
+  .slot-btn{position:relative;display:block;width:100%;padding:0;border:0;margin:0;cursor:zoom-in;
+    background:var(--reef);border-radius:var(--radius);overflow:hidden;color:var(--salt)}
+  .g-group--alt .slot-btn{background:var(--plank)}
+  .slot-btn svg,.lb-stage svg{width:100%;height:100%}
+  .slot-btn:focus-visible{outline-offset:4px}
+  .slot-btn .expand{position:absolute;right:var(--s-3);bottom:var(--s-3);width:2.25rem;height:2.25rem;display:grid;place-items:center;
+    border-radius:50%;background:rgb(6 57 61 / .55);color:var(--salt);opacity:.85;transition:opacity .2s var(--ease-out)}
+  .slot-btn:hover .expand,.slot-btn:focus-visible .expand{opacity:1}
+  .slot-btn .expand svg{width:1.1rem;height:1.1rem}
+  .photo-slot figcaption{padding-top:var(--s-3);font-size:var(--t-small);line-height:1.5;color:var(--ink-2);max-width:56ch}
+  .photo-slot figcaption b,.lb-title{display:block;font:800 1.25rem/1.1 var(--font-display);text-transform:uppercase;letter-spacing:.01em;color:var(--ink);margin-bottom:.2rem}
+  .g-group--night .photo-slot figcaption{color:var(--reef-ink)}
+  .g-group--night .photo-slot figcaption b{color:var(--salt)}
+
+  /* scene paint: palette tokens only */
+  .k-reef{fill:var(--reef)} .k-deep{fill:var(--reef-deep)} .k-ink{fill:var(--reef-ink)} .k-lagoon{fill:var(--lagoon)}
+  .k-plank{fill:var(--plank)} .k-plank2{fill:var(--plank-2)} .k-salt{fill:var(--salt)} .k-rope{fill:var(--rope)}
+  .k-dark{fill:var(--ink)} .k-ink2{fill:var(--ink-2)}
+  .ln{fill:none;stroke-linecap:round;stroke-linejoin:round}
+  .s-salt{stroke:var(--salt)} .s-rope{stroke:var(--rope)} .s-deep{stroke:var(--reef-deep)} .s-reef{stroke:var(--reef)}
+  .s-dark{stroke:var(--ink)} .s-ink2{stroke:var(--ink-2)} .s-lagoon{stroke:var(--lagoon)} .s-ink{stroke:var(--reef-ink)} .s-plank2{stroke:var(--plank-2)}
+
+  /* follow strip */
+  .follow{padding-block:var(--s-8)}
+  .follow .wrap{display:flex;flex-wrap:wrap;align-items:end;justify-content:space-between;gap:var(--s-6)}
+  .follow h2{color:var(--salt);margin-bottom:var(--s-4);max-width:16ch}
+  .follow p{margin:0}
+  .follow-links{display:flex;flex-wrap:wrap;gap:var(--s-4);align-items:center}
+  .follow .ig{display:inline-flex;align-items:center;gap:.55em;min-height:48px;color:var(--salt);font-weight:600}
+  .follow .ig svg,.follow .btn svg{width:1.3em;height:1.3em}
+
+  /* lightbox */
+  .lb{width:100%;max-width:none;height:100%;max-height:none;margin:0;padding:var(--s-4) var(--gutter);border:0;
+    background:var(--reef-deep);color:var(--reef-ink)}
+  .lb[open]{display:grid;place-items:center}
+  .lb::backdrop{background:var(--reef-deep)}
+  .lb-frame{width:min(100%,72rem);display:grid;grid-template-columns:auto 1fr auto;grid-template-areas:"bar bar bar" "prev stage next" "cap cap cap";gap:var(--s-4);align-items:center}
+  .lb-bar{grid-area:bar;display:flex;justify-content:space-between;align-items:center;gap:var(--s-4);font-size:var(--t-small)}
+  .lb-stage{grid-area:stage;justify-self:center;width:100%;max-height:68vh;max-height:68dvh;border-radius:var(--radius);overflow:hidden;background:var(--reef)}
+  .lb-cap{grid-area:cap;max-width:60ch;justify-self:center;text-align:center;font-size:.95rem;min-height:4.5em}
+  .lb-cap .lb-title{color:var(--salt)}
+  .lb-cap p{margin:0 auto}
+  .lb-btn{display:inline-grid;place-items:center;min-width:48px;min-height:48px;border:1.5px solid rgb(212 236 234 / .35);border-radius:50%;
+    background:transparent;color:var(--salt);cursor:pointer;transition:background .2s var(--ease-out),border-color .2s var(--ease-out)}
+  .lb-btn:hover{background:rgb(212 236 234 / .12);border-color:var(--reef-ink)}
+  .lb-btn svg{width:22px;height:22px}
+  .lb-prev{grid-area:prev} .lb-next{grid-area:next}
+  @media (max-width:700px){
+    .lb-frame{grid-template-columns:1fr 1fr;grid-template-areas:"bar bar" "stage stage" "prev next" "cap cap"}
+    .lb-prev{justify-self:start} .lb-next{justify-self:end}
+    .lb-stage{max-height:58dvh}
+  }
+  html.lb-lock{overflow:hidden}
+</style>
+<script src="js/mesa.js" defer></script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<div class="tide" data-tide role="status"><div class="wrap"><span><span class="dot" aria-hidden="true"></span><span data-tide-text>Tue–Sun · 8am–9pm · on the beach north of the bridge</span></span><a href="tel:+5016216226">Call +501 621-6226</a></div></div>
+<header class="site-head">
+  <div class="wrap">
+    <a class="brand" href="index.html" aria-label="Mesa Cantina San Pedro, home">
+      <img src="assets/logo-mark.svg" alt="" width="44" height="44">
+      <span><b>Mesa Cantina</b><small>San Pedro · Ambergris Caye</small></span>
+    </a>
+    <button class="nav-toggle" aria-expanded="false" aria-controls="site-nav" aria-label="Menu">
+      <svg width="28" height="28" viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M4 8h20M4 14h20M4 20h13"/></svg>
+    </button>
+    <nav class="nav" id="site-nav" aria-label="Main">
+      <ul>
+        <li><a href="menu.html">Menu</a></li>
+        <li><a href="drinks.html">Cantina</a></li>
+        <li><a href="story.html">Our Story</a></li>
+        <li><a href="events.html">Events</a></li>
+        <li><a href="gallery.html">Gallery</a></li>
+        <li><a href="visit.html">Visit</a></li>
+        <li><a class="btn" href="reserve.html">Book a table</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+<!--
+  SWAPPING A DRAWN SCENE FOR A REAL PHOTO
+  Each frame is: <figure class="photo-slot" data-slot data-ar="W/H"> <button class="slot-btn" style="aspect-ratio:W/H"> <svg>…</svg> <span class="expand">…</span> </button> <figcaption>…</figcaption> </figure>
+
+  1. Export each photo at three widths in the frame's ratio (e.g. 4:5 → 640x800, 1024x1280, 1600x2000), WebP or AVIF plus a JPEG fallback, under ~250 KB at 1024w.
+     Name them after the slot, e.g. assets/img/gallery/french-toast-640.webp.
+  2. Replace ONLY the <svg …>…</svg> inside .slot-btn with:
+       <img src="assets/img/gallery/french-toast-1024.webp"
+            srcset="assets/img/gallery/french-toast-640.webp 640w,
+                    assets/img/gallery/french-toast-1024.webp 1024w,
+                    assets/img/gallery/french-toast-1600.webp 1600w"
+            sizes="(max-width:700px) 100vw, 46vw"
+            width="1024" height="1280"
+            loading="lazy" decoding="async"
+            alt="Coconut French toast from above, golden slices with toasted coconut, coffee at the edge">
+     width/height must be the real pixel size of the src file (they reserve space, no layout shift).
+     Keep loading="lazy" on every frame except the first one in Morning (use loading="eager" fetchpriority="high" there).
+  3. Add to the <style> block:  .slot-btn img,.lb-stage img{width:100%;height:100%;object-fit:cover}
+  4. Lightbox: in the script at the bottom, change  fig.querySelector('svg')  to  fig.querySelector('img, svg').
+     The cloned <img> keeps its srcset; set sizes="100vw" on the clone for a sharper large view:  clone.sizes = '100vw'; clone.loading = 'eager';
+  5. Rewrite the figcaption: keep the <b> title, replace the "Shot list:" line with a one-line caption for guests.
+     The button's aria-label ("View larger: …") stays; make the img alt describe the photo itself.
+-->
+
+  <section class="g-intro wrap" aria-labelledby="g-title">
+    <h1 id="g-title">A day at Mesa, frame by frame</h1>
+    <p class="lead">First coffee on the dock, lunch on the sand, the last table under a lantern. Our photos are on the way. Until then, every frame below is drawn to the exact brief our photographer will shoot.</p>
+    <p class="note">Photo shoot date <span class="tbd">[TBD]</span>. Select any frame to see it larger; use the arrow keys to walk the day.</p>
+  </section>
+
+  <!-- ================= MORNING ================= -->
+  <section class="g-group" aria-labelledby="g-morning" data-reveal>
+    <div class="wrap">
+      <div class="g-head">
+        <h2 id="g-morning"><span class="stencil num">8AM</span> Morning</h2>
+        <p>Coffee strong, the water still flat, coconut French toast on every other table.</p>
+      </div>
+      <div class="g-cols">
+        <div class="g-col">
+          <figure class="photo-slot" data-slot data-ar="16/9" data-group="Morning">
+            <button type="button" class="slot-btn" style="aspect-ratio:16/9" aria-haspopup="dialog" aria-label="View larger: First light on the water">
+              <svg viewBox="0 0 640 360" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false">
+                <rect class="k-ink" width="640" height="200"/>
+                <rect class="k-plank2" y="150" width="640" height="50" opacity=".8"/>
+                <circle class="k-salt" cx="430" cy="198" r="34"/>
+                <rect class="k-reef" y="196" width="640" height="164"/>
+                <path class="ln s-salt" stroke-width="3" stroke-dasharray="26 14 8 18" d="M0 220H640"/>
+                <g class="k-salt" opacity=".6">
+                  <rect x="390" y="206" width="80" height="4" rx="2"/>
+                  <rect x="400" y="232" width="60" height="4" rx="2"/>
+                  <rect x="375" y="254" width="110" height="5" rx="2.5"/>
+                  <rect x="405" y="280" width="50" height="5" rx="2.5"/>
+                  <rect x="365" y="306" width="130" height="6" rx="3"/>
+                  <rect x="395" y="336" width="70" height="6" rx="3"/>
+                </g>
+                <polygon class="k-plank2" points="0,360 0,292 214,246 236,248 150,360"/>
+                <polygon class="k-rope" points="0,292 214,246 216,251 0,302"/>
+                <g class="k-deep">
+                  <rect x="206" y="232" width="7" height="26"/>
+                  <rect x="150" y="244" width="10" height="44"/>
+                  <rect x="70" y="258" width="16" height="80"/>
+                  <rect x="14" y="250" width="24" height="110"/>
+                </g>
+                <path class="ln s-deep" stroke-width="3" d="M110 84q8-8 16 0q8-8 16 0M168 112q6-6 12 0q6-6 12 0"/>
+              </svg>
+              <span class="expand" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M14 4h6v6M10 20H4v-6M20 4l-7 7M4 20l7-7"/></svg></span>
+            </button>
+            <figcaption><b>First light on the water</b><span class="shot">Shot list: 6:45 to 7:15am from the end of the dock, facing east. Sun low over the reef, the break showing white along the line. Wide lens, no people, horizon dead level.</span></figcaption>
+          </figure>
+
+          <figure class="photo-slot" data-slot data-ar="1/1" data-group="Morning">
+            <button type="button" class="slot-btn" style="aspect-ratio:1/1" aria-haspopup="dialog" aria-label="View larger: Coffee on the rail">
+              <svg viewBox="0 0 500 500" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false">
+                <rect class="k-ink" width="500" height="280"/>
+                <circle class="k-salt" cx="390" cy="150" r="46" opacity=".9"/>
+                <rect class="k-reef" y="270" width="500" height="80"/>
+                <path class="ln s-lagoon" stroke-width="4" d="M40 292h60M150 306h90M330 290h110M280 322h70M20 330h80"/>
+                <rect class="k-rope" y="340" width="500" height="30"/>
+                <rect class="k-plank2" y="370" width="500" height="130"/>
+                <path class="ln s-rope" stroke-width="2" d="M100 370v130M210 370v130M320 370v130M430 370v130"/>
+                <rect class="k-rope" x="36" y="300" width="28" height="200"/>
+                <ellipse class="k-dark" cx="262" cy="341" rx="74" ry="7" opacity=".2"/>
+                <path class="ln s-salt" stroke-width="13" d="M300 266c34 0 34 48 0 48"/>
+                <path class="k-salt" d="M194 248h108v72a20 20 0 0 1-20 20h-68a20 20 0 0 1-20-20z"/>
+                <rect class="k-reef" x="194" y="284" width="108" height="12"/>
+                <ellipse class="k-dark" cx="248" cy="250" rx="54" ry="8"/>
+                <path class="ln s-salt" stroke-width="4" opacity=".85" d="M224 230c-12-18 12-28 0-46s12-28 0-44M254 226c-12-18 12-28 0-46M282 232c-10-16 10-24 0-40"/>
+              </svg>
+              <span class="expand" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M14 4h6v6M10 20H4v-6M20 4l-7 7M4 20l7-7"/></svg></span>
+            </button>
+            <figcaption><b>Coffee on the rail</b><span class="shot">Shot list: the first cup of the day on the dock rail at 8am, steam showing against the water. Sun behind the mug; focus on the rim, sea soft behind.</span></figcaption>
+          </figure>
+        </div>
+
+        <div class="g-col">
+          <figure class="photo-slot" data-slot data-ar="4/5" data-group="Morning">
+            <button type="button" class="slot-btn" style="aspect-ratio:4/5" aria-haspopup="dialog" aria-label="View larger: Coconut French toast">
+              <svg viewBox="0 0 400 500" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false">
+                <rect class="k-plank2" width="400" height="500"/>
+                <path class="ln s-rope" stroke-width="2" d="M0 100h400M0 210h400M0 320h400M0 430h400"/>
+                <circle class="k-ink2" cx="206" cy="268" r="152" opacity=".12"/>
+                <circle class="k-salt" cx="200" cy="260" r="150"/>
+                <circle class="ln s-plank2" stroke-width="3" cx="200" cy="260" r="126"/>
+                <g transform="rotate(-14 165 240)">
+                  <rect class="k-rope" x="95" y="175" width="140" height="130" rx="28"/>
+                  <rect class="k-plank2" x="110" y="190" width="110" height="100" rx="20" opacity=".45"/>
+                </g>
+                <g transform="rotate(12 245 300)">
+                  <rect class="k-rope" x="175" y="235" width="140" height="130" rx="28"/>
+                  <rect class="k-plank2" x="190" y="250" width="110" height="100" rx="20" opacity=".45"/>
+                </g>
+                <g class="k-salt">
+                  <rect x="140" y="210" width="16" height="4" rx="2" transform="rotate(20 148 212)"/>
+                  <rect x="176" y="236" width="14" height="4" rx="2" transform="rotate(-30 183 238)"/>
+                  <rect x="128" y="258" width="16" height="4" rx="2" transform="rotate(60 136 260)"/>
+                  <rect x="196" y="212" width="12" height="4" rx="2" transform="rotate(-8 202 214)"/>
+                  <rect x="226" y="286" width="16" height="4" rx="2" transform="rotate(35 234 288)"/>
+                  <rect x="252" y="318" width="14" height="4" rx="2" transform="rotate(-50 259 320)"/>
+                  <rect x="214" y="334" width="16" height="4" rx="2" transform="rotate(10 222 336)"/>
+                  <rect x="270" y="270" width="12" height="4" rx="2" transform="rotate(70 276 272)"/>
+                  <rect x="160" y="276" width="14" height="4" rx="2" transform="rotate(-20 167 278)"/>
+                </g>
+                <circle class="k-lagoon" cx="110" cy="330" r="13"/>
+                <circle class="k-lagoon" cx="132" cy="352" r="11"/>
+                <path class="k-reef" d="M96 360q-18-18 6-30q14 18-6 30z"/>
+                <circle class="k-deep" cx="338" cy="70" r="38"/>
+                <circle class="k-rope" cx="338" cy="70" r="26" opacity=".8"/>
+                <circle class="k-salt" cx="40" cy="470" r="66"/>
+                <circle class="k-dark" cx="40" cy="470" r="44"/>
+                <path class="ln s-ink2" stroke-width="6" d="M362 200l14 250M356 160l6 40M362 156l2 42M368 154l-2 44"/>
+              </svg>
+              <span class="expand" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M14 4h6v6M10 20H4v-6M20 4l-7 7M4 20l7-7"/></svg></span>
+            </button>
+            <figcaption><b>Coconut French toast</b><span class="shot">Shot list: straight down over the plate on the bare table, natural light only. Coconut toasted golden, the coffee cup cropped at the edge. Shoot it the moment it leaves the pass.</span></figcaption>
+          </figure>
+
+          <figure class="photo-slot" data-slot data-ar="3/2" data-group="Morning">
+            <button type="button" class="slot-btn" style="aspect-ratio:3/2" aria-haspopup="dialog" aria-label="View larger: The first table on the sand">
+              <svg viewBox="0 0 600 400" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false">
+                <rect class="k-ink" width="600" height="160"/>
+                <rect class="k-reef" y="150" width="600" height="22"/>
+                <rect class="k-lagoon" y="172" width="600" height="30"/>
+                <rect class="k-plank" y="200" width="600" height="200"/>
+                <path class="ln s-salt" stroke-width="4" d="M0 202q50-6 100 0t100 0 100 0 100 0 100 0 100 0"/>
+                <g class="k-rope" opacity=".6"><circle cx="60" cy="250" r="2"/><circle cx="140" cy="372" r="2"/><circle cx="250" cy="236" r="2"/><circle cx="470" cy="380" r="2"/><circle cx="540" cy="262" r="2"/><circle cx="330" cy="356" r="2"/></g>
+                <polygon class="k-ink2" points="200,322 400,322 560,350 330,352" opacity=".14"/>
+                <polygon class="k-ink2" points="120,330 170,330 260,352 200,352" opacity=".14"/>
+                <path class="ln s-reef" stroke-width="8" d="M120 226v104M120 282h50v48M480 226v104M480 282h-50v48"/>
+                <rect class="k-rope" x="204" y="250" width="8" height="74"/>
+                <rect class="k-rope" x="388" y="250" width="8" height="74"/>
+                <rect class="k-salt" x="180" y="240" width="240" height="12" rx="3"/>
+                <rect class="k-reef" x="236" y="222" width="22" height="18" rx="3"/>
+                <rect class="k-reef" x="344" y="222" width="22" height="18" rx="3"/>
+                <rect class="k-lagoon" x="293" y="212" width="14" height="28" rx="3"/>
+                <path class="ln s-deep" stroke-width="14" d="M560 400C552 300 540 200 510 112"/>
+                <path class="ln s-deep" stroke-width="10" d="M510 112q-60-10-112 30M510 112q-40-40-92-38M510 112q20-50 72-58M510 112q60-8 92 40M510 112q14 40-8 92"/>
+              </svg>
+              <span class="expand" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M14 4h6v6M10 20H4v-6M20 4l-7 7M4 20l7-7"/></svg></span>
+            </button>
+            <figcaption><b>The first table on the sand</b><span class="shot">Shot list: one table set at 8am, chairs pulled out, long morning shadows across the beach. Eye level, a palm in frame, the water behind.</span></figcaption>
+          </figure>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= AFTERNOON ================= -->
+  <section class="g-group g-group--alt" aria-labelledby="g-afternoon" data-reveal>
+    <div class="wrap">
+      <div class="g-head">
+        <h2 id="g-afternoon"><span class="stencil num">11AM</span> Afternoon</h2>
+        <p>Lunch on the sand, golf carts parked in the shade, kids and dogs at the water's edge.</p>
+      </div>
+      <div class="g-cols g-cols--mirror">
+        <div class="g-col">
+          <figure class="photo-slot" data-slot data-ar="3/2" data-group="Afternoon">
+            <button type="button" class="slot-btn" style="aspect-ratio:3/2" aria-haspopup="dialog" aria-label="View larger: Plates on the sand">
+              <svg viewBox="0 0 600 400" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false">
+                <rect class="k-plank" width="600" height="400"/>
+                <g class="k-rope" opacity=".7"><circle cx="20" cy="20" r="2"/><circle cx="580" cy="30" r="2"/><circle cx="30" cy="250" r="2"/><circle cx="575" cy="380" r="2"/><circle cx="300" cy="388" r="2"/><circle cx="560" cy="200" r="2"/></g>
+                <rect class="k-ink2" x="66" y="48" width="480" height="320" rx="6" opacity=".15"/>
+                <rect class="k-reef" x="60" y="40" width="480" height="320" rx="6"/>
+                <path class="ln s-deep" stroke-width="2" opacity=".35" d="M180 40v320M300 40v320M420 40v320"/>
+                <circle class="k-salt" cx="150" cy="130" r="68"/>
+                <path class="k-rope" d="M112 146a38 38 0 0 1 76 0z"/>
+                <path class="k-rope" d="M120 120a32 32 0 0 1 64 0z" opacity=".75"/>
+                <circle class="k-lagoon" cx="140" cy="140" r="7"/><circle class="k-lagoon" cx="162" cy="138" r="6"/>
+                <circle class="k-salt" cx="440" cy="120" r="62"/>
+                <circle class="k-lagoon" cx="428" cy="110" r="16"/><circle class="k-reef" cx="452" cy="104" r="12"/><circle class="k-deep" cx="446" cy="132" r="11"/><circle class="k-plank2" cx="420" cy="134" r="10"/><circle class="k-lagoon" cx="464" cy="128" r="10"/>
+                <circle class="k-salt" cx="180" cy="290" r="58"/>
+                <circle class="k-plank2" cx="168" cy="290" r="28"/>
+                <circle class="k-dark" cx="196" cy="296" r="18"/>
+                <circle class="k-salt" cx="420" cy="280" r="70"/>
+                <ellipse class="k-rope" cx="414" cy="282" rx="44" ry="19" transform="rotate(-18 414 282)"/>
+                <path class="ln s-ink2" stroke-width="3" opacity=".5" d="M392 286l10-14M408 284l10-14M424 278l10-14"/>
+                <path class="k-lagoon" d="M446 318a20 20 0 0 1 36 -14z"/>
+                <circle class="k-ink" cx="300" cy="206" r="22" opacity=".8"/><circle class="ln s-salt" stroke-width="3" cx="300" cy="206" r="16"/>
+                <circle class="k-ink" cx="300" cy="96" r="20" opacity=".8"/><circle class="ln s-salt" stroke-width="3" cx="300" cy="96" r="14"/>
+                <circle class="k-dark" cx="40" cy="372" r="14"/><circle class="k-dark" cx="76" cy="372" r="14"/><path class="ln s-dark" stroke-width="3" d="M54 370h8"/>
+              </svg>
+              <span class="expand" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M14 4h6v6M10 20H4v-6M20 4l-7 7M4 20l7-7"/></svg></span>
+            </button>
+            <figcaption><b>Plates on the sand</b><span class="shot">Shot list: the whole table from above at lunch, four or five plates, glasses, sunglasses left on the corner. Stand on a chair and keep the sand showing around the table.</span></figcaption>
+          </figure>
+
+          <figure class="photo-slot" data-slot data-ar="4/5" data-group="Afternoon">
+            <button type="button" class="slot-btn" style="aspect-ratio:4/5" aria-haspopup="dialog" aria-label="View larger: Lunch, up close">
+              <svg viewBox="0 0 400 500" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false">
+                <rect class="k-reef" width="400" height="500"/>
+                <polygon class="k-salt" points="0,0 220,0 400,260 400,420" opacity=".08"/>
+                <path class="ln s-deep" stroke-width="2" opacity=".4" d="M0 120h400M0 470h400"/>
+                <ellipse class="k-deep" cx="208" cy="314" rx="170" ry="130" opacity=".25"/>
+                <ellipse class="k-salt" cx="200" cy="300" rx="170" ry="130"/>
+                <ellipse class="ln s-plank2" stroke-width="3" cx="200" cy="300" rx="140" ry="104"/>
+                <ellipse class="k-rope" cx="165" cy="300" rx="88" ry="40" transform="rotate(-12 165 300)"/>
+                <path class="ln s-ink2" stroke-width="5" opacity=".45" d="M110 300l20-26M140 304l20-28M170 306l20-30M200 300l18-26"/>
+                <circle class="k-lagoon" cx="272" cy="262" r="26"/><circle class="k-deep" cx="296" cy="288" r="18"/><circle class="k-plank2" cx="256" cy="300" r="16"/><circle class="k-lagoon" cx="290" cy="322" r="20"/><circle class="k-reef" cx="262" cy="330" r="12"/>
+                <path class="k-lagoon" d="M118 362a32 32 0 0 0 64 0z"/>
+                <path class="k-ink" d="M126 362a24 24 0 0 0 48 0z"/>
+                <rect class="k-ink" x="300" y="30" width="72" height="124" rx="8" opacity=".45"/>
+                <rect class="k-salt" x="306" y="70" width="60" height="78" rx="5" opacity=".3"/>
+                <path class="ln s-salt" stroke-width="3" opacity=".7" d="M316 90v14M352 100v20M334 120v10"/>
+              </svg>
+              <span class="expand" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M14 4h6v6M10 20H4v-6M20 4l-7 7M4 20l7-7"/></svg></span>
+            </button>
+            <figcaption><b>Lunch, up close</b><span class="shot">Shot list: one lunch plate at 45 degrees, the dish the kitchen is proudest of <span class="tbd">[TBD: owner picks the dish]</span>. Side light from the beach, a glass of water sweating in the corner.</span></figcaption>
+          </figure>
+        </div>
+
+        <div class="g-col">
+          <figure class="photo-slot" data-slot data-ar="16/9" data-group="Afternoon">
+            <button type="button" class="slot-btn" style="aspect-ratio:16/9" aria-haspopup="dialog" aria-label="View larger: Kids and dogs at the water's edge">
+              <svg viewBox="0 0 640 360" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false">
+                <rect class="k-ink" width="640" height="172"/>
+                <rect class="k-reef" y="170" width="640" height="48"/>
+                <path class="ln s-salt" stroke-width="3" stroke-dasharray="30 16 10 22" d="M0 180H640"/>
+                <rect class="k-lagoon" y="216" width="640" height="34"/>
+                <rect class="k-plank" y="248" width="640" height="112"/>
+                <path class="ln s-salt" stroke-width="5" d="M0 248q40-8 80 0t80 0 80 0 80 0 80 0 80 0 80 0 80 0"/>
+                <path class="k-salt" d="M478 166h44l-7 7h-31z"/><rect class="k-deep" x="490" y="159" width="16" height="7"/>
+                <ellipse class="k-ink2" cx="230" cy="314" rx="22" ry="4" opacity=".2"/>
+                <g class="ln s-deep" stroke-width="7">
+                  <path d="M228 262l-4 30M228 270l-14 12M228 270l14-8M224 292l-12 20M224 292l12 18"/>
+                  <path d="M340 286l6 18M342 292l14 6M346 304l-14 6M346 304l12 4"/>
+                  <path d="M424 232l0 14M424 236l-14-10M424 236l14-12"/>
+                </g>
+                <circle class="k-deep" cx="229" cy="252" r="9"/>
+                <circle class="k-deep" cx="336" cy="278" r="8"/>
+                <rect class="k-reef" x="360" y="296" width="16" height="16" rx="2"/>
+                <circle class="k-deep" cx="424" cy="223" r="8"/>
+                <g class="k-salt"><circle cx="404" cy="212" r="4"/><circle cx="444" cy="210" r="3"/><circle cx="436" cy="200" r="2.5"/><circle cx="412" cy="202" r="2.5"/></g>
+                <ellipse class="k-deep" cx="286" cy="300" rx="20" ry="8"/>
+                <circle class="k-deep" cx="307" cy="291" r="7"/>
+                <path class="ln s-deep" stroke-width="4" d="M272 304l-6 10M282 306l-2 10M294 306l4 10M300 302l8 10M266 296l-12-8"/>
+                <path class="ln s-deep" stroke-width="14" d="M58 360C68 280 88 200 130 120"/>
+                <path class="ln s-deep" stroke-width="10" d="M130 120q-60-6-104 34M130 120q-34-42-86-46M130 120q22-50 76-54M130 120q58 0 82 52M130 120q6 46-24 86"/>
+              </svg>
+              <span class="expand" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M14 4h6v6M10 20H4v-6M20 4l-7 7M4 20l7-7"/></svg></span>
+            </button>
+            <figcaption><b>Kids and dogs at the water's edge</b><span class="shot">Shot list: the afternoon crowd at the shoreline, shot wide from the shade of the cantina. Faces turned away, or signed consent from a parent. The reef line on the horizon.</span></figcaption>
+          </figure>
+
+          <figure class="photo-slot" data-slot data-ar="1/1" data-group="Afternoon">
+            <button type="button" class="slot-btn" style="aspect-ratio:1/1" aria-haspopup="dialog" aria-label="View larger: The dog under the table">
+              <svg viewBox="0 0 500 500" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false">
+                <rect class="k-plank" width="500" height="500"/>
+                <ellipse class="k-ink2" cx="250" cy="370" rx="230" ry="70" opacity=".16"/>
+                <rect class="k-reef" x="-10" y="0" width="520" height="70"/>
+                <rect class="k-deep" y="70" width="500" height="10"/>
+                <rect class="k-rope" x="66" y="80" width="18" height="330"/>
+                <rect class="k-rope" x="416" y="80" width="18" height="330"/>
+                <ellipse class="k-deep" cx="316" cy="232" rx="12" ry="32"/>
+                <ellipse class="k-deep" cx="352" cy="236" rx="12" ry="32"/>
+                <path class="ln s-rope" stroke-width="12" d="M352 360q44 8 64-24"/>
+                <ellipse class="k-rope" cx="252" cy="352" rx="110" ry="42"/>
+                <ellipse class="k-rope" cx="114" cy="384" rx="34" ry="11"/>
+                <circle class="k-rope" cx="152" cy="330" r="42"/>
+                <ellipse class="k-rope" cx="114" cy="348" rx="28" ry="19"/>
+                <path class="k-ink2" d="M146 296q-34-2-34 42q12 10 28-6z"/>
+                <circle class="k-dark" cx="90" cy="344" r="7"/>
+                <path class="ln s-dark" stroke-width="3" d="M150 322q8 6 16 0"/>
+                <ellipse class="k-ink2" cx="400" cy="436" rx="46" ry="15"/>
+                <ellipse class="k-reef" cx="400" cy="433" rx="36" ry="9"/>
+              </svg>
+              <span class="expand" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M14 4h6v6M10 20H4v-6M20 4l-7 7M4 20l7-7"/></svg></span>
+            </button>
+            <figcaption><b>The dog under the table</b><span class="shot">Shot list: whichever dog has claimed the shade under a table, shot low from sand level. Water bowl in frame. Ask the dog's people first.</span></figcaption>
+          </figure>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= SUNDOWN & CANTINA ================= -->
+  <section class="g-group g-group--night" aria-labelledby="g-sundown" data-reveal>
+    <div class="wrap">
+      <div class="g-head">
+        <h2 id="g-sundown"><span class="stencil num">4PM</span> Sundown &amp; Cantina</h2>
+        <p>The light goes gold, the string lights come on, the bar side fills up.</p>
+      </div>
+      <div class="g-cols">
+        <div class="g-col">
+          <figure class="photo-slot" data-slot data-ar="16/9" data-group="Sundown &amp; Cantina">
+            <button type="button" class="slot-btn" style="aspect-ratio:16/9" aria-haspopup="dialog" aria-label="View larger: Sundown over the reef side">
+              <svg viewBox="0 0 640 360" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false">
+                <rect class="k-deep" width="640" height="70"/>
+                <rect class="k-reef" y="66" width="640" height="56"/>
+                <rect class="k-lagoon" y="120" width="640" height="40"/>
+                <rect class="k-rope" y="158" width="640" height="32"/>
+                <rect class="k-plank2" y="188" width="640" height="14"/>
+                <circle class="k-salt" cx="500" cy="54" r="14"/>
+                <rect class="k-deep" y="200" width="640" height="160"/>
+                <path class="ln s-salt" stroke-width="3" stroke-dasharray="22 12 6 18" d="M0 226H640"/>
+                <g opacity=".4"><rect class="k-rope" x="150" y="212" width="320" height="5" rx="2.5"/><rect class="k-lagoon" x="90" y="246" width="260" height="5" rx="2.5"/><rect class="k-rope" x="220" y="276" width="200" height="5" rx="2.5"/><rect class="k-lagoon" x="60" y="310" width="300" height="5" rx="2.5"/></g>
+                <path class="k-dark" d="M60 196h34l-5 6h-24z"/>
+                <rect class="k-dark" x="400" y="290" width="240" height="10"/>
+                <g class="k-dark"><rect x="414" y="298" width="8" height="62"/><rect x="494" y="298" width="8" height="62"/><rect x="574" y="298" width="8" height="62"/><rect x="618" y="210" width="6" height="80"/></g>
+                <circle class="k-plank" cx="621" cy="206" r="6"/>
+                <circle class="k-dark" cx="452" cy="262" r="8"/><path class="k-dark" d="M440 290v-14q0-8 12-8t12 8v14z"/>
+                <circle class="k-dark" cx="478" cy="264" r="7"/><path class="k-dark" d="M467 290v-12q0-7 11-7t11 7v12z"/>
+                <path class="ln s-dark" stroke-width="4" d="M446 300v14M458 300v12M472 300v14M484 300v12"/>
+              </svg>
+              <span class="expand" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M14 4h6v6M10 20H4v-6M20 4l-7 7M4 20l7-7"/></svg></span>
+            </button>
+            <figcaption><b>Sundown over the reef side</b><span class="shot">Shot list: 15 minutes after sundown. The sun drops behind the island, so face east over the reef for the afterglow. Tripod at the dock end, two people sitting on the edge as silhouettes.</span></figcaption>
+          </figure>
+
+          <figure class="photo-slot" data-slot data-ar="1/1" data-group="Sundown &amp; Cantina">
+            <button type="button" class="slot-btn" style="aspect-ratio:1/1" aria-haspopup="dialog" aria-label="View larger: Two cocktails on the bar">
+              <svg viewBox="0 0 500 500" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false">
+                <rect class="k-deep" width="500" height="500"/>
+                <g opacity=".35" class="k-rope"><circle cx="70" cy="80" r="30"/><circle cx="210" cy="50" r="22"/><circle cx="420" cy="90" r="36"/><circle cx="330" cy="140" r="18"/></g>
+                <g opacity=".22" class="k-lagoon"><circle cx="140" cy="150" r="26"/><circle cx="470" cy="200" r="22"/><circle cx="20" cy="210" r="20"/></g>
+                <rect class="k-rope" y="370" width="500" height="130"/>
+                <path class="ln s-ink2" stroke-width="2" opacity=".35" d="M0 400q120-8 250 0t250 0M0 440q140 10 250 0t250 0M0 476q120-8 250 0t250 0"/>
+                <ellipse class="k-salt" cx="170" cy="376" rx="70" ry="6" opacity=".18"/>
+                <path class="k-ink" opacity=".3" d="M108 248h124l-12 124h-100z"/>
+                <path class="k-lagoon" d="M113 292h114l-8 78h-98z"/>
+                <g class="k-salt" opacity=".55"><rect x="128" y="300" width="30" height="26" rx="4" transform="rotate(-10 143 313)"/><rect x="170" y="306" width="30" height="26" rx="4" transform="rotate(12 185 319)"/></g>
+                <path class="ln s-salt" stroke-width="5" d="M196 372l34-170"/>
+                <circle class="k-lagoon" cx="222" cy="252" r="28"/><circle class="k-ink" cx="222" cy="252" r="22"/>
+                <path class="ln s-lagoon" stroke-width="3" d="M222 232v40M202 252h40M208 238l28 28M236 238l-28 28"/>
+                <path class="k-ink" opacity=".3" d="M282 200h150a75 62 0 0 1-150 0z"/>
+                <path class="k-rope" d="M292 214h130a65 46 0 0 1-130 0z"/>
+                <rect class="k-ink" opacity=".5" x="353" y="260" width="8" height="104"/>
+                <ellipse class="k-ink" opacity=".5" cx="357" cy="366" rx="42" ry="8"/>
+                <path class="k-lagoon" d="M410 196q22-30 40-10q-18 22-40 10z"/>
+              </svg>
+              <span class="expand" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M14 4h6v6M10 20H4v-6M20 4l-7 7M4 20l7-7"/></svg></span>
+            </button>
+            <figcaption><b>Two cocktails on the bar</b><span class="shot">Shot list: two cocktails on the bar top, string lights soft behind. Lime wheel and condensation sharp. Real glassware, real ice, nothing staged.</span></figcaption>
+          </figure>
+        </div>
+
+        <div class="g-col">
+          <figure class="photo-slot" data-slot data-ar="3/2" data-group="Sundown &amp; Cantina">
+            <button type="button" class="slot-btn" style="aspect-ratio:3/2" aria-haspopup="dialog" aria-label="View larger: The bar at night">
+              <svg viewBox="0 0 600 400" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false">
+                <rect class="k-deep" width="600" height="400"/>
+                <path class="k-dark" d="M0 0H600V60l-15 18l-15-18l-15 18l-15-18l-15 18l-15-18l-15 18l-15-18l-15 18l-15-18l-15 18l-15-18l-15 18l-15-18l-15 18l-15-18l-15 18l-15-18l-15 18l-15-18l-15 18l-15-18l-15 18l-15-18l-15 18l-15-18l-15 18l-15-18l-15 18l-15-18l-15 18l-15-18l-15 18l-15-18l-15 18l-15-18l-15 18l-15-18l-15 18l-15-18l-15 18l-15-18l-15 18l-15-18l-15 18l-15-18z"/>
+                <path class="ln s-rope" stroke-width="2" d="M0 100Q150 150 300 105T600 100"/>
+                <g class="k-rope" opacity=".28"><circle cx="40" cy="113" r="13"/><circle cx="100" cy="127" r="13"/><circle cx="160" cy="131" r="13"/><circle cx="220" cy="122" r="13"/><circle cx="280" cy="108" r="13"/><circle cx="340" cy="100" r="13"/><circle cx="400" cy="104" r="13"/><circle cx="460" cy="107" r="13"/><circle cx="520" cy="105" r="13"/><circle cx="580" cy="101" r="13"/></g>
+                <g class="k-plank"><circle cx="40" cy="113" r="5"/><circle cx="100" cy="127" r="5"/><circle cx="160" cy="131" r="5"/><circle cx="220" cy="122" r="5"/><circle cx="280" cy="108" r="5"/><circle cx="340" cy="100" r="5"/><circle cx="400" cy="104" r="5"/><circle cx="460" cy="107" r="5"/><circle cx="520" cy="105" r="5"/><circle cx="580" cy="101" r="5"/></g>
+                <rect class="k-reef" x="120" y="196" width="360" height="5"/>
+                <rect class="k-reef" x="120" y="256" width="360" height="5"/>
+                <g class="k-lagoon"><rect x="140" y="164" width="14" height="32" rx="3"/><rect x="144" y="152" width="6" height="14"/><rect x="250" y="166" width="14" height="30" rx="3"/><rect x="254" y="154" width="6" height="14"/><rect x="420" y="160" width="16" height="36" rx="3"/><rect x="425" y="148" width="6" height="14"/></g>
+                <g class="k-rope"><rect x="170" y="160" width="16" height="36" rx="3"/><rect x="175" y="146" width="6" height="16"/><rect x="380" y="164" width="14" height="32" rx="3"/><rect x="384" y="152" width="6" height="14"/><rect x="190" y="226" width="14" height="30" rx="3"/><rect x="194" y="214" width="6" height="14"/></g>
+                <g class="k-ink" opacity=".7"><rect x="200" y="168" width="12" height="28" rx="3"/><rect x="203" y="158" width="6" height="12"/><rect x="450" y="166" width="12" height="30" rx="3"/><rect x="453" y="156" width="6" height="12"/><rect x="390" y="226" width="14" height="30" rx="3"/><rect x="394" y="214" width="6" height="14"/></g>
+                <circle class="k-reef" cx="300" cy="250" r="20"/>
+                <path class="k-reef" d="M264 332q0-58 36-58t36 58z"/>
+                <rect class="k-rope" y="320" width="600" height="28"/>
+                <rect class="k-reef" y="348" width="600" height="52"/>
+                <path class="ln s-deep" stroke-width="2" opacity=".5" d="M60 348v52M160 348v52M260 348v52M360 348v52M460 348v52M560 348v52"/>
+                <g class="k-ink" opacity=".55"><rect x="110" y="300" width="14" height="20" rx="2"/><rect x="470" y="302" width="12" height="18" rx="2"/></g>
+                <g class="k-dark"><ellipse cx="120" cy="364" rx="30" ry="7"/><rect x="117" y="368" width="6" height="32"/><ellipse cx="240" cy="364" rx="30" ry="7"/><rect x="237" y="368" width="6" height="32"/><ellipse cx="480" cy="364" rx="30" ry="7"/><rect x="477" y="368" width="6" height="32"/></g>
+              </svg>
+              <span class="expand" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M14 4h6v6M10 20H4v-6M20 4l-7 7M4 20l7-7"/></svg></span>
+            </button>
+            <figcaption><b>The bar at night</b><span class="shot">Shot list: the whole bar from the sand around 8pm, string lights on, bartender mid-pour, stools half full. Slow shutter, no flash.</span></figcaption>
+          </figure>
+
+          <figure class="photo-slot" data-slot data-ar="4/5" data-group="Sundown &amp; Cantina">
+            <button type="button" class="slot-btn" style="aspect-ratio:4/5" aria-haspopup="dialog" aria-label="View larger: The last table">
+              <svg viewBox="0 0 400 500" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false">
+                <rect class="k-deep" width="400" height="210"/>
+                <g class="k-ink" opacity=".7"><circle cx="40" cy="40" r="1.6"/><circle cx="120" cy="70" r="1.6"/><circle cx="200" cy="30" r="1.6"/><circle cx="360" cy="140" r="1.6"/><circle cx="80" cy="130" r="1.6"/><circle cx="240" cy="110" r="1.6"/></g>
+                <circle class="k-salt" cx="300" cy="78" r="20"/>
+                <rect class="k-dark" y="200" width="400" height="90"/>
+                <g class="k-salt" opacity=".4"><rect x="280" y="210" width="40" height="3" rx="1.5"/><rect x="270" y="226" width="60" height="3" rx="1.5"/><rect x="286" y="244" width="30" height="3" rx="1.5"/><rect x="264" y="262" width="74" height="3" rx="1.5"/></g>
+                <rect class="k-ink2" y="286" width="400" height="214"/>
+                <circle class="k-rope" cx="200" cy="292" r="96" opacity=".14"/>
+                <polygon class="k-reef" points="40,330 360,330 400,424 0,424"/>
+                <rect class="k-deep" y="424" width="400" height="14"/>
+                <rect class="k-dark" x="30" y="438" width="14" height="62"/><rect class="k-dark" x="356" y="438" width="14" height="62"/>
+                <circle class="k-rope" cx="200" cy="300" r="46" opacity=".3"/>
+                <rect class="k-ink" x="176" y="270" width="48" height="66" rx="6" opacity=".3"/>
+                <path class="k-dark" d="M172 270h56l-8-14h-40z"/>
+                <path class="k-plank" d="M200 282q11 15 0 32q-11-17 0-32z"/>
+                <ellipse class="k-salt" cx="96" cy="384" rx="44" ry="14" opacity=".85"/>
+                <path class="ln s-ink" stroke-width="3" d="M276 330q-14-30 0-46h26q14 16 0 46zM289 330v36M276 368h26M326 340q-12-26 0-40h22q12 14 0 40zM337 340v30M326 372h22"/>
+              </svg>
+              <span class="expand" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M14 4h6v6M10 20H4v-6M20 4l-7 7M4 20l7-7"/></svg></span>
+            </button>
+            <figcaption><b>The last table</b><span class="shot">Shot list: the last table of the night, lantern lit, plates cleared, the moon on the water if it's up. Shoot from a chair, at table height, before 9pm close.</span></figcaption>
+          </figure>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= FOLLOW STRIP ================= -->
+  <section class="follow section--reef" aria-labelledby="g-follow">
+    <div class="wrap">
+      <div>
+        <h2 id="g-follow">See today's light, today</h2>
+        <p class="lead">Specials, sundown, the odd dog. We post on Facebook first. Eating with us? Tag Mesa Cantina and we may share your shot.</p>
+      </div>
+      <div class="follow-links">
+        <a class="btn" href="https://www.facebook.com/mesasanpedro/" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 8h2.5V4.5H14a3.5 3.5 0 0 0-3.5 3.5v2.5H8V14h2.5v6.5H14V14h2.5l.5-3.5h-3V8.6c0-.3.3-.6.6-.6z"/></svg>
+          Follow on Facebook
+        </a>
+        <!-- Instagram: replace the TBD span with <a class="btn btn--ghost" href="https://www.instagram.com/HANDLE/" rel="noopener">…</a> once the owner confirms the handle -->
+        <span class="ig">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="4"/><path d="M17 7h.01"/></svg>
+          Instagram <span class="tbd">[TBD: handle]</span>
+        </span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= LIGHTBOX ================= -->
+  <dialog class="lb" id="lightbox" aria-labelledby="lb-title">
+    <div class="lb-frame">
+      <div class="lb-bar">
+        <span class="num" id="lb-count">1 / 12</span>
+        <button type="button" class="lb-btn" data-lb="close" aria-label="Close" autofocus>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+        </button>
+      </div>
+      <button type="button" class="lb-btn lb-prev" data-lb="prev" aria-label="Previous frame">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>
+      </button>
+      <div class="lb-stage" id="lb-stage"></div>
+      <button type="button" class="lb-btn lb-next" data-lb="next" aria-label="Next frame">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>
+      </button>
+      <div class="lb-cap" aria-live="polite">
+        <h2 class="lb-title" id="lb-title">Frame</h2>
+        <p id="lb-text"></p>
+      </div>
+    </div>
+  </dialog>
+</main>
+
+<footer class="site-foot">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <img src="assets/logo-mark.svg" alt="" width="56" height="56" style="margin-bottom:1rem">
+        <p style="color:var(--salt);font:800 1.6rem/1 var(--font-display);text-transform:uppercase">Breakfast to last call,<br>feet in the sand.</p>
+      </div>
+      <div><h3>Hours</h3><ul class="num"><li>Tue–Sun · 8am–9pm</li><li>Monday · closed</li></ul></div>
+      <div><h3>Find us</h3><ul><li>On the beach, ½ mile north of the bridge</li><li>San Pedro, Ambergris Caye, Belize</li><li><a href="visit.html">Directions</a></li></ul></div>
+      <div><h3>Say hola</h3><ul><li><a href="tel:+5016216226">+501 621-6226</a></li><li><a href="https://wa.me/5016216226">WhatsApp</a></li><li><a href="https://www.facebook.com/mesasanpedro/" rel="noopener">Facebook</a></li></ul></div>
+    </div>
+    <div class="foot-base"><span>© <span data-year>2026</span> Mesa Cantina San Pedro</span><span>Formerly Mesa Cafe &amp; Mesa Bistro</span></div>
+  </div>
+</footer>
+
+<script>
+/* Gallery lightbox: native <dialog> (modal = focus contained, Esc closes), arrows walk the day */
+(() => {
+  const dlg = document.getElementById('lightbox');
+  const slots = [...document.querySelectorAll('[data-slot]')];
+  if (!dlg || typeof dlg.showModal !== 'function') return; // no <dialog>: captions stay readable inline
+  const stage = document.getElementById('lb-stage'), title = document.getElementById('lb-title'),
+        text = document.getElementById('lb-text'), count = document.getElementById('lb-count');
+  let i = 0, opener = null;
+
+  function show(n) {
+    i = (n + slots.length) % slots.length;
+    const fig = slots[i];
+    const art = fig.querySelector('svg').cloneNode(true);
+    stage.replaceChildren(art);
+    stage.style.aspectRatio = fig.dataset.ar;
+    title.textContent = fig.querySelector('figcaption b').textContent;
+    text.replaceChildren(...fig.querySelector('.shot').cloneNode(true).childNodes);
+    count.textContent = `${i + 1} / ${slots.length} · ${fig.dataset.group}`;
+  }
+
+  slots.forEach((fig, n) => fig.querySelector('.slot-btn').addEventListener('click', e => {
+    opener = e.currentTarget; show(n);
+    document.documentElement.classList.add('lb-lock');
+    dlg.showModal();
+  }));
+
+  dlg.addEventListener('click', e => {
+    const act = e.target.closest('[data-lb]');
+    if (act) { act.dataset.lb === 'close' ? dlg.close() : show(i + (act.dataset.lb === 'next' ? 1 : -1)); return; }
+    if (e.target === dlg) dlg.close(); // click on the dimmed surround
+  });
+  dlg.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight') { e.preventDefault(); show(i + 1); }
+    else if (e.key === 'ArrowLeft') { e.preventDefault(); show(i - 1); }
+    else if (e.key === 'Home') { e.preventDefault(); show(0); }
+    else if (e.key === 'End') { e.preventDefault(); show(slots.length - 1); }
+  });
+  dlg.addEventListener('close', () => {
+    document.documentElement.classList.remove('lb-lock');
+    const back = slots[i].querySelector('.slot-btn'); // return focus to the frame now on screen
+    (back || opener)?.focus();
+  });
+})();
+</script>
+</body>
+</html>

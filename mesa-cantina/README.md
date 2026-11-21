@@ -52,26 +52,43 @@ grep -n 'class="tbd"' *.html
 ```
 
 <!-- TBD-LIST-START -->
-### Known items (from PRODUCT.md and BRIEF.md)
+Collected from `grep 'class="tbd"' *.html` on 2026-11-21 (53 markers across 8 pages; re-run the grep after any edit). Grouped by topic, with the page(s) where each appears.
 
-1. **Exact street address** and map pin / GPS coordinates. Currently "on the beach, ~0.5 mi north of the bridge". Also add `geo` to the JSON-LD once known.
-2. **Opening hours**: Tue–Sun 8:00 AM–9:00 PM, closed Monday. Also hard-coded in `js/mesa.js` (`HOURS`) for the open-now strip, in the footer of every page, and in `seo/schema.json`.
-3. **Meal periods** used by the open-now strip: breakfast 8–11, lunch 11–4, cantina 4–9 (`js/mesa.js`, `MEALS`).
-4. **Phone** +501 621-6226 and **WhatsApp** wa.me/5016216226 (same number?).
-5. **Facebook** URL facebook.com/mesasanpedro. Any Instagram account?
-6. **The full menu with real BZ$ prices.** All menu and drinks prices are illustrative. Note that US$ is accepted at 2:1.
-7. **Signature dishes and drinks** named on the site (coconut French toast is confirmed by reviews; anything else is a draft).
-8. **Mandy and Kevin**: names and roles (owners? hosts?) and whether they want to be named.
-9. **History dates**: when Mesa Cafe opened on Tarpon St (Vilma Linda Plaza), when it became Mesa Bistro, when it moved to the beach.
-10. **TripAdvisor rating** (about 4.8/5, several hundred reviews, listing d2559450): confirm the current figure and the listing URL.
-11. **Review quotes**: every quote on the site is a placeholder. Replace with real reviews the owner has permission to show, credited to the platform.
-12. **Reservations**: does the restaurant take bookings, for which meals, and maximum party size? Who receives them (email, WhatsApp)?
-13. **Events**: private hire capacity, minimum spend, buyout options, any regular nights (live music, trivia, specials).
-14. **Getting there**: water taxi stop name, golf cart parking, wheelchair access to the sand.
-15. **Payment**: cards accepted? US$ cash accepted at 2:1?
-16. **Photos**: every `.photo-slot` has a shot list in its caption. Replace each slot with a real photo (WebP/JPG, width and height set, `loading="lazy"` below the fold).
-17. **Domain**: `https://www.mesacantinasanpedro.com/` is a placeholder in `seo/head-snippets.html`, `seo/schema.json`, `sitemap.xml` and `robots.txt`. Find and replace once the real domain is registered.
-18. **OG image**: export `assets/og-image.svg` to a 1200x630 JPG/PNG and update the `og:image` / `twitter:image` tags (social networks don't render SVG previews).
+### Location and getting there
+1. **Exact street address**, turn-off and landmark; map pin / GPS (then add `geo` to the JSON-LD). *index, visit*
+2. **Water taxi**: does Mesa have its own dock, which is the nearest stop, mooring details for private boats. *index, visit*
+3. **Golf cart**: drive time from the bridge, where to park, how many carts, free for guests? *visit*
+4. Is the **beach walkable** the whole way from town? *visit*
+
+### Hours and policies
+5. **Hours** Tue–Sun 8am–9pm, closed Monday (from public listings); kitchen vs bar close times; holiday hours. Also hard-coded in `js/mesa.js` (`HOURS`, `MEALS`), every footer and `seo/schema.json`. *index, visit*
+6. **Walk-ins** welcome? Group size that needs a booking; large-party policy. *visit, reserve*
+7. **Reservations**: the three seating areas offered on the form exist and can be requested; table hold time; usual reply time. *reserve*
+8. **Kids** (menu options, high chairs), **dogs** (sand/deck, on a lead), **accessibility** (step-free entrance, firm-floor seating, accessible restroom), **guest Wi-Fi**. *visit*
+9. **Payment**: which cards, any surcharge or minimum, change given in BZ$? US$ at 2:1. *visit*
+10. **Phone / WhatsApp** +501 621-6226 (one number for both?). *every page*
+
+### Menu and drinks
+11. **Full food menu and BZ$ prices**: all dishes and prices shown are illustrative. *menu, index*
+12. **Drinks list and prices**; happy hour days, times, pours and prices. *drinks*
+
+### People, story and reviews
+13. **Mandy and Kevin**: confirm names, roles and a short bio in their own words (how they came to San Pedro, the dish they eat themselves). *index, story*
+14. **History**: year Mesa Cafe opened (Vilma Linda Plaza, Tarpon St), where and when Mesa Bistro ran and what changed, year of the move to the beach, one detail regulars remember. *story*
+15. **TripAdvisor**: confirm the ~4.8 rating and review count (listing d2559450). *index*
+16. **Review quotes**: every quote is a placeholder. Replace with real reviews (reviewer name, month/year, platform) the owner is happy to show. *index, story*
+
+### Events
+17. Weekly programme (nights, times, acts) is sample copy. *events*
+18. Seated group capacity, standing/full-buyout capacity, how far ahead to book (suggested 2+ weeks). *events*
+19. **Event package pricing** in BZ$. *events*
+20. **Email address** `events@mesacantinasanpedro.com` is assumed: confirm or replace (it is also the target of the enquiry form's mail link). *events*
+
+### Photos, social and launch
+21. **Photo shoot date**; owner picks the hero lunch dish. Every `.photo-slot` caption is the shot list; replace slots with real photos (WebP/JPG, width/height set, `loading="lazy"` below the fold). *gallery and all pages with photo slots*
+22. **Instagram handle** (only Facebook is confirmed). *gallery*
+23. **Domain**: `https://www.mesacantinasanpedro.com/` is a placeholder in `seo/head-snippets.html`, `seo/schema.json`, `sitemap.xml` and `robots.txt`.
+24. **OG image**: export `assets/og-image.svg` to a 1200x630 JPG/PNG and update `og:image` / `twitter:image`.
 <!-- TBD-LIST-END -->
 
 ## SEO checklist
@@ -93,7 +110,7 @@ To update the site, drag the folder in again (Netlify: Deploys tab; Cloudflare: 
 
 ## Booking backend
 
-`reserve.html` (and the enquiry form on `events.html`) only collect and validate input in the browser. Nothing is sent until a backend is wired in. Options, simplest first:
+`reserve.html` (form `#book-form`) validates in the browser, then hands the request to WhatsApp (wa.me/5016216226) for the team to confirm by hand; there is no server. Its comment block near the top of the page has OpenTable/Resy wiring notes. The enquiry form on `events.html` (`#event-form`) hands off to email or WhatsApp. Options, simplest first:
 
 1. **Netlify Forms** (if hosting on Netlify): add `data-netlify="true"` and a `name` attribute to the `<form>`. Submissions are emailed to the owner. No code.
 2. **Formspree / Basin / Web3Forms**: set the form's `action` to the service's endpoint and `method="post"`. Works on any host, including Cloudflare Pages.
